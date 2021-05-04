@@ -96,7 +96,7 @@ public class Controller {
 		Double vat = foundItem.getVAT();
 		Product product = new Product(id, name, netPrice, vat, sale, itemquantity);
 		discountCheck();
-		//updateSaleInfoDTO();
+		
 	}
 	
 	/**
