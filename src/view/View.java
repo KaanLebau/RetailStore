@@ -19,15 +19,6 @@ public class View {
 		this.controller = ctrl;
 	}
 
-	public void skit() {
-		
-		controller.addProduct("101");
-		updateView();
-		System.out.println();
-		controller.addProduct("101");
-		controller.addProduct("101");
-		updateView();
-	}
 	
 	/**
 	 * updates view with purchased product prints  product quantity, name, gross price
