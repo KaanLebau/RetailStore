@@ -16,7 +16,7 @@ public class Receipt {
 
 	public Receipt(Payment payment) {
 		this.payment = payment;
-		payment.getCashRegister().getPrinter().printout(this);
+		payment.getCashRegister().getPrinter().printOut(this);
 	}
 
 	public String storeInformation() {

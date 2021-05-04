@@ -103,15 +103,13 @@ public class DiscountTypDTO {
 	 * @return discount in percent form
 	 */
 	private double percentCalculater(double discount) {
-		double discountInPercetForm;
 		if (discount == 0) {
-			discountInPercetForm = FULLPRICE;
+			return FULLPRICE;
 		} else if (0 < discount && discount < 1) {
-			discountInPercetForm = discount;
+			return discount;
 		} else {
-			discountInPercetForm = FULLPRICE - (discount / WHOLEPERCENT);
+			return FULLPRICE - (discount / WHOLEPERCENT);
 		}
-		return discountInPercetForm;
 	}
 	
 	/**

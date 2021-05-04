@@ -59,13 +59,6 @@ class ExternalInventoryTest {
 		
 	}
 
-	@Test
-	void testSearchProduct() {
-		Product expResult = new Product("101", "Cola", 12);
-		Product result = dummy.searchProduct("101");
-		assertEquals(expResult, result,"Search Product Faild");
-		
-	}
 
 	@Test
 	void testSearchItemNoItem() {
@@ -77,12 +70,21 @@ class ExternalInventoryTest {
 	@Test
 	void testUpdateExternalInventory() {
 		dummy.updateExternalInventory(purchased);
-		Product one = dummy.searchProduct("106");
-		Product zero = dummy.searchProduct("101");
-		Product negativ = dummy.searchProduct("104");
+		Product one = searchProduct("106");
+		Product zero = searchProduct("101");
+		Product negativ = searchProduct("104");
 		assertEquals(1, one.getQuantity());
 		assertEquals(0, zero.getQuantity());
-		assertEquals(-1, negativ.getQuantity()); // TODO
+		assertEquals(-1, negativ.getQuantity());
+	}
+	private Product searchProduct(String itemId) {
+		Product foundProduct = new Product();
+		for(Product search : dummy.getInventoryList())
+			if(search.getId().equalsIgnoreCase(itemId)) {
+				foundProduct = search;
+				break;
+			}
+		return foundProduct;
 	}
 
 }

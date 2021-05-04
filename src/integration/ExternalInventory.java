@@ -71,15 +71,15 @@ public class ExternalInventory {
 		return foundItem;
 	}
 
-	public Product searchProduct(String itemId) {
-		Product foundProduct = new Product();
-		for(Product search : inventory)
-			if(search.getId().equalsIgnoreCase(itemId)) {
-				foundProduct = search;
-				break;
-			}
-		return foundProduct;
-	}
+//	public Product searchProduct(String itemId) {
+//		Product foundProduct = new Product();
+//		for(Product search : inventory)
+//			if(search.getId().equalsIgnoreCase(itemId)) {
+//				foundProduct = search;
+//				break;
+//			}
+//		return foundProduct;
+//	}
 
 	/**
 	 * gets purchased goods list 
