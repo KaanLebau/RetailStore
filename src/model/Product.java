@@ -11,7 +11,7 @@ public class Product {
 	
 
 	/*
-	 * Product constructers
+	 * Product constructors
 	 */
 
 	public Product(String id, String name, double netPrice, double vat, int quantity) {
@@ -22,11 +22,17 @@ public class Product {
 		this.quantity = quantity;
 	}
 	
+	/*
+	 * Product constructors
+	 */
 	public Product(String id, String name, int quantity) {
 		this.productId = id;
 		this.productName = name;
 		this.quantity = quantity;
 	}
+	/*
+	 * Product constructors
+	 */
 	public Product() {
 		
 	}
@@ -40,18 +46,33 @@ public class Product {
 		return this.netPrice;
 	}
 
+	/**
+	 * gets name
+	 * @return
+	 */
 	public String getName() {
 		return this.productName;
 	}
 
+	/**
+	 * gets id
+	 * @return
+	 */
 	public String getId() {
 		return this.productId;
 	}
 
+	/**
+	 * gets vat
+	 * @return
+	 */
 	public double getVAT() {
 		return this.vat;
 	}
-
+	/**
+	 * gets quantity
+	 * @return
+	 */
 	public int getQuantity() {
 		return this.quantity;
 	}
@@ -111,6 +132,9 @@ public class Product {
 		return this.productId == other.productId;
 	}
 	
+	/**
+	 * creates string for Product
+	 */
 	public String toString() {
 		String s = "";
 		s = "Produkt = " + this.getName() + "\n";

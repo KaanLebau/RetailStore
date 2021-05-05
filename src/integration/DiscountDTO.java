@@ -1,6 +1,5 @@
 package integration;
 
-import model.Sale;
 import util.Util.Category;
 
 public class DiscountDTO {
@@ -14,7 +13,6 @@ public class DiscountDTO {
 	private int itemQuantity = 1;
 	private final double FULLPRICE = 1;
 	private final double WHOLEPERCENT = 100;
-	@SuppressWarnings("unused")
 	private double discountInput;
 
 	public DiscountDTO() {
@@ -126,78 +124,6 @@ public class DiscountDTO {
 		return this.description;
 	}
 
-	/**
-	 * sets category for discount
-	 * 
-	 * @param category
-	 */
-	public void setCategory(Category category) {
-		this.category = category;
-	}
-
-	/**
-	 * Checks category if category is correct sets discount identification else sets
-	 * default value
-	 * 
-	 * @param discountId String
-	 */
-	public void setDiscountId(String discountId) {
-		if (Category.CUSTOMER == this.category)
-			this.discountId = discountId;
-	}
-
-	/**
-	 * Checks category if category is correct sets discount percent else sets
-	 * default value
-	 * 
-	 * @param discountPercent double
-	 */
-	public void setDiscountPercent(double discountPercent) {
-		if (Category.CUSTOMER == this.category)
-			this.discountPercent = percentCalculater(discountPercent);
-	}
-
-	/**
-	 * Checks category if category is correct sets discount amount else sets default
-	 * value
-	 * 
-	 * @param discountAmount double
-	 */
-	public void setDiscountAmount(double discountAmount) {
-		if (this.getCategory() != Category.CUSTOMER)
-			this.discountAmount = discountAmount;
-	}
-
-	/**
-	 * Checks category if category is correct sets discount item identification else
-	 * sets default value
-	 * 
-	 * @param itemId String
-	 */
-	public void setItemId(String itemId) {
-		if (this.getCategory() != Category.CUSTOMER)
-			this.itemId = itemId;
-	}
-
-	/**
-	 * sets information about discount
-	 * 
-	 * @param description String
-	 */
-	public void setDescription(String description) {
-		this.description = description;
-	}
-
-	/**
-	 * Checks category if category is correct sets intem quantity for discount
-	 * 
-	 * @param itemQuantity int
-	 */
-	public void setItemQuantity(int itemQuantity) {
-		if (Category.QUANTITY == this.category)
-			this.itemQuantity = itemQuantity;
-	}
-
 	private double percentCalculater(double discount) {
 		if (discount == 0) {
 			return FULLPRICE;
@@ -226,6 +152,9 @@ public class DiscountDTO {
 
 	}
 
+	/**
+	 * creates string for discountDTO
+	 */
 	public String toString() {
 		String s = "";
 		s = s + "discount Category: " + this.category + "\n";

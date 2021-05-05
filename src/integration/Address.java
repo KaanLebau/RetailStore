@@ -7,7 +7,7 @@ public class Address {
 	private int zipCode;
 
 	/**
-	 * Adres constructors
+	 * address constructors
 	 * 
 	 * @param city            contains name of city
 	 * @param street          contains name of street

@@ -41,11 +41,20 @@ public class ExternalInventory {
 		inventory.add(hambBrödInv);
 
 	}
-	
+	/**
+	 * gets product balance 
+	 * 
+	 * @return product quantity list 
+	 */
 	public List<Product> getInventoryList() {
 		return this.inventory;
 		
 	}
+	/**
+	 * gets registered items information
+	 * 
+	 * @return item list
+	 */
 	public List<ItemDTO> getItemList(){
 		return this.itemList;
 	}
@@ -85,12 +94,7 @@ public class ExternalInventory {
 				}
 		}
 	}
-	
-	/**
-	 * 
-	 * @param itemId
-	 * @return
-	 */
+
 	private boolean quantityCheck(String itemId) {
 		boolean exist = false;
 		for(Product inInventory : inventory)

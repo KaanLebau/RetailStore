@@ -4,9 +4,7 @@ import java.text.DecimalFormat;
 import java.util.List;
 
 import integration.DiscountDTO;
-import model.Payment;
 import model.Product;
-import util.Util.Category;
 
 public class Util {
 	/**

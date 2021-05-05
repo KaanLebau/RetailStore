@@ -13,7 +13,6 @@ import model.Payment;
 import model.Product;
 import model.Sale;
 import model.SaleInfoDTO;
-import util.Util.Category;
 import util.Util.Method;
 
 public class Controller {
@@ -38,8 +37,8 @@ public class Controller {
 	 * 
 	 * gets references to the all lager and
 	 * creates an instance of sale 
-	 * creates an instance of adres 
-	 * creates an instance of cashRegister with adres and printer as argument
+	 * creates an instance of address
+	 * creates an instance of cashRegister with address and printer as argument
 	 * 
 	 * @param printer reference to the printer
 	 * @param discountRegister reference to the discount register
@@ -196,18 +195,6 @@ public class Controller {
 			}
 	}
 
-//	private void copyDiscountTypDTOToDiscount(Category category, DiscountDTO discountTypDTO, DiscountDTO discount) {
-//		discount.setDiscountId(discountTypDTO.getDiscountId());
-//		discount.setDescription(discountTypDTO.getDescription());
-//		if (category == Category.CUSTOMER) {
-//			discount.setCategory(discountTypDTO.getCategory());
-//			discount.setDiscountPercent(discountTypDTO.getDiscountPercent());
-//		} else {
-//			discount.setCategory(discountTypDTO.getCategory());
-//			discount.setItemId(discountTypDTO.getItemId());
-//			discount.setDiscountAmount(discountTypDTO.getDiscountAmount());
-//			discount.setItemQuantity(discountTypDTO.getItemQuantity());
-//		}
-//	}
+
 	
 }

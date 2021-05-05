@@ -11,18 +11,30 @@ public class SaleInfoDTO {
 	private List<Product> productsInSale = new ArrayList<>();
 	private List<DiscountDTO> discountsInSale = new ArrayList<>();
 	
+	/**
+	 *  sale information dto constructors
+	 * @param product
+	 * @param discount
+	 */
 	public SaleInfoDTO(List<Product> product,List<DiscountDTO> discount){
 		this.productsInSale = product;
 		this.discountsInSale = discount;
 	}
-	
+	/**
+	 *  gets products in active sale
+	 * @return
+	 */
 	public List<Product> getProductsInSale() {
 		return this.productsInSale;
 	}
-	
+	/**
+	 *  gets discounts in active sale
+	 * @return
+	 */
 	public List<DiscountDTO> getDiscountsInSale(){
 		return this.discountsInSale;
 	}
+	
 	
 	private double totalPromotionalDiscount() {
 		double promotionalDiscount = 0;
@@ -38,8 +50,12 @@ public class SaleInfoDTO {
 			priceWhitoutDiscount += productsToPurces.grossPrice();
 		return priceWhitoutDiscount - totalPromotionalDiscount();
 	}
-
-	private double runingTotal() {
+	
+	/**
+	 *  gets running total in active sale
+	 * @return
+	 */
+	public double getRuningTotal() {
 		double priceWhitDiscount = priceWithPromotionalItems();
 		if (discountsInSale.size() > 0) {
 			for (DiscountDTO registred : discountsInSale) 
@@ -49,11 +65,6 @@ public class SaleInfoDTO {
 				} 
 		}
 		return priceWhitDiscount;
-	}
-
-	public double getRuningTotal() {
-		return runingTotal();
-		
 	}
 
 }
