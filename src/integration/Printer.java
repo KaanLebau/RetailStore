@@ -19,6 +19,7 @@ public class Printer {
 		System.out.println(receipt.productList());
 		System.out.println(receipt.discountList());
 		System.out.println(receipt.paymentInformation());
+		System.out.println(receipt.paymentMetod());
 	}
 
 }

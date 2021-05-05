@@ -27,24 +27,22 @@ public class Controller {
 	private SaleInfoDTO saleInfoDTO;
 	private boolean paymentDone = false;
 
-	
 	public boolean getPaymentDone() {
 		return this.paymentDone;
 	}
-	
+
 	/**
 	 * Controller constructor
 	 * 
-	 * gets references to the all lager and
-	 * creates an instance of sale 
-	 * creates an instance of address
-	 * creates an instance of cashRegister with address and printer as argument
+	 * gets references to the all lager and creates an instance of sale creates an
+	 * instance of address creates an instance of cashRegister with address and
+	 * printer as argument
 	 * 
-	 * @param printer reference to the printer
-	 * @param discountRegister reference to the discount register
-	 * @param externalIventory reference to the external inventory
+	 * @param printer            reference to the printer
+	 * @param discountRegister   reference to the discount register
+	 * @param externalIventory   reference to the external inventory
 	 * @param externalAccounting reference to the external accounting
-	 * @param customerRegister reference to the customer register
+	 * @param customerRegister   reference to the customer register
 	 */
 	public Controller(Printer printer, DiscountRegister discountRegister, ExternalInventory externalIventory,
 			ExternalAccounting externalAccounting, CustomerRegister customerRegister) {
@@ -76,26 +74,25 @@ public class Controller {
 	public Payment getPayment() {
 		return this.payment;
 	}
-	
 
 	/**
-	 * Searches in external inventory create an Product sets product quantity 
-	 * and adds product to the sale
-	 * uses discountCheck() to control any discount apply to the sale
+	 * Searches in external inventory create an Product sets product quantity and
+	 * adds product to the sale uses discountCheck() to control any discount apply
+	 * to the sale
 	 * 
 	 * @param itemId for searching item in external inventory
 	 */
-	public void addProduct(String itemId, int itemquantity) {
+	public void addProduct(String itemId, int itemQuantity) {
 		ItemDTO foundItem = externalInventory.searchItem(itemId);
 		String id = foundItem.getId();
 		String name = foundItem.getName();
 		Double netPrice = foundItem.getNetPrice();
 		Double vat = foundItem.getVAT();
-		Product product = new Product(id, name, netPrice, vat,itemquantity);
+		Product product = new Product(id, name, netPrice, vat, itemQuantity);
 		sale.addProductToSale(product);
 		discountCheck(product);
 	}
-	
+
 	/**
 	 * Searches in external inventory create an Product and adds product to the sale
 	 * uses discountCheck() to control any discount apply to the sale
@@ -113,7 +110,6 @@ public class Controller {
 		sale.addProductToSale(product);
 		discountCheck(product);
 	}
-	
 
 	/**
 	 * adds discount to the sale
@@ -148,8 +144,8 @@ public class Controller {
 	 * addPayment handles card terminal payment take method and creates an instance
 	 * of Payment
 	 * 
-	 * Uses updateExternalSystem() for updating external system when 
-	 * payment succeeded.
+	 * Uses updateExternalSystem() for updating external system when payment
+	 * succeeded.
 	 * 
 	 * @param method card terminal Method
 	 * @param amount double
@@ -158,8 +154,8 @@ public class Controller {
 	public void addPayment(Method method) {
 		this.payment = new Payment(Method.CARDTERMINAL, sale, cashRegister);
 		boolean waiting = true;
-		while(waiting) {
-			if(payment.getPaymentDone()) {
+		while (waiting) {
+			if (payment.getPaymentDone()) {
 				payment.createReceipt(payment);
 				payment.getReceipt().sendReceiptToPrinter();
 				updateExternalSystem();
@@ -186,15 +182,14 @@ public class Controller {
 	}
 
 	private void discountCheck(Product product) {
-			DiscountDTO singelItem = discountRegister.searchItemDiscount(product.getId(),
-					product.getQuantity());
-			if (product.getQuantity() == 1) {
-				sale.addItemDiscount(singelItem);
-			} else {
-				sale.addItemDiscount(singelItem);	
-			}
+		for(Product newProduct: sale.getPurcheasedProducts())
+			if(newProduct.equals(product))
+				product = newProduct;
+		DiscountDTO singelItem = discountRegister.searchItemDiscount(product.getId(), product.getQuantity());
+		if (product.getQuantity() == 1) {
+			sale.addItemDiscount(singelItem);
+		} else {
+			sale.addItemDiscount(singelItem);
+		}
 	}
-
-
-	
 }

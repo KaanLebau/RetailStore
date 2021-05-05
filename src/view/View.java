@@ -22,13 +22,12 @@ public class View {
 		controller.addPayment(Method.CASH, 100);
 	}
 	public void scenario2() {
-		controller.addProduct("101", 3);
+		controller.addProduct("101", 9);
 		updateView();
-		//controller.discountRequest("111", "9999");
-		//updateView();
-		//controller.addProduct("104");
-		//updateView();
-		controller.addPayment(Method.CASH,100);
+		controller.discountRequest("111", "9999");
+		controller.addProduct("104");
+		updateView();
+		controller.addPayment(Method.CARDTERMINAL);
 	}
 	
 	/**
@@ -45,6 +44,8 @@ public class View {
 	 * 
 	 */
 	public void updateView() {
+		//System.out.print("\033[H\033[2J");  
+		System.out.flush();  
 		this.saleInfoDTO = controller.getSaleInfoDTO();
 		this.runningTotal = controller.getSaleInfoDTO().getRuningTotal();
 		System.out.println(util.Util.productList(saleInfoDTO.getProductsInSale()));
