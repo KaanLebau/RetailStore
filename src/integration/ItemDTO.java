@@ -7,7 +7,7 @@ public class ItemDTO {
 	private double vat = 0;
 
 	/*
-	 * Product constructers
+	 * Product constructors
 	 */
 
 	public ItemDTO(String id, String name, double netPrice, double vat) {
@@ -16,26 +16,40 @@ public class ItemDTO {
 		this.netPrice = netPrice;
 		this.vat = vat;
 	}
-	
+	/*
+	 * Product constructors
+	 */
 	public ItemDTO() {
 		
 	}
-
-	/*
-	 * Product geters
+	/**
+	 *  gets net price
+	 * @return
 	 */
 	public double getNetPrice() {
 		return this.netPrice;
 	}
 
+	/**
+	 *  gets name
+	 * @return
+	 */
 	public String getName() {
 		return this.name;
 	}
 
+	/**
+	 * gets id
+	 * @return
+	 */
 	public String getId() {
 		return this.id;
 	}
 
+	/** 
+	 * gets VAT
+	 * @return
+	 */
 	public double getVAT() {
 		return this.vat;
 	}
@@ -52,7 +66,9 @@ public class ItemDTO {
 		ItemDTO other = (ItemDTO) object;
 		return this.id == other.id;
 	}
-
+	/**
+	 * creates String for itemDTO
+	 */
 	public String toString() {
 		String s = "";
 		s = "Item = " + this.getName() + "\n";

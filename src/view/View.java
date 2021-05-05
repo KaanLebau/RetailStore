@@ -3,10 +3,7 @@ package view;
 import java.text.DecimalFormat;
 
 import controller.Controller;
-import integration.DiscountDTO;
-import model.Product;
 import model.SaleInfoDTO;
-import util.Util.Category;
 import util.Util.Method;
 
 public class View {

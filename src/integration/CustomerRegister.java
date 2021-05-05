@@ -18,9 +18,17 @@ public class CustomerRegister {
 		customerRegister.add(kaan);
 	}
 		
+	/**
+	 * updates customer register with new register
+	 * @param register customer list
+	 */
 	public void updateRegister(List<CustomerDTO> register) {
 		this.customerRegister = register;
 	}
+	/**
+	 * gets customer list
+	 * @return customerReister
+	 */
 	public List<CustomerDTO> getList() {
 		List<CustomerDTO> listToSend = this.customerRegister;
 		return listToSend;

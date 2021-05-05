@@ -4,15 +4,29 @@ public class CustomerDTO {
 	private String name;
 	private String id;
 
+	/**
+	 * constructor
+	 * 
+	 * @param customerDTO
+	 */
 	public CustomerDTO() {
 
 	}
 
+	/**
+	 * constructor
+	 * 
+	 * @param customerDTO
+	 */
 	public CustomerDTO(String id, String name) {
 		this.name = name;
 		this.id = id;
 	}
-
+	/**
+	 * constructor
+	 * 
+	 * @param customerDTO
+	 */
 	public CustomerDTO(CustomerDTO customerDTO) {
 		this.id = customerDTO.getId();
 		this.name = customerDTO.getName();
@@ -49,7 +63,9 @@ public class CustomerDTO {
 		return this.id == other.id;
 	}
 
-	// TODO remove this!!
+	/**
+	 * creates String for customerDTO
+	 */
 	public String toString() {
 		String s = "";
 		s = s + this.getId() + "\n";
