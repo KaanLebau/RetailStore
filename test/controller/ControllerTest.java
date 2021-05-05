@@ -52,7 +52,7 @@ class ControllerTest {
 	void testAddSingelProduct() {
 		dummy.addProduct("101");
 		Product result = dummy.getSaleInfoDTO().getProductsInSale().get(0);
-		Product expResult = new Product("101", "Cola", 10, 10,sale,1);
+		Product expResult = new Product("101", "Cola", 10, 10,1);
 		assertEquals(expResult, result,"add singel product to the sale Faild");
 		
 	}
@@ -77,7 +77,7 @@ class ControllerTest {
 	
 	@Test
 	void testAddCampainProduct() {
-		Product product = new Product("104", "Ost", 60, 10, sale,1);
+		Product product = new Product("104", "Ost", 60, 10,1);
 		assertEquals(66, product.grossPrice());
 		dummy.addProduct("104");
 		double expResult = 56;

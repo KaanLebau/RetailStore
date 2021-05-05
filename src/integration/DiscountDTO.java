@@ -1,8 +1,9 @@
-package model;
+package integration;
 
+import model.Sale;
 import util.Util.Category;
 
-public class Discount {
+public class DiscountDTO {
 
 	private Category category;
 	private String discountId = "0";
@@ -14,10 +15,9 @@ public class Discount {
 	private final double FULLPRICE = 1;
 	private final double WHOLEPERCENT = 100;
 	@SuppressWarnings("unused")
-	private Sale sale;
 	private double discountInput;
 
-	public Discount() {
+	public DiscountDTO() {
 
 	}
 
@@ -30,19 +30,16 @@ public class Discount {
 	 * @param Id       itemId / discountId
 	 * @param discount discountAmout / discountPercent
 	 */
-	public Discount(Category category, String id, double discount, Sale sale, String description) {
-		this.sale = sale;
+	public DiscountDTO(Category category, String id, double discount,  String description) {
 		this.category = category;
 		this.description = description;
 		if (category == Category.ITEM) {
 			this.itemId = id;
 			this.discountAmount = discount;
-			sale.addItemDiscount(this);
 		} else {
 			this.discountId = id;
 			this.discountInput = discount;
 			this.discountPercent = percentCalculater(discount);
-			sale.addCustomerDiscount(this);
 		}
 
 	}
@@ -55,15 +52,13 @@ public class Discount {
 	 * @param itemQuantity
 	 * @param discountAmount
 	 */
-	public Discount(Category category, String itemId, int itemQuantity, double discountAmount, Sale sale,
+	public DiscountDTO(Category category, String itemId, int itemQuantity, double discountAmount,
 			String description) {
 		this.category = category;
 		this.itemId = itemId;
 		this.itemQuantity = itemQuantity;
 		this.discountAmount = discountAmount;
 		this.description = description;
-		this.sale = sale;
-		sale.addItemDiscount(this);
 
 	}
 
@@ -203,15 +198,6 @@ public class Discount {
 			this.itemQuantity = itemQuantity;
 	}
 
-	/**
-	 * sets the sale discount to add
-	 * 
-	 * @param sale
-	 */
-	public void setSale(Sale sale) {
-		this.sale = sale;
-	}
-
 	private double percentCalculater(double discount) {
 		if (discount == 0) {
 			return FULLPRICE;
@@ -227,10 +213,10 @@ public class Discount {
 	 */
 	@Override
 	public boolean equals(Object object) {
-		if (!(object instanceof Discount)) {
+		if (!(object instanceof DiscountDTO)) {
 			return false;
 		}
-		Discount other = (Discount) object;
+		DiscountDTO other = (DiscountDTO) object;
 		if (!(this.getCategory() == Category.CUSTOMER)) {
 			return ((this.getItemId() == other.getItemId()) && (this.getCategory() == other.getCategory()));
 

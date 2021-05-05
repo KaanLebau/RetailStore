@@ -11,6 +11,7 @@ import org.junit.jupiter.api.Test;
 
 import controller.Controller;
 import integration.Address;
+import integration.DiscountDTO;
 import integration.Printer;
 import util.Util.Category;
 import util.Util.Method;
@@ -19,7 +20,7 @@ class PaymentTest {
 	Sale sale;
 	Address storeAddress;
 	Printer printer;
-	CashRegister cashRegister;
+	CashRegisterDTO cashRegister;
 	Payment dummy;
 	double amountpaid = 100;
 	
@@ -28,16 +29,19 @@ class PaymentTest {
 		sale = new Sale();
 		printer = new Printer();
 		storeAddress = new Address("Göteborg", "andra lång",12, 42427);
-		cashRegister = new CashRegister(storeAddress, printer);
+		cashRegister = new CashRegisterDTO(storeAddress, printer);
 		dummy = new Payment(Method.CASH, amountpaid, sale,cashRegister);
 		
-		new Product("101", "Cola", 10 , 10, sale, 1);
-		new Product("101", "Cola", 10 , 10, sale, 1);
-		new Product("101", "Cola", 10 , 10, sale, 1);
-		new Product("104", "Ost", 50, 10, sale, 1);
-		new Discount(Category.QUANTITY, "101",3, 11, sale,"");
-		new Discount(Category.ITEM, "104",10, sale,"");
-		new Discount(Category.CUSTOMER,"232323", 5, sale,"");
+		Product item1 = new Product("101", "Cola", 10 , 10, 3);
+		Product item2 = new Product("104", "Ost", 50, 10, 1);
+		sale.addProductToSale(item1);
+		sale.addProductToSale(item2);
+		DiscountDTO quantityDiscount = new DiscountDTO(Category.QUANTITY, "101",3, 11, "");
+		DiscountDTO itemDiscount = new DiscountDTO(Category.ITEM, "104",10, "");
+		DiscountDTO customerDiscount = new DiscountDTO(Category.CUSTOMER,"232323", 5, "");
+		sale.addCustomerDiscount(customerDiscount);
+		sale.addItemDiscount(itemDiscount);
+		sale.addItemDiscount(quantityDiscount);
 	}
 
 	@AfterEach
@@ -95,8 +99,8 @@ class PaymentTest {
 
 	@Test
 	void testGetDiscpountList() {
-		List<Discount> expResult = sale.getRegistredDiscount();
-		List<Discount> result =  dummy.getDiscountList();
+		List<DiscountDTO> expResult = sale.getRegistredDiscount();
+		List<DiscountDTO> result =  dummy.getDiscountList();
 		assertEquals(expResult, result,"get discount list Faild");
 	}
 
@@ -116,8 +120,8 @@ class PaymentTest {
 
 	@Test
 	void testGetCashRegister() {
-		CashRegister expResult = cashRegister;
-		CashRegister result = dummy.getCashRegister();
+		CashRegisterDTO expResult = cashRegister;
+		CashRegisterDTO result = dummy.getCashRegister();
 		assertEquals(expResult, result,"get cash register Faild");
 	}
 

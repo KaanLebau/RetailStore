@@ -1,7 +1,9 @@
 package integration;
 
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -9,19 +11,17 @@ import java.util.List;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
-import model.Discount;
 import util.Util.Category;
 
 class DiscountRegisterTest {
 	Date toDay = new Date();
 	DiscountRegister dummy;
-	List<DiscountTypDTO> dummyList;
-	DiscountTypDTO singelItemDiscount;
-	DiscountTypDTO quantityDiscount;
-	DiscountTypDTO customerDiscount;
+	List<DiscountDTO> dummyList;
+	DiscountDTO singelItemDiscount;
+	DiscountDTO quantityDiscount;
+	DiscountDTO customerDiscount;
 	boolean customer = true;
 
 	@BeforeEach
@@ -29,9 +29,9 @@ class DiscountRegisterTest {
 		toDay = new Date();
 		dummy = new DiscountRegister();
 		dummyList = new ArrayList<>();
-		singelItemDiscount = new DiscountTypDTO(Category.ITEM, "104", 10, "Campaing product");
-		quantityDiscount = new DiscountTypDTO(Category.QUANTITY, "101", 3, 11, "Buy 3 pay for 2");
-		customerDiscount = new DiscountTypDTO(Category.CUSTOMER, "456", 12, "12% discount ");
+		singelItemDiscount = new DiscountDTO(Category.ITEM, "104", 10, "Campaing product");
+		quantityDiscount = new DiscountDTO(Category.QUANTITY, "101", 3, 11, "Buy 3 pay for 2");
+		customerDiscount = new DiscountDTO(Category.CUSTOMER, "456", 12, "12% discount ");
 	}
 
 	@AfterEach
@@ -55,23 +55,23 @@ class DiscountRegisterTest {
 	
 	@Test
 	void testSearchCustomerDiscount() {
-		DiscountTypDTO expResult =customerDiscount;
-		DiscountTypDTO resultat = dummy.searchCustomerDiscount("456", customer); 
+		DiscountDTO expResult =customerDiscount;
+		DiscountDTO resultat = dummy.searchCustomerDiscount("456", customer); 
 		assertEquals(expResult,resultat,"Search customer discount fails");
 		
 	}
 	@Test
 	void testSearchCustomerDiscountNoCustom() {
 		customer = false;
-		DiscountTypDTO expResult = new DiscountTypDTO();
-		DiscountTypDTO result = dummy.searchCustomerDiscount("123", customer);
+		DiscountDTO expResult = new DiscountDTO();
+		DiscountDTO result = dummy.searchCustomerDiscount("123", customer);
 		assertTrue(result.equals(expResult),"discount request with invalid customer id Faild");
 	}
 	
 	@Test
 	void testSearchCustomerDiscountNotExist() {
-		DiscountTypDTO expResult = new DiscountTypDTO();
-		DiscountTypDTO result = dummy.searchCustomerDiscount("487", customer);
+		DiscountDTO expResult = new DiscountDTO();
+		DiscountDTO result = dummy.searchCustomerDiscount("487", customer);
 		assertEquals(expResult.getCategory(),result.getCategory(),
 				"search customer discount invalid Discount default category Faild");
 		assertEquals(expResult.getDiscountAmount(),result.getDiscountAmount(),
@@ -87,8 +87,8 @@ class DiscountRegisterTest {
 	}
 	@Test
 	void testSearchItemDiscount() {
-		DiscountTypDTO expResult =singelItemDiscount;
-		DiscountTypDTO result =dummy.searchItemDiscount("104", 1);
+		DiscountDTO expResult =singelItemDiscount;
+		DiscountDTO result =dummy.searchItemDiscount("104", 1);
 		assertEquals(expResult,result,"search item discount category ITEM Faild");
 		expResult =quantityDiscount;
 		result = dummy.searchItemDiscount("101", 3);
@@ -97,8 +97,8 @@ class DiscountRegisterTest {
 	
 	@Test
 	void testSearchItemDiscountNotExist() {
-		DiscountTypDTO expResult = new DiscountTypDTO();
-		DiscountTypDTO result = dummy.searchItemDiscount("666", 3);
+		DiscountDTO expResult = new DiscountDTO();
+		DiscountDTO result = dummy.searchItemDiscount("666", 3);
 		assertEquals(expResult.getCategory(),result.getCategory(),
 				"search item discount with invalid Discount default category Faild");
 		assertEquals(expResult.getDiscountAmount(),result.getDiscountAmount(),
@@ -115,28 +115,28 @@ class DiscountRegisterTest {
 
 	@Test
 	void testEqualTrue() {
-		DiscountTypDTO result = singelItemDiscount;
+		DiscountDTO result = singelItemDiscount;
 		assertTrue(singelItemDiscount.equals(result),"discount equal Faild");
 	}
 
 	@Test
 	void testEqualFlaseWrongItemId() {
-		DiscountTypDTO result = new DiscountTypDTO(Category.ITEM, "212121", 15, "Item discount");
-		DiscountTypDTO expResult = singelItemDiscount;
+		DiscountDTO result = new DiscountDTO(Category.ITEM, "212121", 15, "Item discount");
+		DiscountDTO expResult = singelItemDiscount;
 		assertFalse(expResult.equals(result),"discount equal Faild");
 	}
 	
 	@Test
 	void testEqualFlaseWrongCategory() {
-		DiscountTypDTO result = new DiscountTypDTO(Category.QUANTITY, "232323", 3, 15, "Item discount");
-		DiscountTypDTO expResult = singelItemDiscount;
+		DiscountDTO result = new DiscountDTO(Category.QUANTITY, "232323", 3, 15, "Item discount");
+		DiscountDTO expResult = singelItemDiscount;
 		assertFalse(expResult.equals(result),"discount equal Faild");
 	}
 	
 	@Test
 	void testEqualFlaseWrongDiscountId() {
-		DiscountTypDTO result = new DiscountTypDTO(Category.CUSTOMER, "131313", 10, "Customer discount");
-		DiscountTypDTO expResult = customerDiscount;
+		DiscountDTO result = new DiscountDTO(Category.CUSTOMER, "131313", 10, "Customer discount");
+		DiscountDTO expResult = customerDiscount;
 		assertFalse(expResult.equals(result),"discount equal Faild");
 	}
 	

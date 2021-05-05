@@ -26,7 +26,7 @@ public class demo {
 		
 		
 
-		v.scenario();
+		v.scenario2();
 		
 	}
 

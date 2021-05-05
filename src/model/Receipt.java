@@ -2,6 +2,7 @@ package model;
 
 import java.text.DecimalFormat;
 
+import integration.DiscountDTO;
 import integration.Printer;
 import util.Util.Category;
 import util.Util.Method;
@@ -48,44 +49,14 @@ public class Receipt {
 	 * @return String
 	 */
 	public String productList() {
-		this.productList = "* Description: \t\t\t  *\n";
-		this.productList += "-----------------------------------\n";
-		this.productList += "- Product" + "    quantity" + "\t price    -\n";
-		for (Product registred : payment.getPurchasedProductList())
-			this.productList += "-  " + registred.getName() + "\t\t" + registred.getQuantity() + "\t  "
-					+ (new DecimalFormat("# $,##0.00").format(registred.grossPrice())) + " -" + "\n";
-		this.productList += "-----------------------------------";
-		return this.productList;
+		return this.productList = util.Util.productList(payment.getPurchasedProductList());
 	}
 	/**
 	 * information abount discount applyd in sale 
 	 * @return string 
 	 */
 	public String discountList() {
-		this.discountList = "*      No discount to apply \t  * \n";
-		if (!(payment.getDiscountList().size() < 1)) {
-			this.discountList = " Discounts:\n";
-			this.discountList += "-----------------------------------\n";
-			this.discountList += "- categori" + "    quantity" + "\t amount   -\n";
-			for (Discount registred : payment.getDiscountList()) {
-				if (registred.getCategory() == Category.CUSTOMER) {
-					this.discountList += "- " + registred.getCategory() + "\t" + registred.getItemQuantity() + "\t  " + "-"
-							+ (new DecimalFormat("#%,##0.00").format(registred.getDiscountPercent())) + " -" + "\n";
-					this.discountList += "- Info:\t     " + registred.getDescription() + "    -" + "\n";
-				} else if (registred.getCategory() == Category.QUANTITY) {
-					this.discountList += "- " + registred.getCategory() + "\t" + registred.getItemQuantity() + "\t  "
-							+ (new DecimalFormat("# $,##0.00").format(registred.getDiscountAmount())) + " -" + "\n";
-					this.discountList += "- Info:\t\t  " + registred.getDescription() + " -" + "\n";
-				} else {
-					this.discountList += "- " + registred.getCategory() + "\t\t" + registred.getItemQuantity() + "\t  "
-							+ (new DecimalFormat("# $,##0.00").format(registred.getDiscountAmount())) + " -" + "\n";
-					this.discountList += "- Info:\t\t  " + registred.getDescription() + " -" + "\n";
-				}
-			}
-			
-		}
-		this.discountList += "-----------------------------------";
-		return this.discountList;
+		return this.discountList = util.Util.discountList(payment.getDiscountList());
 	}
 	/**
 	 * information about payment method, amount paid and amount change
@@ -103,11 +74,13 @@ public class Receipt {
 				+ " -" + "\n";
 		if(payment.getMethod() == Method.CASH) {		
 			this.paymentInformation += (this.paymentInformation += "- Paid whit: " + "\t\t     " + payment.getMethod() + " -" + "\n");
+			this.paymentInformation += "-----------------------------------\n";
+			return this.paymentInformation;
 		} else {			
 			this.paymentInformation += (this.paymentInformation += "- Paid whit: " + "\t     " + payment.getMethod() + " -" + "\n");
+			this.paymentInformation += "-----------------------------------\n";
+			return this.paymentInformation;
 		}
-		this.paymentInformation += "-----------------------------------\n";
-		return this.paymentInformation;
 	}
 
 }

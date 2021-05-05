@@ -6,13 +6,14 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import integration.DiscountDTO;
 import util.Util.Category;
 
 class DiscountTest {
 	Sale sale;
-	Discount dummyItem;
-	Discount dummyQuantity;
-	Discount dummyCustomer;
+	DiscountDTO dummyItem;
+	DiscountDTO dummyQuantity;
+	DiscountDTO dummyCustomer;
 
 	String defaultdiscountId = "0";
 	String defaultItemId = "0";
@@ -23,9 +24,9 @@ class DiscountTest {
 	@BeforeEach
 	void setUp() throws Exception {
 		sale = new Sale();
-		dummyItem = new Discount(Category.ITEM, "232323", 15, sale, "Item discount");
-		dummyQuantity = new Discount(Category.QUANTITY, "242424", 3, 10, sale, "Quantity discount");
-		dummyCustomer = new Discount(Category.CUSTOMER, "121212", 10, sale, "Customer discount");
+		dummyItem = new DiscountDTO(Category.ITEM, "232323", 15, "Item discount");
+		dummyQuantity = new DiscountDTO(Category.QUANTITY, "242424", 3, 10, "Quantity discount");
+		dummyCustomer = new DiscountDTO(Category.CUSTOMER, "121212", 10, "Customer discount");
 	}
 
 	@AfterEach
@@ -38,11 +39,11 @@ class DiscountTest {
 
 	@Test
 	void testDiscount() {
-		boolean result = (dummyItem instanceof Discount);
+		boolean result = (dummyItem instanceof DiscountDTO);
 		assertTrue(result, "dummyItem is instance of Discount Faild");
-		result = (dummyItem instanceof Discount);
+		result = (dummyItem instanceof DiscountDTO);
 		assertTrue(result, "dummyItem is instance of Discount Faild");
-		result = (dummyItem instanceof Discount);
+		result = (dummyItem instanceof DiscountDTO);
 		assertTrue(result, "dummyItem is instance of Discount Faild");
 
 	}
@@ -281,28 +282,28 @@ class DiscountTest {
 	
 	@Test
 	void testEqualTrue() {
-		Discount result = dummyItem;
+		DiscountDTO result = dummyItem;
 		assertTrue(dummyItem.equals(result),"discount equal Faild");
 	}
 
 	@Test
 	void testEqualFlaseWrongItemId() {
-		Discount result = new Discount(Category.ITEM, "212121", 15, sale, "Item discount");
-		Discount expResult = dummyItem;
+		DiscountDTO result = new DiscountDTO(Category.ITEM, "212121", 15, "Item discount");
+		DiscountDTO expResult = dummyItem;
 		assertFalse(expResult.equals(result),"discount equal Faild");
 	}
 	
 	@Test
 	void testEqualFlaseWrongCategory() {
-		Discount result = new Discount(Category.QUANTITY, "232323", 3, 15, sale, "Item discount");
-		Discount expResult = dummyItem;
+		DiscountDTO result = new DiscountDTO(Category.QUANTITY, "232323", 3, 15,"Item discount");
+		DiscountDTO expResult = dummyItem;
 		assertFalse(expResult.equals(result),"discount equal Faild");
 	}
 	
 	@Test
 	void testEqualFlaseWrongDiscountId() {
-		Discount result = new Discount(Category.CUSTOMER, "131313", 10, sale, "Customer discount");
-		Discount expResult = dummyCustomer;
+		DiscountDTO result = new DiscountDTO(Category.CUSTOMER, "131313", 10, "Customer discount");
+		DiscountDTO expResult = dummyCustomer;
 		assertFalse(expResult.equals(result),"discount equal Faild");
 	}
 	

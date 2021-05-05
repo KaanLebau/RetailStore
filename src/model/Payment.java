@@ -4,11 +4,12 @@ import java.util.Date;
 import java.util.List;
 
 import controller.Controller;
+import integration.DiscountDTO;
 import util.Util.Method;
 
 public class Payment {
 	private Method method;
-	private CashRegister cashRegister;
+	private CashRegisterDTO cashRegister;
 	private final double AMOUNT;
 	private Sale sale;
 	private double amountChange = 0;
@@ -21,18 +22,18 @@ public class Payment {
 	}
 	/**
 	 * Payment constructor for cash payment
+	 * wait is used to simulate card terminal conformation
 	 * 
 	 * @param method       is CASH
 	 * @param amount       amount paid
 	 * @param sale         active sale
 	 * @param cashRegister this cash register
 	 */
-	public Payment(Method method, double amount, Sale sale, CashRegister cashRegister) {
+	public Payment(Method method, double amount, Sale sale, CashRegisterDTO cashRegister) {
 		this.method = method;
 		this.AMOUNT = amount;
 		this.sale = sale;
 		this.cashRegister = cashRegister;
-		//this.amountChange = getAmountChange();
 		wait(1000);
 		paymentDone = true;;
 	}
@@ -45,7 +46,7 @@ public class Payment {
 	 * @param cashRegister this cash register
 	 *  
 	 */
-	public Payment(Method method, Sale sale, CashRegister cashRegister)
+	public Payment(Method method, Sale sale, CashRegisterDTO cashRegister)
 	
 	{
 		this.method = method;
@@ -96,7 +97,7 @@ public class Payment {
 	 * 
 	 * @return List<Discount>
 	 */
-	public List<Discount> getDiscountList() {
+	public List<DiscountDTO> getDiscountList() {
 		return sale.getRegistredDiscount();
 	}
 
@@ -114,7 +115,7 @@ public class Payment {
 	 * 
 	 * @return cashRegister
 	 */
-	public CashRegister getCashRegister() {
+	public CashRegisterDTO getCashRegister() {
 		return cashRegister;
 	}
 
