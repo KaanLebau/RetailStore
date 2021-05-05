@@ -32,9 +32,9 @@ public class Payment {
 		this.AMOUNT = amount;
 		this.sale = sale;
 		this.cashRegister = cashRegister;
-		this.amountChange = getAmountChange();
+		//this.amountChange = getAmountChange();
+		wait(1000);
 		paymentDone = true;;
-		this.receipt = new Receipt(this);
 	}
 
 	/**
@@ -52,9 +52,6 @@ public class Payment {
 		this.sale = sale;
 		this.AMOUNT = getTotalCost();
 		this.cashRegister = cashRegister;
-
-		@SuppressWarnings("unused")
-		Receipt receip = new Receipt(this);
 		paymentDone = true;
 	}
 
@@ -138,5 +135,29 @@ public class Payment {
 	public double getAmountChange() {
 		return this.amountChange = AMOUNT - getTotalCost();
 	}
+	/**
+	 * create an receipt 
+	 * @param payment
+	 */
+	public void createReceipt(Payment payment) {
+		this.receipt = new Receipt(payment);
+	}
+	/**
+	 * sends receipt 
+	 * @return receipt 
+	 */
+	public Receipt getReceipt() {
+		return this.receipt;
+	}
 
+	private void wait(int ms) {
+		try
+	    {
+	        Thread.sleep(ms);
+	    }
+	    catch(InterruptedException ex)
+	    {
+	        Thread.currentThread().interrupt();
+	    }
+	}
 }

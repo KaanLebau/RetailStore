@@ -1,6 +1,5 @@
 package integration;
 
-import model.Discount;
 import util.Util.Category;
 
 public class DiscountTypDTO {

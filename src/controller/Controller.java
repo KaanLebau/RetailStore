@@ -151,7 +151,8 @@ public class Controller {
 	 * addPayment handles card terminal payment take method and creates an instance
 	 * of Payment
 	 * 
-	 * Uses updateExternalSystem() for updating
+	 * Uses updateExternalSystem() for updating external system when 
+	 * payment succeeded.
 	 * 
 	 * @param method card terminal Method
 	 * @param amount double
@@ -159,8 +160,16 @@ public class Controller {
 	 */
 	public void addPayment(Method method) {
 		discountCheck();
-		payment = new Payment(Method.CARDTERMINAL, sale, cashRegister);
-		updateExternalSystem();
+		this.payment = new Payment(Method.CARDTERMINAL, sale, cashRegister);
+		boolean waiting = true;
+		while(waiting) {
+			if(payment.getPaymentDone()) {
+				payment.createReceipt(payment);
+				payment.getReceipt().sendReceiptToPrinter();
+				updateExternalSystem();
+				waiting = false;
+			}
+		}
 	}
 
 	/**
@@ -174,7 +183,10 @@ public class Controller {
 	 * @throws InterruptedException
 	 */
 	public void addPayment(Method method, double amount) {
-		payment = new Payment(Method.CASH, amount, sale, cashRegister);
+		discountCheck();
+		this.payment = new Payment(Method.CASH, amount, sale, cashRegister);
+		payment.createReceipt(payment);
+		payment.getReceipt().sendReceiptToPrinter();
 		updateExternalSystem();
 	}
 
