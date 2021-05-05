@@ -21,8 +21,8 @@ class ProductTest {
 	@BeforeEach
 	void setUp() throws Exception {
 		sale = new Sale();
-		dummy = new Product(id, name, price, vat, sale, 1);
-		dummy2 = new Product(id2, name, price, vat, sale, 5);
+		dummy = new Product(id, name, price, vat, 1);
+		dummy2 = new Product(id2, name, price, vat, 5);
 
 	}
 
@@ -143,14 +143,14 @@ class ProductTest {
 	
 	@Test 
 	void testEqualsTrue() {
-		Product expResult = new Product(id, name, price, vat, sale, 1);
+		Product expResult = new Product(id, name, price, vat, 1);
 		Product result = dummy;
 		assertTrue(result.equals(expResult));
 	}
 	
 	@Test 
 	void testEqualsFalse() {
-		Product expResult = new Product("123456", name, price, vat, sale, 1);
+		Product expResult = new Product("123456", name, price, vat, 1);
 		Product result = dummy;
 		assertFalse(result.equals(expResult));
 	}

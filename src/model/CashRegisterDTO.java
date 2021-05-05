@@ -3,7 +3,7 @@ package model;
 import integration.Address;
 import integration.Printer;
 
-public class CashRegister {
+public class CashRegisterDTO {
 
 	private final int cashRegisterId = 1;
 	private final String name = "Kth Store";
@@ -17,7 +17,7 @@ public class CashRegister {
 	 * @param adres   where the cash register is.
 	 * @param printer connected device.
 	 */
-	public CashRegister(Address adres, Printer printer) {
+	public CashRegisterDTO(Address adres, Printer printer) {
 		this.adres = adres;
 		this.printer = printer;
 	}

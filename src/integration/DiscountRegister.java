@@ -7,17 +7,17 @@ import util.Util.Category;
 
 public class DiscountRegister {
 
-	private List<DiscountTypDTO> discountRegister = new ArrayList<>();
+	private List<DiscountDTO> discountRegister = new ArrayList<>();
 
 	/**
 	 * Discount Register constructor dont take any argument
 	 */
 	public DiscountRegister() {
-		DiscountTypDTO typ1 = new DiscountTypDTO(Category.ITEM, "104", 10, "Campaing product");
-		DiscountTypDTO typ2 = new DiscountTypDTO(Category.CUSTOMER, "456", 12, "12% discount ");
-		DiscountTypDTO typ3 = new DiscountTypDTO(Category.CUSTOMER, "111", 25, "Loyality Discount");
-		DiscountTypDTO typ4 = new DiscountTypDTO(Category.CUSTOMER, "123", 1, "New member discount");
-		DiscountTypDTO typ5 = new DiscountTypDTO(Category.QUANTITY, "101", 3, 11, "Buy 3 pay for 2");
+		DiscountDTO typ1 = new DiscountDTO(Category.ITEM, "104", 10, "Campaing product");
+		DiscountDTO typ2 = new DiscountDTO(Category.CUSTOMER, "456", 12, "12% discount ");
+		DiscountDTO typ3 = new DiscountDTO(Category.CUSTOMER, "111", 25, "Loyality Discount");
+		DiscountDTO typ4 = new DiscountDTO(Category.CUSTOMER, "123", 1, "New member discount");
+		DiscountDTO typ5 = new DiscountDTO(Category.QUANTITY, "101", 3, 11, "Buy 3 pay for 2");
 		discountRegister.add(typ1);
 		discountRegister.add(typ2);
 		discountRegister.add(typ3);
@@ -30,7 +30,7 @@ public class DiscountRegister {
 	 * 
 	 * @param list DiscountTypDTO
 	 */
-	public void updateList(List<DiscountTypDTO> list) {
+	public void updateList(List<DiscountDTO> list) {
 		this.discountRegister = list;
 	}
 
@@ -40,7 +40,7 @@ public class DiscountRegister {
 	 * 
 	 * @return
 	 */
-	public List<DiscountTypDTO> getList() {
+	public List<DiscountDTO> getList() {
 		return this.discountRegister;
 	}
 
@@ -53,10 +53,10 @@ public class DiscountRegister {
 	 * @param customerControl checks requirement
 	 * @return dummy discount / real discount
 	 */
-	public DiscountTypDTO searchCustomerDiscount(String discountId, boolean customerControl) {
-		DiscountTypDTO foundDiscount = new DiscountTypDTO();
+	public DiscountDTO searchCustomerDiscount(String discountId, boolean customerControl) {
+		DiscountDTO foundDiscount = new DiscountDTO();
 		if (customerControl) {
-			for (DiscountTypDTO matchingDiscount : discountRegister)
+			for (DiscountDTO matchingDiscount : discountRegister)
 				if ((matchingDiscount.getCategory() == Category.CUSTOMER)
 						&& matchingDiscount.getDiscountId().equals(discountId))
 					foundDiscount = matchingDiscount;
@@ -75,12 +75,12 @@ public class DiscountRegister {
 	 * @param quantity for compare number of goods
 	 * @return dummy discount / real discount
 	 */
-	public DiscountTypDTO searchItemDiscount(String itemId, int quantity) {
-		DiscountTypDTO dummyDiscount = new DiscountTypDTO();
-		for (DiscountTypDTO matchingDiscount : discountRegister)
+	public DiscountDTO searchItemDiscount(String itemId, int quantity) {
+		DiscountDTO dummyDiscount = new DiscountDTO();
+		for (DiscountDTO matchingDiscount : discountRegister)
 			if ((matchingDiscount.getCategory() != Category.CUSTOMER)
 					&& (matchingDiscount.getItemId().equalsIgnoreCase(itemId))
-					&& (matchingDiscount.getItemQuantity() == quantity)) {
+					&& (matchingDiscount.getItemQuantity() <= quantity)) {
 				return matchingDiscount;
 			}
 		return dummyDiscount;

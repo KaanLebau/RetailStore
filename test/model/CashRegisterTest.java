@@ -12,13 +12,13 @@ import integration.Printer;
 class CashRegisterTest {
 	private Printer printer;
 	private Address adres;
-	private CashRegister dummy; 
+	private CashRegisterDTO dummy; 
 	
 	@BeforeEach
 	void setUp() throws Exception {
 		printer = new Printer();
 		adres = new Address("Göteborg", "Andra lång", 666,424);
-		dummy = new CashRegister(adres, printer); 
+		dummy = new CashRegisterDTO(adres, printer); 
 	}
 
 	@AfterEach
@@ -29,7 +29,7 @@ class CashRegisterTest {
 
 	@Test
 	void testCashRegister() {
-		boolean result = (dummy instanceof CashRegister);
+		boolean result = (dummy instanceof CashRegisterDTO);
 		assertTrue(result,"dummy is instance of cash register Faild");
 	}
 	

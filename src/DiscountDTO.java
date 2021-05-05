@@ -1,8 +1,8 @@
-package integration;
+
 
 import util.Util.Category;
 
-public class DiscountTypDTO {
+public class DiscountDTO {
 
 	private Category category;
 	private String discountId = "0";
@@ -15,7 +15,7 @@ public class DiscountTypDTO {
 	private int itemQuantity = 1;
 	private double discountInput = 1;
 
-	public DiscountTypDTO() {
+	public DiscountDTO() {
 		this.category = Category.ITEM;
 		this.discountId = "0";
 		this.itemId = "0";
@@ -33,7 +33,7 @@ public class DiscountTypDTO {
 	 * @param Id       itemId / discountId
 	 * @param discount discountAmout / discountPercent
 	 */
-	public DiscountTypDTO(Category category, String Id, double discount, String description) {
+	public DiscountDTO(Category category, String Id, double discount, String description) {
 		if (category == Category.ITEM) {
 			this.category = category;
 			this.itemId = Id;
@@ -57,7 +57,7 @@ public class DiscountTypDTO {
 	 * @param itemQuantity
 	 * @param discountAmount
 	 */
-	public DiscountTypDTO(Category category, String itemId, int itemQuantity, double discountAmount,
+	public DiscountDTO(Category category, String itemId, int itemQuantity, double discountAmount,
 			String description) {
 		this.category = category;
 		this.itemId = itemId;
@@ -117,10 +117,10 @@ public class DiscountTypDTO {
 	 */
 	@Override
 	public boolean equals(Object object) {
-		if (!(object instanceof DiscountTypDTO)) {
+		if (!(object instanceof DiscountDTO)) {
 			return false;
 		}
-		DiscountTypDTO other = (DiscountTypDTO) object;
+		DiscountDTO other = (DiscountDTO) object;
 		if(!(this.getCategory() == Category.CUSTOMER)){
 			
 			return ((this.getItemId() == other.getItemId()) 

@@ -5,12 +5,13 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import integration.DiscountDTO;
 import util.Util.Category;
 
 public class Sale {
 	private Date saleStartTime = new Date();
 	private List<Product> purcheasedProducts = new ArrayList<>();
-	private List<Discount> registeredDiscount = new ArrayList<>();
+	private List<DiscountDTO> registeredDiscount = new ArrayList<>();
 	private double endSaleTotal = 0;
 
 	public Sale() {
@@ -78,7 +79,7 @@ public class Sale {
 	 * 
 	 * @return registeredDiscount
 	 */
-	public List<Discount> getRegistredDiscount() {
+	public List<DiscountDTO> getRegistredDiscount() {
 		return registeredDiscount;
 	}
 
@@ -98,7 +99,7 @@ public class Sale {
 	 * 
 	 * @param discountRequest
 	 */
-	public void addCustomerDiscount(Discount discountRequest) {
+	public void addCustomerDiscount(DiscountDTO discountRequest) {
 		if (validDiscound(discountRequest)) {
 			registeredDiscount.add(discountRequest);
 		}
@@ -111,13 +112,13 @@ public class Sale {
 	 * 
 	 * @param discountRequest
 	 */
-	public void addItemDiscount(Discount discountRequest) {
+	public void addItemDiscount(DiscountDTO discountRequest) {
 		if (validDiscound(discountRequest) && (discountRequest.getItemQuantity() >= 1))
 			for (int i = 0; i < qantityCheck(discountRequest); i++)
 				registeredDiscount.add(discountRequest);
 	}
 
-	private boolean validDiscound(Discount discountRequest) {
+	private boolean validDiscound(DiscountDTO discountRequest) {
 		boolean valid = false;
 		if ((discountRequest.getItemId() != "0") || (discountRequest.getDiscountId() != "0")) {
 			valid = true;
@@ -125,18 +126,17 @@ public class Sale {
 		return valid;
 	}
 
-	private int qantityCheck(Discount discount) {
+	private int qantityCheck(DiscountDTO discount) {
 		int quantity = 1;
 		for (Product products : purcheasedProducts)
-			if (products.getId().equals(discount.getItemId())) {
+			if (products.getId().equals(discount.getItemId()))
 				quantity = products.getQuantity();
-			}
 		return quantity / discount.getItemQuantity();
 	}
 
 	private double totalPromotionalDiscount() {
 		double promotionalDiscount = 0;
-		for (Discount itemDiscount : registeredDiscount)
+		for (DiscountDTO itemDiscount : registeredDiscount)
 			if (itemDiscount.getCategory() != Category.CUSTOMER)
 				promotionalDiscount += itemDiscount.getDiscountAmount();
 		return promotionalDiscount;
@@ -152,7 +152,7 @@ public class Sale {
 	private double priceWithCustomerDiscount() {
 		double priceWhitDiscount = priceWithPromotionalItems();
 		if (registeredDiscount.size() > 0) {
-			for (Discount registred : registeredDiscount)
+			for (DiscountDTO registred : registeredDiscount)
 				if (registred.getCategory() == Category.CUSTOMER) {
 					priceWhitDiscount = priceWhitDiscount * registred.getDiscountPercent();
 					break;

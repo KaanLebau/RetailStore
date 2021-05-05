@@ -2,14 +2,13 @@ package controller;
 
 import integration.Address;
 import integration.CustomerRegister;
+import integration.DiscountDTO;
 import integration.DiscountRegister;
-import integration.DiscountTypDTO;
 import integration.ExternalAccounting;
 import integration.ExternalInventory;
 import integration.ItemDTO;
 import integration.Printer;
-import model.CashRegister;
-import model.Discount;
+import model.CashRegisterDTO;
 import model.Payment;
 import model.Product;
 import model.Sale;
@@ -23,7 +22,7 @@ public class Controller {
 	private final ExternalAccounting externalAccounting;
 	private final ExternalInventory externalInventory;
 	private final CustomerRegister customerRegister;
-	private CashRegister cashRegister;
+	private CashRegisterDTO cashRegister;
 	private Sale sale;
 	private Payment payment;
 	private SaleInfoDTO saleInfoDTO;
@@ -57,7 +56,7 @@ public class Controller {
 		this.externalInventory = externalIventory;
 		this.sale = new Sale();
 		Address address = new Address("Göteborg", "andra lång", 12, 42427);
-		this.cashRegister = new CashRegister(address, printer);
+		this.cashRegister = new CashRegisterDTO(address, printer);
 		this.saleInfoDTO = new SaleInfoDTO(sale.getPurcheasedProducts(), sale.getRegistredDiscount());
 	}
 
@@ -87,16 +86,15 @@ public class Controller {
 	 * 
 	 * @param itemId for searching item in external inventory
 	 */
-	@SuppressWarnings("unused")
 	public void addProduct(String itemId, int itemquantity) {
 		ItemDTO foundItem = externalInventory.searchItem(itemId);
 		String id = foundItem.getId();
 		String name = foundItem.getName();
 		Double netPrice = foundItem.getNetPrice();
 		Double vat = foundItem.getVAT();
-		Product product = new Product(id, name, netPrice, vat, sale, itemquantity);
-		discountCheck();
-		
+		Product product = new Product(id, name, netPrice, vat,itemquantity);
+		sale.addProductToSale(product);
+		discountCheck(product);
 	}
 	
 	/**
@@ -112,9 +110,9 @@ public class Controller {
 		String name = foundItem.getName();
 		Double netPrice = foundItem.getNetPrice();
 		Double vat = foundItem.getVAT();
-		Product product = new Product(id, name, netPrice, vat, sale, singelItem);
-		discountCheck();
-		
+		Product product = new Product(id, name, netPrice, vat, singelItem);
+		sale.addProductToSale(product);
+		discountCheck(product);
 	}
 	
 
@@ -129,10 +127,10 @@ public class Controller {
 	 * @param customerId uses for customer identification
 	 */
 	public void discountRequest(String discountId, String customerId) {
-		Discount discountToAplly = new Discount();
+		DiscountDTO discountToAplly = new DiscountDTO();
 		boolean customerControl = customerRegister.searchCustomerDTO(customerId);
-		DiscountTypDTO foundDiscount = discountRegister.searchCustomerDiscount(discountId, customerControl);
-		copyDiscountTypDTOToDiscount(Category.CUSTOMER, foundDiscount, discountToAplly);
+		DiscountDTO foundDiscount = discountRegister.searchCustomerDiscount(discountId, customerControl);
+		discountToAplly = foundDiscount;
 		sale.getRegistredDiscount().add(discountToAplly);
 
 	}
@@ -159,7 +157,6 @@ public class Controller {
 	 * @throws InterruptedException @SuppressWarnings("unused")
 	 */
 	public void addPayment(Method method) {
-		discountCheck();
 		this.payment = new Payment(Method.CARDTERMINAL, sale, cashRegister);
 		boolean waiting = true;
 		while(waiting) {
@@ -183,40 +180,34 @@ public class Controller {
 	 * @throws InterruptedException
 	 */
 	public void addPayment(Method method, double amount) {
-		discountCheck();
 		this.payment = new Payment(Method.CASH, amount, sale, cashRegister);
 		payment.createReceipt(payment);
 		payment.getReceipt().sendReceiptToPrinter();
 		updateExternalSystem();
 	}
 
-	private void discountCheck() {
-		Discount itemDiscount = new Discount();
-		for (Product purcheased : sale.getPurcheasedProducts()) {
-			DiscountTypDTO singelItem = discountRegister.searchItemDiscount(purcheased.getId(),
-					purcheased.getQuantity());
-			if (purcheased.getQuantity() == 1) {
-				copyDiscountTypDTOToDiscount(Category.ITEM, singelItem, itemDiscount);
+	private void discountCheck(Product product) {
+			DiscountDTO singelItem = discountRegister.searchItemDiscount(product.getId(),
+					product.getQuantity());
+			if (product.getQuantity() == 1) {
+				sale.addItemDiscount(singelItem);
 			} else {
-				copyDiscountTypDTOToDiscount(Category.QUANTITY, singelItem, itemDiscount);
+				sale.addItemDiscount(singelItem);	
 			}
-
-			sale.addItemDiscount(itemDiscount);
-		}
 	}
 
-	private void copyDiscountTypDTOToDiscount(Category category, DiscountTypDTO discountTypDTO, Discount discount) {
-		discount.setDiscountId(discountTypDTO.getDiscountId());
-		discount.setDescription(discountTypDTO.getDescription());
-		if (category == Category.CUSTOMER) {
-			discount.setCategory(discountTypDTO.getCategory());
-			discount.setDiscountPercent(discountTypDTO.getDiscountPercent());
-		} else {
-			discount.setCategory(discountTypDTO.getCategory());
-			discount.setItemId(discountTypDTO.getItemId());
-			discount.setDiscountAmount(discountTypDTO.getDiscountAmount());
-			discount.setItemQuantity(discountTypDTO.getItemQuantity());
-		}
-	}
+//	private void copyDiscountTypDTOToDiscount(Category category, DiscountDTO discountTypDTO, DiscountDTO discount) {
+//		discount.setDiscountId(discountTypDTO.getDiscountId());
+//		discount.setDescription(discountTypDTO.getDescription());
+//		if (category == Category.CUSTOMER) {
+//			discount.setCategory(discountTypDTO.getCategory());
+//			discount.setDiscountPercent(discountTypDTO.getDiscountPercent());
+//		} else {
+//			discount.setCategory(discountTypDTO.getCategory());
+//			discount.setItemId(discountTypDTO.getItemId());
+//			discount.setDiscountAmount(discountTypDTO.getDiscountAmount());
+//			discount.setItemQuantity(discountTypDTO.getItemQuantity());
+//		}
+//	}
 	
 }

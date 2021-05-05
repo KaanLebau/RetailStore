@@ -3,14 +3,15 @@ package model;
 import java.util.ArrayList;
 import java.util.List;
 
+import integration.DiscountDTO;
 import util.Util.Category;
 
 public class SaleInfoDTO {
 	
 	private List<Product> productsInSale = new ArrayList<>();
-	private List<Discount> discountsInSale = new ArrayList<>();
+	private List<DiscountDTO> discountsInSale = new ArrayList<>();
 	
-	public SaleInfoDTO(List<Product> product,List<Discount> discount){
+	public SaleInfoDTO(List<Product> product,List<DiscountDTO> discount){
 		this.productsInSale = product;
 		this.discountsInSale = discount;
 	}
@@ -19,13 +20,13 @@ public class SaleInfoDTO {
 		return this.productsInSale;
 	}
 	
-	public List<Discount> getDiscountsInSale(){
+	public List<DiscountDTO> getDiscountsInSale(){
 		return this.discountsInSale;
 	}
 	
 	private double totalPromotionalDiscount() {
 		double promotionalDiscount = 0;
-		for (Discount itemDiscount : discountsInSale)
+		for (DiscountDTO itemDiscount : discountsInSale)
 			if(itemDiscount.getCategory() != Category.CUSTOMER)
 				promotionalDiscount += itemDiscount.getDiscountAmount(); 
 		return promotionalDiscount;
@@ -41,7 +42,7 @@ public class SaleInfoDTO {
 	private double runingTotal() {
 		double priceWhitDiscount = priceWithPromotionalItems();
 		if (discountsInSale.size() > 0) {
-			for (Discount registred : discountsInSale) 
+			for (DiscountDTO registred : discountsInSale) 
 				if (registred.getCategory() == Category.CUSTOMER) {
 					priceWhitDiscount = priceWhitDiscount * registred.getDiscountPercent();
 					break;

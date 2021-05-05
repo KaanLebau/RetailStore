@@ -8,21 +8,18 @@ public class Product {
 	private final double FULLPRICE = 1;
 	private final double WHOLEPERCENT = 100;
 	private int quantity; 
-	@SuppressWarnings("unused")
-	private Sale sale;
+	
 
 	/*
 	 * Product constructers
 	 */
 
-	public Product(String id, String name, double netPrice, double vat, Sale sale, int quantity) {
+	public Product(String id, String name, double netPrice, double vat, int quantity) {
 		this.productId = id;
 		this.productName = name;
 		this.netPrice = netPrice;
 		this.vat = vat;
-		this.sale = sale;
 		this.quantity = quantity;
-		sale.addProductToSale(this);
 	}
 	
 	public Product(String id, String name, int quantity) {
