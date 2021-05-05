@@ -8,5 +8,5 @@ public class Util {
 	public enum Method {
 		CARDTERMINAL,CASH
 	}
-
+	
 }

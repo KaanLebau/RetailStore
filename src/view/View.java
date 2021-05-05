@@ -18,6 +18,12 @@ public class View {
 	public View(Controller ctrl) {
 		this.controller = ctrl;
 	}
+	
+	public void scenario() {
+		controller.addProduct("101");
+		updateView();
+		controller.addPayment(Method.CASH, 100);
+	}
 
 	
 	/**

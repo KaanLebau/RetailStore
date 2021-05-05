@@ -16,9 +16,19 @@ public class Receipt {
 
 	public Receipt(Payment payment) {
 		this.payment = payment;
-		payment.getCashRegister().getPrinter().printOut(this);
 	}
 
+	/**
+	 * sends receipt to printer
+	 * 
+	 */
+	public void sendReceiptToPrinter() {		
+		payment.getCashRegister().getPrinter().printOut(this);
+	}
+	/**
+	 * information about Store name address telephone number and sale date 
+	 * @return
+	 */
 	public String storeInformation() {
 		this.storeInformation = "-----------------------------------\n";
 		this.storeInformation +="- \t      " + payment.getCashRegister().getStoreName() + "       \t  -" + "\n";
@@ -31,7 +41,12 @@ public class Receipt {
 		this.storeInformation += "-----------------------------------";
 		return this.storeInformation;
 	}
-
+	/**
+	 *  information abount purchased producs in list their mane, quantity, and gross 
+	 *  price to pay for each product
+	 *  
+	 * @return String
+	 */
 	public String productList() {
 		this.productList = "* Description: \t\t\t  *\n";
 		this.productList += "-----------------------------------\n";
@@ -42,7 +57,10 @@ public class Receipt {
 		this.productList += "-----------------------------------";
 		return this.productList;
 	}
-
+	/**
+	 * information abount discount applyd in sale 
+	 * @return string 
+	 */
 	public String discountList() {
 		this.discountList = "*      No discount to apply \t  * \n";
 		if (!(payment.getDiscountList().size() < 1)) {
@@ -69,7 +87,11 @@ public class Receipt {
 		this.discountList += "-----------------------------------";
 		return this.discountList;
 	}
-
+	/**
+	 * information about payment method, amount paid and amount change
+	 *  
+	 * @return string
+	 */
 	public String paymentInformation() {
 		this.paymentInformation = "* Payment Information:  \t  *\n";
 		this.paymentInformation += "-----------------------------------\n";

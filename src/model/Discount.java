@@ -232,17 +232,14 @@ public class Discount {
 		}
 		Discount other = (Discount) object;
 		if (!(this.getCategory() == Category.CUSTOMER)) {
-			// item och quantity hamnar här
 			return ((this.getItemId() == other.getItemId()) && (this.getCategory() == other.getCategory()));
 
 		} else {
-			// customer hamnar här
 			return ((this.discountId == other.getDiscountId()) && (this.getCategory() == other.getCategory()));
 		}
 
 	}
 
-	// TODO remove this
 	public String toString() {
 		String s = "";
 		s = s + "discount Category: " + this.category + "\n";
