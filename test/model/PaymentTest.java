@@ -22,7 +22,7 @@ class PaymentTest {
 	Printer printer;
 	CashRegisterDTO cashRegister;
 	Payment dummy;
-	double amountpaid = 100;
+	double amountPaid = 100;
 	
 	@BeforeEach
 	void setUp() throws Exception {
@@ -30,7 +30,7 @@ class PaymentTest {
 		printer = new Printer();
 		storeAddress = new Address("Göteborg", "andra lång",12, 42427);
 		cashRegister = new CashRegisterDTO(storeAddress, printer);
-		dummy = new Payment(Method.CASH, amountpaid, sale,cashRegister);
+		dummy = new Payment(Method.CASH, amountPaid, sale,cashRegister);
 		
 		Product item1 = new Product("101", "Cola", 10 , 10, 3);
 		Product item2 = new Product("104", "Ost", 50, 10, 1);
@@ -85,7 +85,7 @@ class PaymentTest {
 	
 	@Test
 	void testGetAmount() {
-		double expResult = amountpaid;
+		double expResult = amountPaid;
 		double result =dummy.getAmount();
 		assertEquals(expResult ,result, "get amount paid Faild" );
 	}

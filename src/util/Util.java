@@ -50,7 +50,7 @@ public class Util {
 	public static String discountList(List<DiscountDTO> registredDiscounts) {
 		String discountList = "*      No discount to apply \t  * \n";
 		if (!(registredDiscounts.size() < 1)) {
-			discountList = " Discounts:\n";
+			discountList = "* Discounts:\t\t\t  *\n";
 			discountList += "-----------------------------------\n";
 			discountList += "- categori" + "    quantity" + "\t amount   -\n";
 			for (DiscountDTO registred : registredDiscounts) {

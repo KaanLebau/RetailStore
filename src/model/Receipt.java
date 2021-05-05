@@ -2,9 +2,7 @@ package model;
 
 import java.text.DecimalFormat;
 
-import integration.DiscountDTO;
 import integration.Printer;
-import util.Util.Category;
 import util.Util.Method;
 
 public class Receipt {
@@ -14,6 +12,7 @@ public class Receipt {
 	String productList;
 	String discountList;
 	String paymentInformation;
+	String paymentMethod;
 
 	public Receipt(Payment payment) {
 		this.payment = payment;
@@ -42,6 +41,7 @@ public class Receipt {
 		this.storeInformation += "-----------------------------------";
 		return this.storeInformation;
 	}
+	
 	/**
 	 *  information abount purchased producs in list their mane, quantity, and gross 
 	 *  price to pay for each product
@@ -70,17 +70,21 @@ public class Receipt {
 				+ "\n";
 		this.paymentInformation += "- Amount paid: " + "\t\t  " + (new DecimalFormat("# $,##0.00").format(payment.getAmount())) + " -"
 				+ "\n";
-		this.paymentInformation += "- Amount change: " + "\t   " + (new DecimalFormat("# $,##0.00").format(payment.getAmountChange()))
-				+ " -" + "\n";
-		if(payment.getMethod() == Method.CASH) {		
-			this.paymentInformation += (this.paymentInformation += "- Paid whit: " + "\t\t     " + payment.getMethod() + " -" + "\n");
-			this.paymentInformation += "-----------------------------------\n";
-			return this.paymentInformation;
-		} else {			
-			this.paymentInformation += (this.paymentInformation += "- Paid whit: " + "\t     " + payment.getMethod() + " -" + "\n");
-			this.paymentInformation += "-----------------------------------\n";
-			return this.paymentInformation;
-		}
+		return this.paymentInformation += "- Amount change: " + "\t   " + (new DecimalFormat("# $,##0.00").format(payment.getAmountChange()))
+				+ " -";
 	}
 
+	public String paymentMetod() {
+		this.paymentMethod = "";
+		if(payment.getMethod() == Method.CASH) {		
+			this.paymentMethod += (this.paymentMethod += "- Paid whit: " + "\t\t     " + payment.getMethod() + " -" + "\n");
+			this.paymentMethod += "-----------------------------------\n";
+			return this.paymentMethod;
+		} else {			
+			this.paymentMethod = (this.paymentMethod += "- Paid whit: " + "\t     " + payment.getMethod() + " -" + "\n");
+			this.paymentMethod += "-----------------------------------\n";
+			return this.paymentMethod;
+		}
+	}
+	
 }

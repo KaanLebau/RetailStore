@@ -2,6 +2,9 @@ package model;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
+
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
@@ -11,7 +14,6 @@ class ProductTest {
 	Sale sale;
 	Product dummy;
 	Product dummy2;
-
 	String id = "8921";
 	String id2 = "9898";
 	String name = "Product name";
@@ -23,6 +25,8 @@ class ProductTest {
 		sale = new Sale();
 		dummy = new Product(id, name, price, vat, 1);
 		dummy2 = new Product(id2, name, price, vat, 5);
+		
+		
 
 	}
 
@@ -31,7 +35,16 @@ class ProductTest {
 		sale = null;
 		dummy = null;
 		dummy2 = null;
+		
+		
 	}
+	
+	@Test
+	void testCreateNullProduct() {
+		Product result = new Product();
+		assertNull(result.getId(),"create an  null product Faild");
+	}
+
 	
 	@Test
 	void testCreateProductWithQuantity() {

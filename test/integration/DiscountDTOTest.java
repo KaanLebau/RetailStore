@@ -1,4 +1,4 @@
-package model;
+package integration;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -7,9 +7,10 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import integration.DiscountDTO;
+import model.Sale;
 import util.Util.Category;
 
-class DiscountTest {
+class DiscountDTOTest {
 	Sale sale;
 	DiscountDTO dummyItem;
 	DiscountDTO dummyQuantity;
