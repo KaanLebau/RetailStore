@@ -22,11 +22,18 @@ public class CashRegister {
 		this.adres = adres;
 		this.printer = printer;
 	}
-	
+	/**
+	 * gets balance 
+	 * 
+	 * @return
+	 */
 	public double getBalance() {
 		return this.balance;
 	}
-	
+	/**
+	 * adds sum to balance 
+	 * @param payment sum
+	 */
 	public void addToBalance(double payment) {
 		this.balance += payment;
 	}
