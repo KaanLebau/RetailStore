@@ -169,6 +169,7 @@ public class Controller {
 	 * instance of Payment
 	 * 
 	 * Uses updateExternalSystem() for updating
+	 * Uses addToBalance for updating CashRgister balance 
 	 * 
 	 * @param method cash Method
 	 * @param amount double
