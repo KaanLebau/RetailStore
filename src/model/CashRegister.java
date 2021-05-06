@@ -3,13 +3,14 @@ package model;
 import integration.Address;
 import integration.Printer;
 
-public class CashRegisterDTO {
+public class CashRegister {
 
 	private final int cashRegisterId = 1;
 	private final String name = "Kth Store";
 	private final String telephone = "031 666 66 66";
 	private final Address adres;
 	private final Printer printer;
+	private double balance = 6000;
 
 	/**
 	 * CashRegister constructor
@@ -17,9 +18,17 @@ public class CashRegisterDTO {
 	 * @param adres   where the cash register is.
 	 * @param printer connected device.
 	 */
-	public CashRegisterDTO(Address adres, Printer printer) {
+	public CashRegister(Address adres, Printer printer) {
 		this.adres = adres;
 		this.printer = printer;
+	}
+	
+	public double getBalance() {
+		return this.balance;
+	}
+	
+	public void addToBalance(double payment) {
+		this.balance += payment;
 	}
 
 	/**

@@ -12,13 +12,13 @@ import integration.Printer;
 class CashRegisterTest {
 	private Printer printer;
 	private Address adres;
-	private CashRegisterDTO dummy; 
+	private CashRegister dummy; 
 	
 	@BeforeEach
 	void setUp() throws Exception {
 		printer = new Printer();
 		adres = new Address("Göteborg", "Andra lång", 666,424);
-		dummy = new CashRegisterDTO(adres, printer); 
+		dummy = new CashRegister(adres, printer); 
 	}
 
 	@AfterEach
@@ -26,10 +26,24 @@ class CashRegisterTest {
 		adres = null;
 		dummy = null;
 	}
-
+	
+	@Test
+	void testgetBalance() {
+		double result = dummy.getBalance();
+		double expResult = 6000;
+		assertEquals(expResult,result, "get cash register balance Faild");
+	}
+	@Test
+	void testaddToBalance() {
+		dummy.addToBalance(500);
+		double result = dummy.getBalance();
+		double expResult = 6500;
+		assertEquals(expResult,result, "get cash register balance Faild");
+	}
+	
 	@Test
 	void testCashRegister() {
-		boolean result = (dummy instanceof CashRegisterDTO);
+		boolean result = (dummy instanceof CashRegister);
 		assertTrue(result,"dummy is instance of cash register Faild");
 	}
 	

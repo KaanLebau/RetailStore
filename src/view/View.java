@@ -20,6 +20,7 @@ public class View {
 		controller.addProduct("101");
 		updateView();
 		controller.addPayment(Method.CASH, 100);
+		
 	}
 	public void scenario2() {
 		controller.addProduct("101", 9);
@@ -28,6 +29,7 @@ public class View {
 		controller.addProduct("104");
 		updateView();
 		controller.addPayment(Method.CARDTERMINAL);
+		
 	}
 	
 	/**

@@ -7,6 +7,7 @@ import java.util.List;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import controller.Controller;
@@ -20,7 +21,7 @@ class PaymentTest {
 	Sale sale;
 	Address storeAddress;
 	Printer printer;
-	CashRegisterDTO cashRegister;
+	CashRegister cashRegister;
 	Payment dummy;
 	double amountPaid = 100;
 	
@@ -29,9 +30,8 @@ class PaymentTest {
 		sale = new Sale();
 		printer = new Printer();
 		storeAddress = new Address("Göteborg", "andra lång",12, 42427);
-		cashRegister = new CashRegisterDTO(storeAddress, printer);
+		cashRegister = new CashRegister(storeAddress, printer);
 		dummy = new Payment(Method.CASH, amountPaid, sale,cashRegister);
-		
 		Product item1 = new Product("101", "Cola", 10 , 10, 3);
 		Product item2 = new Product("104", "Ost", 50, 10, 1);
 		sale.addProductToSale(item1);
@@ -54,7 +54,6 @@ class PaymentTest {
 		sale.getPurcheasedProducts().clear();
 		sale.getRegistredDiscount().clear();
 	}
-
 	@Test
 	void testGetMethodForCash() {
 		Method expResult = Method.CASH;
@@ -68,7 +67,6 @@ class PaymentTest {
 		Method result = dummy2.getMethod();
 		assertEquals(expResult, result,"get method for cardterminal Faild");
 	}
-
 	@Test
 	void testGetPaymentDoneTrue() {
 		boolean expResult = true;
@@ -82,46 +80,40 @@ class PaymentTest {
 		boolean result =dummy2.getPaymentDone();
 		assertEquals(expResult ,result, "get payment done Faild" );
 	}
-	
 	@Test
 	void testGetAmount() {
 		double expResult = amountPaid;
 		double result =dummy.getAmount();
 		assertEquals(expResult ,result, "get amount paid Faild" );
 	}
-
 	@Test
 	void testGetPurchasedProductList() {
 		List<Product> expResult = sale.getPurcheasedProducts();
 		List<Product> result =  dummy.getPurchasedProductList();
 		assertEquals(expResult,result, "get purchased product list Faild" );
 	}
-
 	@Test
 	void testGetDiscpountList() {
 		List<DiscountDTO> expResult = sale.getRegistredDiscount();
 		List<DiscountDTO> result =  dummy.getDiscountList();
 		assertEquals(expResult, result,"get discount list Faild");
 	}
-
 	@Test
 	void testGetTotalCost() {
 		double expResult =sale.getEndSaleTotal();
 		double result = dummy.getTotalCost(); 
 		assertEquals(expResult , result, "get final total price Faild");
 	}
-
 	@Test
 	void testAmountChange() {
 		double expResult= 36.35;
 		double result = dummy.getAmountChange();
 		assertEquals(expResult, result, "amount change Faild");
 	}
-
 	@Test
 	void testGetCashRegister() {
-		CashRegisterDTO expResult = cashRegister;
-		CashRegisterDTO result = dummy.getCashRegister();
+		CashRegister expResult = cashRegister;
+		CashRegister result = dummy.getCashRegister();
 		assertEquals(expResult, result,"get cash register Faild");
 	}
 

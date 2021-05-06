@@ -1,5 +1,6 @@
 package integration;
 
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.jupiter.api.AfterEach;
@@ -42,5 +43,21 @@ class CustomerDTOTest {
 	void testGetId() {
 		assertEquals("123", dummy.getId(),"get id Faild");
 	}
-
+	
+	@Test
+	void testEqualTrue() {
+		CustomerDTO compareCustomer = new CustomerDTO("123", "kalle");
+		boolean result = dummy.equals(compareCustomer);
+		boolean expResult = true;
+		assertEquals(expResult, result,"customerDTO equal true Faild");
+	}
+	
+	@Test
+	void testEqualFalse() {
+		CustomerDTO compareCustomer = new CustomerDTO("122", "kalle");
+		boolean result = compareCustomer.equals(dummy);
+		boolean expResult = false;
+		assertEquals(expResult, result,"customerDTO equal false Faild");
+		
+	}
 }

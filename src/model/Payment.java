@@ -9,15 +9,15 @@ import util.Util.Method;
 
 public class Payment {
 	private Method method;
-	private CashRegisterDTO cashRegister;
-	private final double AMOUNT;
+	private CashRegister cashRegister;
+	private double amount;
 	private Sale sale;
 	private double amountChange = 0;
 	private boolean paymentDone = false;
 	private Receipt receipt;
 
 	public Payment() {
-		this.AMOUNT = 0;
+		this.amount = 0;
 		
 	}
 	/**
@@ -29,13 +29,13 @@ public class Payment {
 	 * @param sale         active sale
 	 * @param cashRegister this cash register
 	 */
-	public Payment(Method method, double amount, Sale sale, CashRegisterDTO cashRegister) {
+	public Payment(Method method, double amount, Sale sale, CashRegister cashRegister) {
 		this.method = method;
-		this.AMOUNT = amount;
+		this.amount = amount;
 		this.sale = sale;
 		this.cashRegister = cashRegister;
 		wait(1000);
-		paymentDone = true;;
+		paymentDone = true;
 	}
 
 	/**
@@ -46,12 +46,12 @@ public class Payment {
 	 * @param cashRegister this cash register
 	 *  
 	 */
-	public Payment(Method method, Sale sale, CashRegisterDTO cashRegister)
+	public Payment(Method method, Sale sale, CashRegister cashRegister)
 	
 	{
 		this.method = method;
 		this.sale = sale;
-		this.AMOUNT = getTotalCost();
+		this.amount = getTotalCost();
 		this.cashRegister = cashRegister;
 		paymentDone = true;
 	}
@@ -80,7 +80,7 @@ public class Payment {
 	 * @return double
 	 */
 	public double getAmount() {
-		return this.AMOUNT;
+		return this.amount;
 	}
 
 	/**
@@ -115,7 +115,7 @@ public class Payment {
 	 * 
 	 * @return cashRegister
 	 */
-	public CashRegisterDTO getCashRegister() {
+	public CashRegister getCashRegister() {
 		return cashRegister;
 	}
 
@@ -134,7 +134,7 @@ public class Payment {
 	 * @return double
 	 */
 	public double getAmountChange() {
-		return this.amountChange = AMOUNT - getTotalCost();
+		return this.amountChange = amount - getTotalCost();
 	}
 	/**
 	 * create an receipt 

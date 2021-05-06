@@ -8,7 +8,7 @@ import integration.ExternalAccounting;
 import integration.ExternalInventory;
 import integration.ItemDTO;
 import integration.Printer;
-import model.CashRegisterDTO;
+import model.CashRegister;
 import model.Payment;
 import model.Product;
 import model.Sale;
@@ -21,7 +21,7 @@ public class Controller {
 	private final ExternalAccounting externalAccounting;
 	private final ExternalInventory externalInventory;
 	private final CustomerRegister customerRegister;
-	private CashRegisterDTO cashRegister;
+	private CashRegister cashRegister;
 	private Sale sale;
 	private Payment payment;
 	private SaleInfoDTO saleInfoDTO;
@@ -53,7 +53,7 @@ public class Controller {
 		this.externalInventory = externalIventory;
 		this.sale = new Sale();
 		Address address = new Address("Göteborg", "andra lång", 12, 42427);
-		this.cashRegister = new CashRegisterDTO(address, printer);
+		this.cashRegister = new CashRegister(address, printer);
 		this.saleInfoDTO = new SaleInfoDTO(sale.getPurcheasedProducts(), sale.getRegistredDiscount());
 	}
 
@@ -178,6 +178,7 @@ public class Controller {
 		this.payment = new Payment(Method.CASH, amount, sale, cashRegister);
 		payment.createReceipt(payment);
 		payment.getReceipt().sendReceiptToPrinter();
+		cashRegister.addToBalance(sale.getEndSaleTotal());
 		updateExternalSystem();
 	}
 

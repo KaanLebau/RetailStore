@@ -30,7 +30,7 @@ public class Main {
 				externalAccounting, customerRegister);
 		View view = new View(controller);
 		
-		view.scenario2();
+		view.scenario1();
 	}
 
 }
