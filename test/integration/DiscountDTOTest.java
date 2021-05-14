@@ -1,12 +1,13 @@
 package integration;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import integration.DiscountDTO;
 import model.Sale;
 import util.Util.Category;
 
@@ -24,7 +25,7 @@ class DiscountDTOTest {
 
 	@BeforeEach
 	void setUp() throws Exception {
-		sale = new Sale();
+		sale = new Sale(1);
 		dummyItem = new DiscountDTO(Category.ITEM, "232323", 15, "Item discount");
 		dummyQuantity = new DiscountDTO(Category.QUANTITY, "242424", 3, 10, "Quantity discount");
 		dummyCustomer = new DiscountDTO(Category.CUSTOMER, "121212", 10, "Customer discount");

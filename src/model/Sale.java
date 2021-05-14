@@ -12,9 +12,24 @@ public class Sale {
 	private List<Product> purcheasedProducts = new ArrayList<>();
 	private List<DiscountDTO> registeredDiscount = new ArrayList<>();
 	private double endSaleTotal = 0;
+	private int saleId;
 
-	public Sale() {
-
+	/**
+	 * Sale constructor
+	 * 
+	 * @param saleId for identification of sale
+	 */
+	public Sale(int saleId) {
+		this.saleId = saleId;
+	}
+	
+	/**
+	 * gets sale id
+	 * 
+	 * @return int sale id
+	 */
+	public int getSaleId() {
+		return this.saleId;
 	}
 
 	/**

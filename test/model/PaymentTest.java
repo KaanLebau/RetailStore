@@ -1,16 +1,14 @@
 package model;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.Date;
 import java.util.List;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
-import controller.Controller;
 import integration.Address;
 import integration.DiscountDTO;
 import integration.Printer;
@@ -27,7 +25,7 @@ class PaymentTest {
 	
 	@BeforeEach
 	void setUp() throws Exception {
-		sale = new Sale();
+		sale = new Sale(1);
 		printer = new Printer();
 		storeAddress = new Address("Göteborg", "andra lång",12, 42427);
 		cashRegister = new CashRegister(storeAddress, printer);

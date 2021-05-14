@@ -16,7 +16,7 @@ class SaleTest {
 
 	@BeforeEach
 	void setUp() throws Exception {
-		dummy = new Sale();
+		dummy = new Sale(1);
 		Product item1 = new Product("101", "Cola", 10 , 10, 1);
 		dummy.addProductToSale(item1);
 	}

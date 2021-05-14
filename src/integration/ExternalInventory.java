@@ -3,12 +3,19 @@ package integration;
 import java.util.ArrayList;
 import java.util.List;
 
+import integration.Server.Connection;
+import integration.Server.ServerTyp;
 import model.Product;
+import util.ItemNotFoundException;
+import util.ItemQuantityInInventoryIsIncorrect;
+import util.ServerOfflineException;
 
 
 public class ExternalInventory {
 	List<ItemDTO> itemList = new ArrayList<>();
 	List<Product> inventory = new ArrayList<>();
+	private Connection connection;
+	private ServerTyp serverTyp;
 	
 
 	ItemDTO cola = new ItemDTO("101", "Cola", 10, 10);
@@ -18,7 +25,7 @@ public class ExternalInventory {
 	ItemDTO hambDressign = new ItemDTO("108", "Hamburagare Dressing", 23, 10);
 	ItemDTO hambBröd = new ItemDTO("109", "Hamburagare bröd", 25, 10);
 	
-	Product colaInv = new Product("101", "Cola", 12);
+	Product colaInv = new Product("101", "Cola", 10);
 	Product prestOstInv = new Product("104", "Ost", 58);
 	Product kaffeInv = new Product("106", "Kaffe", 34);
 	Product hamburgareInv = new Product("107", "Hamburagare", 42);
@@ -26,6 +33,8 @@ public class ExternalInventory {
 	Product hambBrödInv = new Product("109", "Hamburagare bröd", 25);
 	
 	public ExternalInventory() {
+		this.connection = Connection.ONLINE;
+		this.serverTyp = ServerTyp.INVENTORY;
 		itemList.add(cola);
 		itemList.add(hambDressign);
 		itemList.add(hamburgare);
@@ -60,24 +69,25 @@ public class ExternalInventory {
 	}
 
 	/**
-	 * searchItem gets itemId
+	 * searchItem serachs itemList with itemId
 	 * create a dummy Item
 	 * Controls if inventory has the item and have quantity
 	 * if above check searches item id in ItemDTO list 
-	 * dummy itemDTO gets found items attributes     
+	 * dummy itemDTO gets found items attributes   
+	 * throws check exception  
 	 * @param itemId
 	 * @return dummy item / real item
+	 * @throws ItemNotFoundException when item id is not found in inventory
 	 */
-	public ItemDTO searchItem(String itemId) {
-		ItemDTO foundItem = new ItemDTO();
-		if(quantityCheck(itemId)) {	
-			for(ItemDTO search : itemList)
-				if(search.getId().equalsIgnoreCase(itemId)) {
-					foundItem = search;
-					break;
-				}
-		}
-		return foundItem;
+	public ItemDTO searchItem(String itemId, int quantity) 
+			throws ItemNotFoundException {	
+		for(ItemDTO search : itemList)
+				if(search.getId().equalsIgnoreCase(itemId))
+					if(quantityCheck(itemId, quantity))
+						return search;
+				
+		throw new ItemNotFoundException("Catched in ExternalInventory class, "
+				+ "searchItem metod item id " + itemId);
 	}
 
 	/**
@@ -94,14 +104,51 @@ public class ExternalInventory {
 				}
 		}
 	}
+	
+	private boolean quantityCheck(String itemId, int quantity) 
+			throws ItemQuantityInInventoryIsIncorrect {
 
-	private boolean quantityCheck(String itemId) {
-		boolean exist = false;
 		for(Product inInventory : inventory)
 			if((inInventory.getId().equalsIgnoreCase(itemId) &&
-					(inInventory.getQuantity() > 0)))
-				exist = true;
+					((inInventory.getQuantity() - quantity) > 0)))
+				return true;
+			
+		throw new ItemQuantityInInventoryIsIncorrect("Catched in ExternalInventory class, "
+				+ "quantityCheck metod quantity: " + quantity);
 				
-		return exist;
+		
 	}
+	
+	/**
+	 * server status
+	 * 
+	 * @return status
+	 */
+	public Connection getConnectionStatus() {
+		return this.connection;
+	}
+	/**
+	 * set server status
+	 * 
+	 * @param connection status
+	 */
+	public void setConnectionStatus(Connection connection) {
+		this.connection = connection;
+	}
+	
+	/**
+	 * controls if server is online
+	 * throws an Unchecked exception
+	 * 
+	 * the exception should be a checked and  send a message to the user about 
+	 * if the quantity of the item is correct 
+	 * if the user confirms the number of the exception is saved in a log 
+	 * where the developer / entertainer checks possible bug in the program
+	 * 
+	 * @throws ServerOfflineException when external inventory could not be connected
+	 */
+	public void connectionControl() throws ServerOfflineException {
+		Server.connectionCheck(this.serverTyp, this.connection);
+	}
+	
 }

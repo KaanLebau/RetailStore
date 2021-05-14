@@ -1,15 +1,20 @@
 package integration;
 
-//import controller.Controller;
+import integration.Server.Connection;
+import integration.Server.ServerTyp;
+import util.*;
+
 
 
 public class ExternalAccounting {
 	double account;
-	//Controller ctrl;
+	Connection connection;
+	ServerTyp serverTyp;
 	
 	
 	public ExternalAccounting() {
-		
+		this.connection = Connection.ONLINE;
+		this.serverTyp = ServerTyp.ACCOUNTING;
 	}
 	/**
 	 * set amount in this account
@@ -31,6 +36,32 @@ public class ExternalAccounting {
 	 */
 	public double getBalance() {
 		return  this.account;
+	}
+
+	/**
+	 * server status
+	 * 
+	 * @return status
+	 */
+	public Connection getConnectionStatus() {
+		return this.connection;
+	}
+	/**
+	 * set server status
+	 * 
+	 * @param connection status
+	 */
+	public void setConnectionStatus(Connection connection) {
+		this.connection = connection;
+	}
+	/**
+	 * controls server connection
+	 * throw check exception
+	 * 
+	 * @throws ServerOfflineException when there is not connettion to the server
+	 */
+	public void connectionControl() throws ServerOfflineException {
+		Server.connectionCheck(this.serverTyp, this.connection);
 	}
 
 }

@@ -1,6 +1,7 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import integration.DiscountDTO;
@@ -10,15 +11,19 @@ public class SaleInfoDTO {
 	
 	private List<Product> productsInSale = new ArrayList<>();
 	private List<DiscountDTO> discountsInSale = new ArrayList<>();
+	private Date date;
+	private int saleId;
 	
 	/**
 	 *  sale information dto constructors
 	 * @param product
 	 * @param discount
 	 */
-	public SaleInfoDTO(List<Product> product,List<DiscountDTO> discount){
+	public SaleInfoDTO(List<Product> product,List<DiscountDTO> discount, Date date, int saleId){
 		this.productsInSale = product;
 		this.discountsInSale = discount;
+		this.date = date;
+		this.saleId = saleId;
 	}
 	/**
 	 *  gets products in active sale
@@ -33,6 +38,22 @@ public class SaleInfoDTO {
 	 */
 	public List<DiscountDTO> getDiscountsInSale(){
 		return this.discountsInSale;
+	}
+	
+	/**
+	 * gets sale date 
+	 * @return date
+	 */
+	public Date getDate() {
+		return this.date;
+	}
+	
+	/**
+	 * gets sale id number
+	 * @return sale identification nummer
+	 */
+	public int getSaleId() {
+		return this.saleId;
 	}
 	
 	
