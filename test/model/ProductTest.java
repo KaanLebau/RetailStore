@@ -1,13 +1,12 @@
 package model;
 
-import static org.junit.jupiter.api.Assertions.*;
-
-import java.io.ByteArrayOutputStream;
-import java.io.PrintStream;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 class ProductTest {
@@ -22,7 +21,7 @@ class ProductTest {
 
 	@BeforeEach
 	void setUp() throws Exception {
-		sale = new Sale();
+		sale = new Sale(1);
 		dummy = new Product(id, name, price, vat, 1);
 		dummy2 = new Product(id2, name, price, vat, 5);
 		

@@ -1,9 +1,16 @@
 package view;
 
+import java.io.IOException;
 import java.text.DecimalFormat;
 
 import controller.Controller;
 import model.SaleInfoDTO;
+import util.CustomerDiscountIdException;
+import util.CustomerRegistryException;
+import util.ExceptionLoger;
+import util.ItemNotFoundException;
+import util.LogHandler;
+import util.ServerOfflineException;
 import util.Util.Method;
 
 public class View {
@@ -11,21 +18,132 @@ public class View {
 	private final Controller controller;
 	private SaleInfoDTO saleInfoDTO;
 	private double runningTotal;
+	private LogHandler logHandler;
+	private ExceptionLoger exceptionLogger;
 	
-	public View(Controller ctrl) {
+	public View(Controller ctrl) throws IOException {
 		this.controller = ctrl;
+		this.logHandler = new LogHandler();
+		this.exceptionLogger = new ExceptionLoger();
+		controller.addSaleObserver(new TotalRevenueFileOutput());
+		controller.addSaleObserver(new TotalRevenueView());
 	}
 	
-	public void scenario1() {
+	public void threeSale() 
+			throws ServerOfflineException, ItemNotFoundException,
+			CustomerDiscountIdException, CustomerRegistryException, Exception {
+		try{
 		controller.addProduct("101");
 		updateView();
 		controller.addPayment(Method.CASH, 100);
-		
+		controller.cerateNewSale();
+		controller.addProduct("101");
+		updateView();
+		controller.addPayment(Method.CASH, 100);
+		controller.cerateNewSale();
+		controller.addProduct("104");
+		controller.addPayment(Method.CARDTERMINAL);
+		System.out.println("antal sale: " + controller.getSaleId());
+		System.out.println("pengar i kassan: " + controller.getPayment().getCashRegister().getBalance());
+		}catch(ItemNotFoundException e) {
+			System.out.println("Wrong item id. tyr again.");
+			return;
+		}catch(ServerOfflineException e) {
+			System.out.println("Register could not establice connection \nto the servers");
+		}catch(CustomerDiscountIdException e) {
+			System.out.println("Wrong discount id. Try again.");
+		}catch(CustomerRegistryException e) {
+			System.out.println("Customer is not registred.");
+		}catch(Exception e){
+			logHandler.setLogger(this.exceptionLogger);
+			//logHandler.newExceptionLog(ExcPriority.HIGH, e,"UNKNOWN");
+			System.out.println("Register stop working");
+		}
 	}
-	public void scenario2() {
-		controller.addProduct("101", 9);
+	
+	
+	//wrong discount id
+	public void scenario1a() 
+			throws ServerOfflineException, ItemNotFoundException,
+			CustomerDiscountIdException, CustomerRegistryException, Exception {
+		try{
+		controller.addProduct("101");
+		updateView();
+		controller.discountRequest("11", "9999");
+		controller.addPayment(Method.CASH, 100);
+		}catch(ItemNotFoundException e) {
+			System.out.println("Wrong item id. tyr again.");
+			return;
+		}catch(ServerOfflineException e) {
+			System.out.println("Register could not establice connection \nto the servers");
+		}catch(CustomerDiscountIdException e) {
+			System.out.println("Wrong discount id. Try again.");
+		}catch(CustomerRegistryException e) {
+			System.out.println("Customer is not registred.");
+		}catch(Exception e){
+			logHandler.setLogger(this.exceptionLogger);
+			//logHandler.newExceptionLog(ExcPriority.HIGH, e,"UNKNOWN");
+			System.out.println("Register stop working");
+		}
+	}
+	
+	// wrong customer id customerRegister
+	public void scenario1b() 
+			throws ServerOfflineException, ItemNotFoundException,
+			CustomerDiscountIdException, CustomerRegistryException,Exception {
+		try{
+		controller.addProduct("101");
+		updateView();
+		controller.discountRequest("111", "999");
+		controller.addPayment(Method.CASH, 100);
+		}catch(ItemNotFoundException e) {
+			System.out.println("Wrong item id. tyr again.");
+			return;
+		}catch(ServerOfflineException e) {
+			System.out.println("Register could not establice connection \nto the servers");
+		}catch(CustomerDiscountIdException e) {
+			System.out.println("Wrong discount id. Try again.");
+		}catch(CustomerRegistryException e) {
+			System.out.println("Customer is not registred.");
+		}catch(Exception e){
+			logHandler.setLogger(this.exceptionLogger);
+			//logHandler.newExceptionLog(ExcPriority.HIGH, e,"UNKNOWN");
+			System.out.println("Register stop working");
+		}
+	}
+	
+	public void scenario1c() 
+			throws ServerOfflineException, ItemNotFoundException,
+			CustomerDiscountIdException, CustomerRegistryException, IOException {
+		try{
+		controller.addProduct("10");
 		updateView();
 		controller.discountRequest("111", "9999");
+		controller.addPayment(Method.CASH, 100);
+		}catch(ItemNotFoundException e) {
+			System.out.println(e.getMessage());
+			System.out.println("Wrong item id. tyr again.");
+			return;
+		}catch(ServerOfflineException e) {
+			System.out.println("Register could not establice connection \nto the servers");
+		}catch(CustomerDiscountIdException e) {
+			System.out.println("Wrong discount id. Try again.");
+		}catch(CustomerRegistryException e) {
+			System.out.println("Customer is not registred.");
+		}catch(Exception e) {
+			logHandler.setLogger(this.exceptionLogger);
+			//logHandler.newExceptionLog(ExcPriority.HIGH, e,"UNKNOWN");
+			System.out.println("Register stop working");
+		}
+	}
+	
+	
+	public void scenario2() 
+			throws ServerOfflineException, ItemNotFoundException,
+			CustomerDiscountIdException, CustomerRegistryException,Exception {
+		controller.addProduct("101", 9);
+		updateView();
+		controller.discountRequest("111", "999");
 		controller.addProduct("104");
 		updateView();
 		controller.addPayment(Method.CARDTERMINAL);

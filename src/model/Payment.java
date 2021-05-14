@@ -1,9 +1,9 @@
 package model;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import controller.Controller;
 import integration.DiscountDTO;
 import util.Util.Method;
 
@@ -15,6 +15,7 @@ public class Payment {
 	private double amountChange = 0;
 	private boolean paymentDone = false;
 	private Receipt receipt;
+	private List<SaleObserver> saleObservers = new ArrayList<>();
 
 	public Payment() {
 		this.amount = 0;
@@ -22,7 +23,7 @@ public class Payment {
 	}
 	/**
 	 * Payment constructor for cash payment
-	 * wait is used to simulate card terminal conformation
+	 * wait is used to simulate card terminal confirmation
 	 * 
 	 * @param method       is CASH
 	 * @param amount       amount paid
@@ -36,6 +37,7 @@ public class Payment {
 		this.cashRegister = cashRegister;
 		wait(1000);
 		paymentDone = true;
+		notifyObservers();
 	}
 
 	/**
@@ -54,7 +56,33 @@ public class Payment {
 		this.amount = getTotalCost();
 		this.cashRegister = cashRegister;
 		paymentDone = true;
+		notifyObservers();
 	}
+	
+	private void notifyObservers() {
+		for(SaleObserver saleObserver : saleObservers)
+			saleObserver.newSale(sale);
+	}
+	
+	/**
+	 * adds sale observer to the
+	 * saleObservers list
+	 * 
+	 * @param saleObs sale observer
+	 */
+    public void addSaleObserver(SaleObserver saleObs) {
+        saleObservers.add(saleObs);
+    }
+    
+    /**
+     * adds list of sale observer to the 
+     * saleobservers list
+     * 
+     * @param saleObserver observer list
+     */
+    public void addSaleObserverList(List<SaleObserver> saleObserver) {
+    	saleObservers.addAll(saleObserver);
+    }
 
 	/**
 	 * gets payment method

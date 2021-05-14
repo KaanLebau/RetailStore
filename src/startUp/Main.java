@@ -9,6 +9,11 @@ import integration.DiscountRegister;
 import integration.ExternalAccounting;
 import integration.ExternalInventory;
 import integration.Printer;
+import integration.Server.Connection;
+import util.CustomerDiscountIdException;
+import util.CustomerRegistryException;
+import util.ItemNotFoundException;
+import util.ServerOfflineException;
 import view.View;
 
 /**
@@ -19,8 +24,10 @@ public class Main {
 
 	/**
 	 * @param args
+	 * @throws Exception 
 	 */
-	public static void main(String[] args) {
+	public static void main(String[] args) 
+			throws Exception {
 		DiscountRegister discountRegister = new DiscountRegister();
 		CustomerRegister customerRegister = new CustomerRegister();
 		ExternalAccounting externalAccounting = new ExternalAccounting();
@@ -30,7 +37,27 @@ public class Main {
 				externalAccounting, customerRegister);
 		View view = new View(controller);
 		
-		view.scenario1();
+		
+		//discountRegister.setConnectionStatus(Connection.OFFLINE);
+		//customerRegister.setConnectionStatus(Connection.OFFLINE);
+		//externalInventory.setConnectionStatus(Connection.OFFLINE);
+		//externalAccounting.setConnectionStatus(Connection.OFFLINE);
+		
+		
+		
+		//controller.addProduct("10");
+		
+		view.scenario1a();
+		
+		//view.threeSale();
+		
+		
+		
+		
+		
+		
+		
+		
 	}
 
 }

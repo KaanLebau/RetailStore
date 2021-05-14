@@ -74,6 +74,5 @@ public class Util {
 		discountList += "-----------------------------------";
 		return discountList;
 	}
-
 	
 }

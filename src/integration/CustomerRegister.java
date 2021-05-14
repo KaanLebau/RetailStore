@@ -3,11 +3,21 @@ package integration;
 import java.util.ArrayList;
 import java.util.List;
 
+import integration.Server.Connection;
+import integration.Server.ServerTyp;
+import util.CustomerRegistryException;
+import util.ServerOfflineException;
+
 public class CustomerRegister {
 	
 	private List<CustomerDTO> customerRegister = new ArrayList<>();
+	private Connection connection;
+	private ServerTyp serverTyp;
+	
 	
 	public CustomerRegister() {
+		this.connection = Connection.ONLINE;
+		this.serverTyp = ServerTyp.CUSTOMER;
 		CustomerDTO kaan = new CustomerDTO("9999", "Kaan");
 		CustomerDTO lina = new CustomerDTO("8888", "Lina");
 		CustomerDTO emmylou = new CustomerDTO("7777", "Emmylou");
@@ -16,6 +26,7 @@ public class CustomerRegister {
 		customerRegister.add(anakin);
 		customerRegister.add(lina);
 		customerRegister.add(kaan);
+
 	}
 		
 	/**
@@ -33,21 +44,49 @@ public class CustomerRegister {
 		List<CustomerDTO> listToSend = this.customerRegister;
 		return listToSend;
 	}
+	/**
+	 * gets current server status
+	 * 
+	 * @return status
+	 */
+	public Connection getConnectionStatus() {
+		return this.connection;
+	}
+	/**
+	 * set server status
+	 * 
+	 * @param connection status
+	 */
+	public void setConnectionStatus(Connection connection) {
+		this.connection = connection;
+	}
 	
 	/**
-	 * CustomerId used for check every customerId in customerRegister  
+	 * CustomerId used for check every customerId in customerRegister
+	 * throw an uncheck exception
+	 * 
 	 * @param customerId used for identification
-	 * @return true/false
+	 * @return true / false
+	 * @throws CustomerRegistryException when customer id is not found 
 	 */
-	public boolean searchCustomerDTO(String customerId) {		
-		boolean foundCustomer = false;
+	public boolean searchCustomerDTO(String customerId) 
+			throws CustomerRegistryException {
 		for(CustomerDTO search: customerRegister)
 			if(search.getId().equalsIgnoreCase(customerId)) {				
-				foundCustomer = true;
-				break;
+				return true;
 			}
-		
-		return foundCustomer;
+		throw new CustomerRegistryException("Catched in CustomerRegister class, "
+				+ "searchCustomerDTO metod customer id : " + customerId);
 	}
 
+	/**
+	 * controls server connection
+	 * throw check exception
+	 * 
+	 * @throws ServerOfflineException when there is not connettion to the server
+	 */
+	public void connectionControl() throws ServerOfflineException {
+			Server.connectionCheck(this.serverTyp, this.connection);
+	}
+	
 }

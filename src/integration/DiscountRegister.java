@@ -3,16 +3,25 @@ package integration;
 import java.util.ArrayList;
 import java.util.List;
 
+import integration.Server.Connection;
+import integration.Server.ServerTyp;
+import util.CustomerDiscountIdException;
+import util.CustomerRegistryException;
+import util.ServerOfflineException;
 import util.Util.Category;
 
 public class DiscountRegister {
 
 	private List<DiscountDTO> discountRegister = new ArrayList<>();
+	private Connection connection;
+	private ServerTyp serverTyp;
 
 	/**
 	 * Discount Register constructor dont take any argument
 	 */
 	public DiscountRegister() {
+		this.connection = Connection.ONLINE;
+		this.serverTyp = ServerTyp.DISCOUNT;
 		DiscountDTO typ1 = new DiscountDTO(Category.ITEM, "104", 10, "Campaing product");
 		DiscountDTO typ2 = new DiscountDTO(Category.CUSTOMER, "456", 12, "12% discount ");
 		DiscountDTO typ3 = new DiscountDTO(Category.CUSTOMER, "111", 25, "Loyality Discount");
@@ -34,7 +43,6 @@ public class DiscountRegister {
 		this.discountRegister = list;
 	}
 
-	
 	/**
 	 * gets discount list
 	 * 
@@ -52,17 +60,20 @@ public class DiscountRegister {
 	 * @param discountId      used for discount identification
 	 * @param customerControl checks requirement
 	 * @return dummy discount / real discount
+	 * @throws CustomerRegistryException   when customer id is not found
+	 * @throws CustomerDiscountIdException when discount id is not found
 	 */
-	public DiscountDTO searchCustomerDiscount(String discountId, boolean customerControl) {
-		DiscountDTO foundDiscount = new DiscountDTO();
+	public DiscountDTO searchCustomerDiscount(String discountId, boolean customerControl)
+			throws CustomerRegistryException, CustomerDiscountIdException {
 		if (customerControl) {
 			for (DiscountDTO matchingDiscount : discountRegister)
 				if ((matchingDiscount.getCategory() == Category.CUSTOMER)
-						&& matchingDiscount.getDiscountId().equals(discountId))
-					foundDiscount = matchingDiscount;
-			return foundDiscount;
+						&& matchingDiscount.getDiscountId().equals(discountId)) {
+					return matchingDiscount;
+				}
 		}
-		return foundDiscount;
+			throw new CustomerDiscountIdException("Catched in ExternalInventory class, "
+					+ "quantityCheck metod, discount id: " + discountId);
 	}
 
 	/**
@@ -84,6 +95,33 @@ public class DiscountRegister {
 				return matchingDiscount;
 			}
 		return dummyDiscount;
+	}
+
+	/**
+	 * server get current status
+	 * 
+	 * @return status
+	 */
+	public Connection getConnectionStatus() {
+		return this.connection;
+	}
+
+	/**
+	 * set server status
+	 * 
+	 * @param connection status
+	 */
+	public void setConnectionStatus(Connection connection) {
+		this.connection = connection;
+	}
+
+	/**
+	 * controls server connection throw check exception
+	 * 
+	 * @throws ServerOfflineException when there is no connection to the server
+	 */
+	public void connectionControl() throws ServerOfflineException {
+		Server.connectionCheck(this.serverTyp, this.connection);
 	}
 
 }
