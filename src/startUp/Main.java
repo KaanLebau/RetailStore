@@ -10,10 +10,10 @@ import integration.ExternalAccounting;
 import integration.ExternalInventory;
 import integration.Printer;
 import integration.Server.Connection;
-import util.CustomerDiscountIdException;
-import util.CustomerRegistryException;
-import util.ItemNotFoundException;
-import util.ServerOfflineException;
+import util.exceptions.CustomerDiscountIdException;
+import util.exceptions.CustomerRegistryException;
+import util.exceptions.ItemNotFoundException;
+import util.exceptions.ServerOfflineException;
 import view.View;
 
 /**

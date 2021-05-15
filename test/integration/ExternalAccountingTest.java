@@ -12,7 +12,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import integration.Server.Connection;
-import util.ServerOfflineException;
+import util.exceptions.ServerOfflineException;
 
 class ExternalAccountingTest {
 	ExternalAccounting dummy;

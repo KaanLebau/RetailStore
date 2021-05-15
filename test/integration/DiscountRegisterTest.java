@@ -17,10 +17,10 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import integration.Server.Connection;
-import util.CustomerDiscountIdException;
-import util.CustomerRegistryException;
-import util.ServerOfflineException;
-import util.Util.Category;
+import util.enums.Category;
+import util.exceptions.CustomerDiscountIdException;
+import util.exceptions.CustomerRegistryException;
+import util.exceptions.ServerOfflineException;
 
 class DiscountRegisterTest {
 	Date toDay = new Date();

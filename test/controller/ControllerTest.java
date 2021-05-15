@@ -16,12 +16,12 @@ import integration.ItemDTO;
 import integration.Printer;
 import model.Product;
 import model.Sale;
-import util.CustomerDiscountIdException;
-import util.CustomerRegistryException;
-import util.ItemNotFoundException;
-import util.ItemQuantityInInventoryIsIncorrect;
-import util.ServerOfflineException;
-import util.Util.Method;
+import util.enums.Method;
+import util.exceptions.CustomerDiscountIdException;
+import util.exceptions.CustomerRegistryException;
+import util.exceptions.ItemNotFoundException;
+import util.exceptions.ItemQuantityInInventoryIsIncorrectException;
+import util.exceptions.ServerOfflineException;
 
 class ControllerTest {
 	Printer printer;
@@ -77,7 +77,7 @@ class ControllerTest {
 
 	@Test
 	void testAddSeveralProducts()
-			throws ItemNotFoundException, ItemQuantityInInventoryIsIncorrect, ServerOfflineException, Exception {
+			throws ItemNotFoundException, ItemQuantityInInventoryIsIncorrectException, ServerOfflineException, Exception {
 		dummy.addProduct("101", 4);
 		int expResult = 4;
 		int result = dummy.getSaleInfoDTO().getProductsInSale().get(0).getQuantity();

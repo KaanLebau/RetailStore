@@ -5,8 +5,8 @@ import java.util.List;
 
 import integration.Server.Connection;
 import integration.Server.ServerTyp;
-import util.CustomerRegistryException;
-import util.ServerOfflineException;
+import util.exceptions.CustomerRegistryException;
+import util.exceptions.ServerOfflineException;
 
 public class CustomerRegister {
 	

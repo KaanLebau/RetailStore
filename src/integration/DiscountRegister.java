@@ -5,10 +5,10 @@ import java.util.List;
 
 import integration.Server.Connection;
 import integration.Server.ServerTyp;
-import util.CustomerDiscountIdException;
-import util.CustomerRegistryException;
-import util.ServerOfflineException;
-import util.Util.Category;
+import util.enums.Category;
+import util.exceptions.CustomerDiscountIdException;
+import util.exceptions.CustomerRegistryException;
+import util.exceptions.ServerOfflineException;
 
 public class DiscountRegister {
 

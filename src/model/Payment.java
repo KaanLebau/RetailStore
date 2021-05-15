@@ -5,13 +5,13 @@ import java.util.Date;
 import java.util.List;
 
 import integration.DiscountDTO;
-import util.Util.Method;
+import util.enums.Method;
 
 public class Payment {
 	private Method method;
 	private CashRegister cashRegister;
 	private double amount;
-	private Sale sale;
+	private SaleInfoDTO sale;
 	private double amountChange = 0;
 	private boolean paymentDone = false;
 	private Receipt receipt;
@@ -30,7 +30,7 @@ public class Payment {
 	 * @param sale         active sale
 	 * @param cashRegister this cash register
 	 */
-	public Payment(Method method, double amount, Sale sale, CashRegister cashRegister) {
+	public Payment(Method method, double amount, SaleInfoDTO sale, CashRegister cashRegister) {
 		this.method = method;
 		this.amount = amount;
 		this.sale = sale;
@@ -48,7 +48,7 @@ public class Payment {
 	 * @param cashRegister this cash register
 	 *  
 	 */
-	public Payment(Method method, Sale sale, CashRegister cashRegister)
+	public Payment(Method method, SaleInfoDTO sale, CashRegister cashRegister)
 	
 	{
 		this.method = method;
@@ -117,7 +117,7 @@ public class Payment {
 	 * @return List<Product>
 	 */
 	public List<Product> getPurchasedProductList() {
-		return sale.getPurcheasedProducts();
+		return sale.getProductsInSale();
 	}
 
 	/**
@@ -126,7 +126,7 @@ public class Payment {
 	 * @return List<Discount>
 	 */
 	public List<DiscountDTO> getDiscountList() {
-		return sale.getRegistredDiscount();
+		return sale.getDiscountsInSale();
 	}
 
 	/**
@@ -135,7 +135,7 @@ public class Payment {
 	 * @return double
 	 */
 	public double getTotalCost() {
-		return sale.getEndSaleTotal();
+		return sale.getRuningTotal();
 	}
 
 	/**

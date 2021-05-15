@@ -1,6 +1,6 @@
 package integration;
 
-import util.ServerOfflineException;
+import util.exceptions.ServerOfflineException;
 
 public class Server {
 	

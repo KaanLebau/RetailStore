@@ -3,7 +3,7 @@ package model;
 import java.text.DecimalFormat;
 
 import integration.Printer;
-import util.Util.Method;
+import util.enums.Method;
 
 public class Receipt {
 	Payment payment;

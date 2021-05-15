@@ -15,6 +15,7 @@ public interface SaleObserver {
 	 * 
 	 * @param saleInfoDTO information about sale.
 	 */
-	void newSale(Sale sale);
+	void newSale(SaleInfoDTO sale);
+
 
 }

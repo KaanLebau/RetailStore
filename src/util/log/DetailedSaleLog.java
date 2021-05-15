@@ -1,10 +1,12 @@
-package util;
+package util.log;
 
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
+
+import util.enums.ExcPriority;
 
 public class DetailedSaleLog implements Logger{
 	private FileWriter fileWriter;

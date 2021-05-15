@@ -1,4 +1,4 @@
-package util;
+package util.log;
 /**
  * this interface logs message.
  * Classes uses log implements this interface.

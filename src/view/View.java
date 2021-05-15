@@ -5,25 +5,25 @@ import java.text.DecimalFormat;
 
 import controller.Controller;
 import model.SaleInfoDTO;
-import util.CustomerDiscountIdException;
-import util.CustomerRegistryException;
-import util.ExceptionLoger;
-import util.ItemNotFoundException;
-import util.LogHandler;
-import util.ServerOfflineException;
-import util.Util.Method;
+import util.enums.Method;
+import util.exceptions.CustomerDiscountIdException;
+import util.exceptions.CustomerRegistryException;
+import util.exceptions.ItemNotFoundException;
+import util.exceptions.ServerOfflineException;
+import util.log.ExceptionLoger;
+import util.log.LogMessageHandler;
 
 public class View {
 	
 	private final Controller controller;
 	private SaleInfoDTO saleInfoDTO;
 	private double runningTotal;
-	private LogHandler logHandler;
+	private LogMessageHandler logHandler;
 	private ExceptionLoger exceptionLogger;
 	
 	public View(Controller ctrl) throws IOException {
 		this.controller = ctrl;
-		this.logHandler = new LogHandler();
+		this.logHandler = new LogMessageHandler();
 		this.exceptionLogger = new ExceptionLoger();
 		controller.addSaleObserver(new TotalRevenueFileOutput());
 		controller.addSaleObserver(new TotalRevenueView());

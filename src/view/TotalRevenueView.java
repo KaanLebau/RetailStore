@@ -1,16 +1,23 @@
 package view;
 
-import model.Sale;
+import model.SaleInfoDTO;
 import model.SaleObserver;
-import util.Logger;
+import util.log.Logger;
 
 public class TotalRevenueView implements SaleObserver, Logger {
-
+	private double totalSum = 0;
+	private SaleInfoDTO saleInfoDTO;
+	
 	@Override
-	public void newSale(Sale sale) {
-		// TODO Auto-generated method stub
-		
+	public void newSale(SaleInfoDTO saleInfoDTO) {
+		this.saleInfoDTO = saleInfoDTO;
 	}
+	
+	public String toDisplay() {
+		String info = "To";
+		return info;
+	}
+	
 
 	@Override
 	public void newLog(String message) {

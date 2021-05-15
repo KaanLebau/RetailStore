@@ -1,19 +1,21 @@
-package util;
+package util.log;
 
 import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import model.SaleInfoDTO;
-import util.Util.Method;
+import util.enums.Method;
+import util.enums.ExcPriority;
 
-public class LogHandler {
+public class LogMessageHandler {
 	private Logger logger;
 	SimpleDateFormat formatDate = new SimpleDateFormat("yyyy-MM-dd");
 	SimpleDateFormat formatClock = new SimpleDateFormat("HH:mm:ss");
+
 	
 	
-	public LogHandler() {
+	public LogMessageHandler() {
 		
 	}
 

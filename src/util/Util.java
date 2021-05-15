@@ -5,25 +5,10 @@ import java.util.List;
 
 import integration.DiscountDTO;
 import model.Product;
+import util.enums.Category;
 
 public class Util {
-	/**
-	 * options for discount
-	 * @author ozsan
-	 *
-	 */
-	public enum Category {
-		ITEM, CUSTOMER, QUANTITY
-	}
-	/**
-	 * options for payment
-	 * @author ozsan
-	 *
-	 */
-	public enum Method {
-		CARDTERMINAL,CASH
-	}
-	
+		
 	/**
 	 * creates a String with products purchased used for eliminate 
 	 * duplicate code.

@@ -5,7 +5,7 @@ import java.util.Date;
 import java.util.List;
 
 import integration.DiscountDTO;
-import util.Util.Category;
+import util.enums.Category;
 
 public class Sale {
 	private Date saleStartTime = new Date();

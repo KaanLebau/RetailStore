@@ -9,7 +9,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import integration.DiscountDTO;
-import util.Util.Category;
+import util.enums.Category;
 
 class SaleTest {
 	Sale dummy;

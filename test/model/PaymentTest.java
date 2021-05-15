@@ -12,11 +12,12 @@ import org.junit.jupiter.api.Test;
 import integration.Address;
 import integration.DiscountDTO;
 import integration.Printer;
-import util.Util.Category;
-import util.Util.Method;
+import util.enums.Category;
+import util.enums.Method;
 
 class PaymentTest {
 	Sale sale;
+	SaleInfoDTO saleDTO;
 	Address storeAddress;
 	Printer printer;
 	CashRegister cashRegister;
@@ -27,9 +28,10 @@ class PaymentTest {
 	void setUp() throws Exception {
 		sale = new Sale(1);
 		printer = new Printer();
+		saleDTO = new SaleInfoDTO(sale);
 		storeAddress = new Address("Göteborg", "andra lång",12, 42427);
 		cashRegister = new CashRegister(storeAddress, printer);
-		dummy = new Payment(Method.CASH, amountPaid, sale,cashRegister);
+		dummy = new Payment(Method.CASH, amountPaid, saleDTO,cashRegister);
 		Product item1 = new Product("101", "Cola", 10 , 10, 3);
 		Product item2 = new Product("104", "Ost", 50, 10, 1);
 		sale.addProductToSale(item1);
@@ -60,7 +62,7 @@ class PaymentTest {
 	}
 	@Test
 	void testGetMethodForCardterminal() {
-		Payment dummy2 = new Payment(Method.CARDTERMINAL, sale,cashRegister);
+		Payment dummy2 = new Payment(Method.CARDTERMINAL, saleDTO,cashRegister);
 		Method expResult = Method.CARDTERMINAL;
 		Method result = dummy2.getMethod();
 		assertEquals(expResult, result,"get method for cardterminal Faild");

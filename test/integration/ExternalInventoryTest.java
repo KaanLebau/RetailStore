@@ -15,8 +15,8 @@ import org.junit.jupiter.api.Test;
 
 import integration.Server.Connection;
 import model.Product;
-import util.ItemNotFoundException;
-import util.ServerOfflineException;
+import util.exceptions.ItemNotFoundException;
+import util.exceptions.ServerOfflineException;
 
 class ExternalInventoryTest {
 
