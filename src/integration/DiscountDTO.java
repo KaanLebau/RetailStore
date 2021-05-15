@@ -1,6 +1,6 @@
 package integration;
 
-import util.Util.Category;
+import util.enums.Category;
 
 public class DiscountDTO {
 

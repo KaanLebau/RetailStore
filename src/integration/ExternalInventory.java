@@ -6,9 +6,9 @@ import java.util.List;
 import integration.Server.Connection;
 import integration.Server.ServerTyp;
 import model.Product;
-import util.ItemNotFoundException;
-import util.ItemQuantityInInventoryIsIncorrect;
-import util.ServerOfflineException;
+import util.exceptions.ItemNotFoundException;
+import util.exceptions.ItemQuantityInInventoryIsIncorrectException;
+import util.exceptions.ServerOfflineException;
 
 
 public class ExternalInventory {
@@ -106,14 +106,14 @@ public class ExternalInventory {
 	}
 	
 	private boolean quantityCheck(String itemId, int quantity) 
-			throws ItemQuantityInInventoryIsIncorrect {
+			throws ItemQuantityInInventoryIsIncorrectException {
 
 		for(Product inInventory : inventory)
 			if((inInventory.getId().equalsIgnoreCase(itemId) &&
 					((inInventory.getQuantity() - quantity) > 0)))
 				return true;
 			
-		throw new ItemQuantityInInventoryIsIncorrect("Catched in ExternalInventory class, "
+		throw new ItemQuantityInInventoryIsIncorrectException("Catched in ExternalInventory class, "
 				+ "quantityCheck metod quantity: " + quantity);
 				
 		

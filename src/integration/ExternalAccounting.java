@@ -3,6 +3,7 @@ package integration;
 import integration.Server.Connection;
 import integration.Server.ServerTyp;
 import util.*;
+import util.exceptions.ServerOfflineException;
 
 
 

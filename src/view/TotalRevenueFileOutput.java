@@ -6,9 +6,9 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
 
-import model.Sale;
+import model.SaleInfoDTO;
 import model.SaleObserver;
-import util.Logger;
+import util.log.Logger;
 
 public class TotalRevenueFileOutput implements SaleObserver, Logger{
 
@@ -19,7 +19,7 @@ public class TotalRevenueFileOutput implements SaleObserver, Logger{
 	/**
 	 * create a new .txt file 
 	 *
-	 * 
+	 * §
 	 * @throws FileNotFoundException
 	 */
 	public TotalRevenueFileOutput() throws IOException {
@@ -36,7 +36,7 @@ public class TotalRevenueFileOutput implements SaleObserver, Logger{
 	}
 	
 	@Override
-	public void newSale(Sale sale) {
+	public void newSale(SaleInfoDTO sale) {
 		// TODO Auto-generated method stub
 		
 	}

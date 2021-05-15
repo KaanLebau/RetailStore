@@ -1,11 +1,11 @@
-package util;
+package util.exceptions;
 
 /**
  * The Exception, handles if or when an items quantity become below zero
  * @author ozsan
  *
  */
-public class ItemQuantityInInventoryIsIncorrect extends RuntimeException{
+public class ItemQuantityInInventoryIsIncorrectException extends RuntimeException{
 
 	
 	/**
@@ -13,7 +13,7 @@ public class ItemQuantityInInventoryIsIncorrect extends RuntimeException{
 	 * 
 	 * @param failureMessage failure reason
 	 */
-	public ItemQuantityInInventoryIsIncorrect(String failureMessage) {
+	public ItemQuantityInInventoryIsIncorrectException(String failureMessage) {
 		super(failureMessage);
 	}
 

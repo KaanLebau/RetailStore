@@ -1,10 +1,12 @@
-package util;
+package util.log;
 
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
+
+import util.enums.ExcPriority;
 
 /**
  * this is used to log all exceptions thrown from different classes and methods
@@ -44,27 +46,5 @@ public class ExceptionLoger implements Logger {
 	public PrintWriter getPrintWriter() {
 		return this.exceptionLogStream;
 	}
-	
-	/**
-	 * adds information about an exception when it occurs in program Stored
-	 * information exception date exception time exception message from origin Which
-	 * class and method exception throws Exceptions name
-	 * 
-	 * @param priority      describes importance
-	 * @param e             exception that logged
-	 * @param exceptionName name of exception
-	 */
-//	public void newExceptionLog(ExcPriority priority, Exception e, String exceptionName) {
-//		String toDay = formatDate.format(new Date());
-//		String now = formatClock.format(new Date());
-//		StringBuilder sb = new StringBuilder();
-//		sb.append("Exception date: " + toDay);
-//		sb.append(" Exception time: " + now + "\n");
-//		sb.append(exceptionName);
-//		sb.append(": Exception priority: " + priority + "\n");
-//		sb.append(" Exception Origin: " + e.getMessage() + "\n");
-//		exceptionLogStream.println(sb.toString());
-//		exceptionLogStream.close();
-//
-//	}
+
 }

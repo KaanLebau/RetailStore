@@ -15,8 +15,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import integration.Server.Connection;
-import util.CustomerRegistryException;
-import util.ServerOfflineException;
+import util.exceptions.CustomerRegistryException;
+import util.exceptions.ServerOfflineException;
 
 class CustomerRegisterTest {
 

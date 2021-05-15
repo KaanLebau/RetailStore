@@ -1,4 +1,4 @@
-package util;
+package util.enums;
 /**
  * Enum for exception priority. Priority is determined by 
  * the importance of the exception. An unknown exception 
