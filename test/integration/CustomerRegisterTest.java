@@ -15,7 +15,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import integration.Server.Connection;
-import util.exceptions.CustomerRegistryException;
+import util.exceptions.CustomerIdNotFoundException;
 import util.exceptions.ServerOfflineException;
 
 class CustomerRegisterTest {
@@ -69,17 +69,17 @@ class CustomerRegisterTest {
 	}
 
 	@Test
-	void testSearchCustomerDTO() {
+	void testSearchCustomerDTO() throws CustomerIdNotFoundException {
 		boolean found = dummyRegister.searchCustomerDTO("9999");
 		assertTrue(found, "search existing customer faild");
 	}
 
 	@Test
-	void testSearchCustomerDTOWithWrogId() throws CustomerRegistryException{
+	void testSearchCustomerDTOWithWrogId() throws CustomerIdNotFoundException{
 		try {
 			dummyRegister.searchCustomerDTO("111");
 			fail("search non existing customer excetption faild");
-		}catch (CustomerRegistryException e) {
+		}catch (CustomerIdNotFoundException e) {
 			String expResult = "searchCustomerDTO";
 			assertTrue(e.getMessage().contains(expResult));
 		}

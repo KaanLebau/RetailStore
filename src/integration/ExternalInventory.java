@@ -78,15 +78,16 @@ public class ExternalInventory {
 	 * @param itemId
 	 * @return dummy item / real item
 	 * @throws ItemNotFoundException when item id is not found in inventory
+	 * @throws ItemQuantityInInventoryIsIncorrectException when inventory incomplete
 	 */
 	public ItemDTO searchItem(String itemId, int quantity) 
-			throws ItemNotFoundException {	
+			throws ItemNotFoundException, ItemQuantityInInventoryIsIncorrectException {	
 		for(ItemDTO search : itemList)
 				if(search.getId().equalsIgnoreCase(itemId))
 					if(quantityCheck(itemId, quantity))
 						return search;
 				
-		throw new ItemNotFoundException("Catched in ExternalInventory class, "
+		throw new ItemNotFoundException("Throws from ExternalInventory class, "
 				+ "searchItem metod item id " + itemId);
 	}
 
@@ -113,8 +114,8 @@ public class ExternalInventory {
 					((inInventory.getQuantity() - quantity) > 0)))
 				return true;
 			
-		throw new ItemQuantityInInventoryIsIncorrectException("Catched in ExternalInventory class, "
-				+ "quantityCheck metod quantity: " + quantity);
+		throw new ItemQuantityInInventoryIsIncorrectException("Throws from ExternalInventory class, "
+				+ "quantityCheck metod item id:" + itemId + " quantity: " + quantity);
 				
 		
 	}

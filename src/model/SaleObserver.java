@@ -13,9 +13,9 @@ public interface SaleObserver {
 	/**
 	 * Notified when a sale successfully complied.
 	 * 
-	 * @param saleInfoDTO information about sale.
+	 * @param saleInfoDTO information about complied sale.
 	 */
-	void newSale(SaleInfoDTO sale);
+	void newSale(double totalToPay, int customers);
 
 
 }

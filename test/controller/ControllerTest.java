@@ -1,5 +1,6 @@
 package controller;
 
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
@@ -17,8 +18,8 @@ import integration.Printer;
 import model.Product;
 import model.Sale;
 import util.enums.Method;
-import util.exceptions.CustomerDiscountIdException;
-import util.exceptions.CustomerRegistryException;
+import util.exceptions.CustomerDiscountIdNotFoundException;
+import util.exceptions.CustomerIdNotFoundException;
 import util.exceptions.ItemNotFoundException;
 import util.exceptions.ItemQuantityInInventoryIsIncorrectException;
 import util.exceptions.ServerOfflineException;
@@ -26,7 +27,7 @@ import util.exceptions.ServerOfflineException;
 class ControllerTest {
 	Printer printer;
 	DiscountRegister discountRegister;
-	ExternalAccounting externalAccounting;
+	ExternalAccounting externalAccounting = new ExternalAccounting();
 	ExternalInventory externalInventory;
 	CustomerRegister customerRegister;
 	Controller dummy;
@@ -37,12 +38,13 @@ class ControllerTest {
 	void setUp() throws Exception {
 		printer = new Printer();
 		discountRegister = new DiscountRegister();
-		externalAccounting = new ExternalAccounting();
 		balance = externalAccounting.getBalance();
 		externalInventory = new ExternalInventory();
+		//externalAccounting = new ExternalAccounting();
 		customerRegister = new CustomerRegister();
-		dummy = new Controller(printer, discountRegister, externalInventory, externalAccounting, customerRegister);
-
+		dummy = new Controller(printer, discountRegister, externalInventory, 
+				externalAccounting, customerRegister);
+		dummy.cerateNewSale();
 	}
 
 	@AfterEach
@@ -68,6 +70,7 @@ class ControllerTest {
 
 	@Test
 	void testAddSingelProduct() throws ServerOfflineException, ItemNotFoundException, Exception {
+		dummy.cerateNewSale();
 		dummy.addProduct("101");
 		Product result = dummy.getSaleInfoDTO().getProductsInSale().get(0);
 		Product expResult = new Product("101", "Cola", 10, 10, 1);
@@ -78,6 +81,7 @@ class ControllerTest {
 	@Test
 	void testAddSeveralProducts()
 			throws ItemNotFoundException, ItemQuantityInInventoryIsIncorrectException, ServerOfflineException, Exception {
+		dummy.cerateNewSale();
 		dummy.addProduct("101", 4);
 		int expResult = 4;
 		int result = dummy.getSaleInfoDTO().getProductsInSale().get(0).getQuantity();
@@ -86,6 +90,7 @@ class ControllerTest {
 
 	@Test
 	void testAddThreeProductsAndGetDiscount() throws ServerOfflineException, ItemNotFoundException, Exception {
+		dummy.cerateNewSale();
 		dummy.addProduct("101");
 		dummy.addProduct("101");
 		dummy.addProduct("101");
@@ -106,8 +111,8 @@ class ControllerTest {
 	}
 
 	@Test
-	void testCustomerDiscountRequest() throws ServerOfflineException, ItemNotFoundException, CustomerRegistryException,
-			CustomerDiscountIdException, Exception {
+	void testCustomerDiscountRequest() throws ServerOfflineException, ItemNotFoundException, CustomerIdNotFoundException,
+			CustomerDiscountIdNotFoundException, Exception {
 		dummy.addProduct("101");
 		dummy.addProduct("101");
 		dummy.discountRequest("111", "9999");
@@ -118,41 +123,41 @@ class ControllerTest {
 
 	@Test
 	void testCustomerDiscountRequestWrongDiscountId() throws ServerOfflineException, ItemNotFoundException,
-			CustomerRegistryException, CustomerDiscountIdException,Exception {
+			CustomerIdNotFoundException, CustomerDiscountIdNotFoundException,Exception {
 		try {
 			dummy.addProduct("101");
 			dummy.addProduct("101");
 			dummy.discountRequest("222", "9999");
 			fail("customer discount id exception faild");
-		}catch(CustomerDiscountIdException e) {
-			assertTrue(e.getMessage().contains("discount id not existing"),"CustomerDiscountIdException wrong msg");
+		}catch(CustomerDiscountIdNotFoundException e) {
+			assertTrue(e.getMessage().contains("Catched"),"CustomerDiscountIdException wrong msg");
 		}
 	}
 
 	@Test
 	void testCustomerDiscountRequestWrongCustomerId() throws ServerOfflineException, ItemNotFoundException,
-			CustomerRegistryException, CustomerDiscountIdException,Exception {
+			CustomerIdNotFoundException, CustomerDiscountIdNotFoundException,Exception {
 		try {
 			dummy.addProduct("101");
 			dummy.addProduct("101");
 			dummy.discountRequest("111", "99");
 			fail("CustomerRegistryException faild");
-		}catch(CustomerRegistryException e) {
-		assertTrue(e.getMessage().contains("customer not existing"),"CustomerRegistryException wrong msg");	
+		}catch(CustomerIdNotFoundException e) {
+		assertTrue(e.getMessage().contains("Catched"),"CustomerRegistryException wrong msg");	
 		}
 		
 	}
 
 	@Test
 	void testCustomerDiscountRequestWrongCustomerIdAndDiscountId() throws ServerOfflineException, ItemNotFoundException,
-			CustomerRegistryException, CustomerDiscountIdException,Exception {
+			CustomerIdNotFoundException, CustomerDiscountIdNotFoundException,Exception {
 		try {
 			dummy.addProduct("101");
 			dummy.addProduct("101");
 			dummy.discountRequest("22", "999");
 			fail("customer discount id exception faild");
-		}catch(CustomerRegistryException e) {
-			assertTrue(e.getMessage().contains("customer not existing"),"CustomerRegistryException wrong msg");
+		}catch(CustomerIdNotFoundException e) {
+			assertTrue(e.getMessage().contains("Catched"),"CustomerRegistryException wrong msg");
 		}
 	}
 
@@ -164,9 +169,14 @@ class ControllerTest {
 	}
 
 	@Test
-	void testAddPaymentMethodCashPayment() throws ServerOfflineException, ItemNotFoundException,Exception {
-		dummy.addProduct("101");
-		dummy.addPayment(Method.CASH, 50);
+	void testAddPaymentMethodCashPayment() {
+		try {
+			dummy.addProduct("101");
+			dummy.addPayment(Method.CASH, 50);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		assertTrue(dummy.getPayment().getPaymentDone(), "Payment method CASH faild");
 	}
 

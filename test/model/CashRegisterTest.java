@@ -35,7 +35,8 @@ class CashRegisterTest {
 	}
 	@Test
 	void testaddToBalance() {
-		dummy.addToBalance(500);
+		dummy.getCashMachine().moneyFlow(500, 0);
+		dummy.updateCashRegister();
 		double result = dummy.getBalance();
 		double expResult = 6500;
 		assertEquals(expResult,result, "get cash register balance Faild");

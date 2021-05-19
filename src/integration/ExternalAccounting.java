@@ -8,9 +8,20 @@ import util.exceptions.ServerOfflineException;
 
 
 public class ExternalAccounting {
-	double account;
+	//TODO
+//	private static ExternalAccounting externalAccounting;
+//	
+	private double account;
 	Connection connection;
 	ServerTyp serverTyp;
+//	
+//	public static ExternalAccounting getInstanceOfExternalAccounting() {
+//		if (externalAccounting == null)
+//			externalAccounting = new ExternalAccounting();
+//		
+//		return externalAccounting; 
+//			
+//	}
 	
 	
 	public ExternalAccounting() {

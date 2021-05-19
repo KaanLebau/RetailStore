@@ -11,24 +11,29 @@ import integration.DiscountRegister;
 import integration.ExternalAccounting;
 import integration.ExternalInventory;
 import integration.ItemDTO;
+import integration.MoneyObserver;
 import integration.Printer;
+import integration.TransactionObserver;
 import model.CashRegister;
 import model.Payment;
 import model.Product;
 import model.Sale;
 import model.SaleInfoDTO;
 import model.SaleObserver;
-import util.enums.Method;
 import util.enums.ExcPriority;
-import util.exceptions.CustomerDiscountIdException;
-import util.exceptions.CustomerRegistryException;
+import util.enums.Method;
+import util.exceptions.CustomerDiscountIdNotFoundException;
+import util.exceptions.CustomerIdNotFoundException;
 import util.exceptions.ItemNotFoundException;
 import util.exceptions.ItemQuantityInInventoryIsIncorrectException;
 import util.exceptions.ServerOfflineException;
-import util.log.DetailedSaleLog;
-import util.log.ExceptionLoger;
-import util.log.LogMessageHandler;
-
+import util.log.ExceptionFileLog;
+import util.log.LogFactory;
+/**
+ * an important layer that handles communication between the layers
+ * @author ozsan
+ *
+ */
 public class Controller {
 	@SuppressWarnings("unused")
 	private Printer printer;
@@ -41,12 +46,16 @@ public class Controller {
 	private Payment payment;
 	private SaleInfoDTO saleInfoDTO;
 	private boolean paymentDone = false;
-	private int saleId = 1;
-	private LogMessageHandler logMessageHandler;
-	private ExceptionLoger exceptionLogger;
-	private DetailedSaleLog saleLog;
-	private List<SaleObserver> saleObservers = new ArrayList<>();
+	private int saleId = 0;
 
+	private List<SaleObserver> saleObserverList = new ArrayList<>();
+	private List<TransactionObserver> transactionObserverList = new ArrayList<>();
+	private List<MoneyObserver> moneyObserverList = new ArrayList<>();
+
+	/**
+	 * This boolean attribute for simulating proposes with card 
+	 * @return true/false
+	 */
 	public boolean getPaymentDone() {
 		return this.paymentDone;
 	}
@@ -63,7 +72,7 @@ public class Controller {
 	 * @param externalIventory   reference to the external inventory
 	 * @param externalAccounting reference to the external accounting
 	 * @param customerRegister   reference to the customer register
-	 * @throws IOException 
+	 * @throws IOException	from log factory
 	 */
 	public Controller(Printer printer, DiscountRegister discountRegister, ExternalInventory externalIventory,
 			ExternalAccounting externalAccounting, CustomerRegister customerRegister) throws IOException {
@@ -72,46 +81,53 @@ public class Controller {
 		this.externalAccounting = externalAccounting;
 		this.customerRegister = customerRegister;
 		this.externalInventory = externalIventory;
-		this.sale = new Sale(this.saleId);
 		Address address = new Address("Göteborg", "andra lång", 12, 42427);
 		this.cashRegister = new CashRegister(address, printer);
 		this.saleInfoDTO = new SaleInfoDTO(this.sale);
-		this.logMessageHandler = new LogMessageHandler();
-		this.exceptionLogger = new ExceptionLoger();
-		this.saleLog = new DetailedSaleLog();
 	}
+
 	/**
-	 * Controls if all servers is online
+	 * Controls if all servers is online if an Server is offline logs the server is
+	 * offline then send exception to view
 	 * 
 	 * @throws ServerOfflineException when server is not online
-	 * @throws Exception unknown failure 
+	 * @throws Exception              unknown failure
 	 */
-	public void serverConnection() throws ServerOfflineException,Exception {
-		try {			
+	public void serverConnection() throws ServerOfflineException, Exception {
+		try {
 			discountRegister.connectionControl();
 			externalAccounting.connectionControl();
 			externalInventory.connectionControl();
 			customerRegister.connectionControl();
-		}catch(ServerOfflineException e) {
-			logMessageHandler.setLogger(this.exceptionLogger);
-			logMessageHandler.newExceptionLog(ExcPriority.HIGH, e, "ServerOfflineException",this.exceptionLogger.getPrintWriter());
-			throw new ServerOfflineException("No connection");
-		}catch(Exception e) {
+		} catch (ServerOfflineException e) {
+			LogFactory.getLogFactory().getExceptionLogger().newExceptionLog(ExcPriority.HIGH, e, "ServerOfflineException");
+			throw e;
+		} catch (Exception e) {
+			LogFactory.getLogFactory().getExceptionLogger().newExceptionLog(ExcPriority.HIGH, e, "from Controller method serverConnection");
 			throw new Exception("unknown failure class controller method serverConnection");
-			
+
 		}
 	}
+
 	/**
 	 * Create an new instance of Sale and SaleInfoDTO
 	 */
-	public void cerateNewSale() { 
+	public void cerateNewSale() {
 		saleId += 1;
 		this.sale = new Sale(this.saleId);
 		this.saleInfoDTO = new SaleInfoDTO(this.sale);
 	}
+
+	/**
+	 * unique sale id since program started  
+	 * every time program starts sale id start with 1
+	 * 
+	 * @return id
+	 */
 	public int getSaleId() {
 		return this.saleId;
 	}
+
 	/**
 	 * gets active Sale
 	 * 
@@ -129,15 +145,6 @@ public class Controller {
 	public Payment getPayment() {
 		return this.payment;
 	}
-	
-	/**
-	 * gets excLog
-	 * 
-	 * @return exception log
-	 */
-	public ExceptionLoger getExceptionLog() {
-		return this.exceptionLogger;
-	}
 
 	/**
 	 * Searches in external inventory create an Product sets product quantity and
@@ -145,13 +152,12 @@ public class Controller {
 	 * to the sale
 	 * 
 	 * @param itemId for searching item in external inventory
-	 * @throws ItemNotFoundException when item id is not found in inventory
-	 * @throws ServerOfflineException when external inventory could not be connected
-	 * @throws Exception unknown failure 
+	 * @throws ItemNotFoundException  when item id is not found in inventory
+	 * @throws Exception              unknown failure
+	 * @throws ItemQuantityInInventoryIsIncorrectException when item quantity is below zero 
 	 */
-	public void addProduct(String itemId, int itemQuantity) 
-			throws ItemNotFoundException, ItemQuantityInInventoryIsIncorrectException
-,			ServerOfflineException, Exception {
+	public void addProduct(String itemId, int itemQuantity) throws ItemNotFoundException,
+			ItemQuantityInInventoryIsIncorrectException, Exception {
 		try {
 			serverConnection();
 			ItemDTO foundItem = externalInventory.searchItem(itemId, itemQuantity);
@@ -162,18 +168,14 @@ public class Controller {
 			Product product = new Product(id, name, netPrice, vat, itemQuantity);
 			sale.addProductToSale(product);
 			discountCheck(product);
-		}catch(ItemNotFoundException e) {
-			logMessageHandler.setLogger(this.exceptionLogger);
-			
-			//logHandler.newExceptionLog(ExcPriority.LOW, e,"ItemNotFoundException");
-		}catch(ItemQuantityInInventoryIsIncorrectException e) {
-			logMessageHandler.setLogger(this.exceptionLogger);
-			//logHandler.newExceptionLog(ExcPriority.MEDIUM, e,"ItemQuantityInInventoryIsIncorrect");
-			System.out.println("Is quantity of item correct scanned?");
-		}catch(ServerOfflineException e) {
-			throw new ServerOfflineException("no Connection");
-		}catch(Exception e) {
-			throw new Exception("unknown failure class controller method addProduct manually");
+		} catch (ItemNotFoundException e) {
+			LogFactory.getLogFactory().getExceptionLogger().newExceptionLog(ExcPriority.LOW, e,"ItemNotFoundException");
+			throw e;
+		} catch (ItemQuantityInInventoryIsIncorrectException e) {
+			LogFactory.getLogFactory().getExceptionLogger().newExceptionLog(ExcPriority.MEDIUM, e,"ItemQuantityInInventoryIsIncorrect");
+		}  catch (Exception e) {
+			LogFactory.getLogFactory().getExceptionLogger().newExceptionLog(ExcPriority.HIGH, e, "from Controller method addProduct manually");
+			throw e;
 		}
 	}
 
@@ -182,13 +184,12 @@ public class Controller {
 	 * uses discountCheck() to control any discount apply to the sale
 	 * 
 	 * @param itemId for searching item in external inventory
-	 * @throws ItemNotFoundException when item id is not found in inventory
-	 * @throws ServerOfflineException when external inventory could not be connected
-	 * @throws Exception unknown failure 
+	 * @throws ItemNotFoundException  when item id is not found in inventory
+	 *  @throws ItemQuantityInInventoryIsIncorrectException when item quantity is below zero 
+	 * @throws Exception              unknown failure
 	 */
-	public void addProduct(String itemId) 
-			throws ItemNotFoundException,ItemQuantityInInventoryIsIncorrectException, Exception,
-			ServerOfflineException {
+	public void addProduct(String itemId) throws ItemNotFoundException, ItemQuantityInInventoryIsIncorrectException,
+			Exception {
 		try {
 			serverConnection();
 			int singelItem = 1;
@@ -200,19 +201,14 @@ public class Controller {
 			Product product = new Product(id, name, netPrice, vat, singelItem);
 			sale.addProductToSale(product);
 			discountCheck(product);
-		}catch(ItemNotFoundException e) {
-			logMessageHandler.setLogger(this.exceptionLogger);
-			logMessageHandler.newExceptionLog(ExcPriority.HIGH, e,"ItemNotFoundException",
-					this.exceptionLogger.getPrintWriter());
-			throw new ItemNotFoundException("no item");
-		}catch(ItemQuantityInInventoryIsIncorrectException e) {
-			logMessageHandler.setLogger(this.exceptionLogger);
-			logMessageHandler.newExceptionLog(ExcPriority.MEDIUM, e,"ItemQuantityInInventoryIsIncorrect",this.exceptionLogger.getPrintWriter());
-			throw new ItemQuantityInInventoryIsIncorrectException("inventory quantity balance is incorrect");
-		}catch(ServerOfflineException e) {
-			throw new ServerOfflineException("no connection");
-		}catch(Exception e) {
-			throw new Exception("unknown failure class controller method addProduct with scanner");
+		} catch (ItemNotFoundException e) {
+			LogFactory.getLogFactory().getExceptionLogger().newExceptionLog(ExcPriority.HIGH,e,"ItemNotFoundException");
+			throw e;
+		} catch (ItemQuantityInInventoryIsIncorrectException e) {
+			LogFactory.getLogFactory().getExceptionLogger().newExceptionLog(ExcPriority.MEDIUM,e,"ItemQuantityInInventoryIsIncorrect");
+		} catch (Exception e) {			
+			LogFactory.getLogFactory().getExceptionLogger().newExceptionLog(ExcPriority.HIGH, e, "from Controller method addProduct");
+			throw e;
 		}
 	}
 
@@ -225,13 +221,12 @@ public class Controller {
 	 * 
 	 * @param discountId uses for discount search
 	 * @param customerId uses for customer identification
-	 * @throws Exception unknown failure in program
-	 * @throws CustomerRegistryException when customer id is not found in customer register
-	 * @throws CustomerDiscountIdException when discount id is not found in discount register
-	 * @throws ServerOfflineException when there is no connection to the server
+	 * @throws Exception                   unknown failure in program
+	 * @throws CustomerIdNotFoundException   when customer id is not found in customer register
+	 * @throws CustomerDiscountIdNotFoundException when discount id is not found in discount register
 	 */
-	public void discountRequest(String discountId, String customerId) 
-			throws Exception, CustomerRegistryException, CustomerDiscountIdException, ServerOfflineException {
+	public void discountRequest(String discountId, String customerId)
+			throws Exception, CustomerIdNotFoundException, CustomerDiscountIdNotFoundException {
 		try {
 			serverConnection();
 			DiscountDTO discountToAplly = new DiscountDTO();
@@ -239,37 +234,33 @@ public class Controller {
 			DiscountDTO foundDiscount = discountRegister.searchCustomerDiscount(discountId, customerControl);
 			discountToAplly = foundDiscount;
 			sale.getRegistredDiscount().add(discountToAplly);
-		} catch (CustomerRegistryException e) {
-			logMessageHandler.setLogger(this.exceptionLogger);
-			//logHandler.newExceptionLog(ExcPriority.LOW, e,"CustomerRegistryException");
-			throw new CustomerRegistryException("customer not existing in customer registry");
-		} catch (CustomerDiscountIdException e) {
-			logMessageHandler.setLogger(this.exceptionLogger);
-			//logHandler.newExceptionLog(ExcPriority.LOW, e,"CustomerDiscountIdException");
-			throw new CustomerDiscountIdException("discount id not existing in discount registry");
-		} catch(ServerOfflineException e) {
-			throw new ServerOfflineException("Server offline");
-		}catch(Exception e) {
-			throw new Exception("unknown failure class controller method diccountRequest");
+		} catch (CustomerIdNotFoundException e) {
+			LogFactory.getLogFactory().getExceptionLogger().newExceptionLog(ExcPriority.LOW, e,"CustomerRegistryException");
+			throw e;
+		} catch (CustomerDiscountIdNotFoundException e) {
+			LogFactory.getLogFactory().getExceptionLogger().newExceptionLog(ExcPriority.LOW, e,"CustomerDiscountIdException");
+			throw e;
+		} catch (Exception e) {
+			LogFactory.getLogFactory().getExceptionLogger().newExceptionLog(ExcPriority.HIGH, e, "unknown from controller discountRequaest");
+			throw e;
 		}
 
 	}
 
 	/**
 	 * updates external inventory and external accounting
-	 * @throws ServerOfflineException when external inventory or external accounting could not be connected
-	 * @throws Exception unknown failure 
+	 * 
+	 * @throws Exception              unknown failure
 	 */
-	private void updateExternalSystem()
-			throws ServerOfflineException, Exception {
+	private void updateExternalSystem() throws ServerOfflineException, Exception {
 		try {
 			serverConnection();
 			externalInventory.updateExternalInventory(sale.getPurcheasedProducts());
 			externalAccounting.updateExternalAccounting(sale.getEndSaleTotal());
-		}catch(Exception e) {
-			throw new Exception("unknown failure class controller method updateExternalSystem");
+		} catch (Exception e) {
+			LogFactory.getLogFactory().getExceptionLogger().newExceptionLog(ExcPriority.HIGH, e, "unknown from controller method updateExternalSystem");
+			throw e;
 		}
-
 	}
 
 	/**
@@ -281,75 +272,97 @@ public class Controller {
 	 * 
 	 * @param method card terminal Method
 	 * @param amount double
-	 * @throws ServerOfflineException when there is no connection to the server
-	 * @throws InterruptedException @SuppressWarnings("unused")
-	 * @throws Exception unknown failure 
+	 * 
+	 * @throws InterruptedException   @SuppressWarnings("unused")
+	 * @throws Exception              unknown failure
 	 */
 	public void addPayment(Method method) throws ServerOfflineException, Exception {
-		try {			
+		try {
 			serverConnection();
 			this.payment = new Payment(Method.CARDTERMINAL, saleInfoDTO, cashRegister);
-			payment.addSaleObserverList(saleObservers);
+			payment.addSaleObserverList(saleObserverList);
+			payment.createReceipt(payment);
+			payment.getReceipt().sendReceiptToPrinter();
 			boolean waiting = true;
 			while (waiting) {
 				if (payment.getPaymentDone()) {
 					payment.createReceipt(payment);
 					payment.getReceipt().sendReceiptToPrinter();
 					updateExternalSystem();
-					logMessageHandler.setLogger(this.saleLog);
-					logMessageHandler.newSaleLog(this.saleInfoDTO, method, saleLog.getPrintWriter());
 					waiting = false;
 				}
 			}
-		}catch(Exception e) {
-			throw new Exception("unknown failure class controller method addPayment for card terminal");
+		} catch (Exception e) {
+			LogFactory.getLogFactory().getExceptionLogger().newExceptionLog(ExcPriority.HIGH, e, "unknown from controller method addpayment with card terminal");
+			throw e;
 		}
+	}
+
+	
+	
+	/**
+	 * adds Transaction observer TransactionObserver list
+	 * 
+	 * @param observers takes saleObserver and TransactionObserver
+	 */
+	public void addTransactionObservers(TransactionObserver transactionObservers) {
+		transactionObserverList.add(transactionObservers);
 	}
 	
 	/**
-	 * adds sale observer to the
-	 * saleObservers list
+	 * adds sale observer to the saleObservers list
 	 * 
 	 * @param saleObs
 	 */
-    public void addSaleObserver(SaleObserver saleObs) {
-        saleObservers.add(saleObs);
-    }
+	public void addSaleObserver(SaleObserver saleObserver) {
+		saleObserverList.add(saleObserver);
+	}
+	
+	/**
+	 * adds list of money observer to the money observer list
+	 * 
+	 * @param moneyObservers list
+	 */
+	public void addMoneyObservers(MoneyObserver moneyObservers) {
+		moneyObserverList.add(moneyObservers);
+	}
 
 	/**
 	 * addPayment handles cash payment take method and amount payment creates an
 	 * instance of Payment
 	 * 
-	 * Uses updateExternalSystem() for updating
-	 * Uses addToBalance for updating CashRgister balance 
+	 * Uses updateExternalSystem() for updating Uses addToBalance for updating
+	 * CashRgister balance
 	 * 
 	 * @param method cash Method
 	 * @param amount double
-	 * @throws ServerOfflineException when there is no connection to the server
 	 * @throws InterruptedException
-	 * @throws Exception unknown failure 
+	 * @throws Exception              unknown failure
 	 */
-	public void addPayment(Method method, double amount) throws ServerOfflineException,Exception {
-		try {			
+	public void addPayment(Method method, double amount) throws InterruptedException, Exception {
+		try {
 			serverConnection();
 			this.payment = new Payment(Method.CASH, amount, saleInfoDTO, cashRegister);
+			payment.addSaleObserverList(saleObserverList);
+			payment.addObserversList(transactionObserverList);
+			payment.getCashRegister().addMoneyObservers(moneyObserverList);
+			payment.getCashRegister().getCashMachine().addMoneyObservers(moneyObserverList);
 			payment.createReceipt(payment);
 			payment.getReceipt().sendReceiptToPrinter();
-			cashRegister.addToBalance(sale.getEndSaleTotal());
 			updateExternalSystem();
-			logMessageHandler.setLogger(this.saleLog);
-			logMessageHandler.newSaleLog(this.saleInfoDTO, method, saleLog.getPrintWriter());
-		}catch(Exception e) {
-			throw new Exception("unknown failure class controller method addPayment for cash");
+		}catch(InterruptedException e) {
+			LogFactory.getLogFactory().getExceptionLogger().newExceptionLog(ExcPriority.HIGH, e, "InterruptedException");
+		}catch (Exception e) {
+			LogFactory.getLogFactory().getExceptionLogger().newExceptionLog(ExcPriority.HIGH, e, "unknown failure class controller method addPayment for cash");
+			throw e;
 		}
 	}
 
-	private void discountCheck(Product product) 
-			throws ServerOfflineException,Exception{
-		try {			
+	private void discountCheck(Product product) throws Exception {
+		try {
 			serverConnection();
-			for(Product newProduct: sale.getPurcheasedProducts())
-				if(newProduct.equals(product))
+			for (Product newProduct : sale.getPurcheasedProducts())
+				if (newProduct.equals(product))
 					product = newProduct;
 			DiscountDTO singelItem = discountRegister.searchItemDiscount(product.getId(), product.getQuantity());
 			if (product.getQuantity() == 1) {
@@ -357,8 +370,10 @@ public class Controller {
 			} else {
 				sale.addItemDiscount(singelItem);
 			}
-		}catch(Exception e) {
-			throw new Exception("unknown failure class controller method discountCheck");
+		} catch (Exception e) {
+			LogFactory.getLogFactory().getExceptionLogger().newExceptionLog(ExcPriority.HIGH, e,"unknown failure class controller method discountCheck"); 
+			throw e;
 		}
 	}
+
 }
