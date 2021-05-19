@@ -1,8 +1,8 @@
 package util.exceptions;
 
-import java.sql.SQLException;
 
-public class ServerOfflineException extends SQLException{
+
+public class ServerOfflineException extends Exception{
 	
 	public ServerOfflineException(String failureMessage) {
 		super(failureMessage);

@@ -6,8 +6,8 @@ import java.util.List;
 import integration.Server.Connection;
 import integration.Server.ServerTyp;
 import util.enums.Category;
-import util.exceptions.CustomerDiscountIdException;
-import util.exceptions.CustomerRegistryException;
+import util.exceptions.CustomerDiscountIdNotFoundException;
+import util.exceptions.CustomerIdNotFoundException;
 import util.exceptions.ServerOfflineException;
 
 public class DiscountRegister {
@@ -60,11 +60,11 @@ public class DiscountRegister {
 	 * @param discountId      used for discount identification
 	 * @param customerControl checks requirement
 	 * @return dummy discount / real discount
-	 * @throws CustomerRegistryException   when customer id is not found
-	 * @throws CustomerDiscountIdException when discount id is not found
+	 * @throws CustomerIdNotFoundException   when customer id is not found
+	 * @throws CustomerDiscountIdNotFoundException when discount id is not found
 	 */
 	public DiscountDTO searchCustomerDiscount(String discountId, boolean customerControl)
-			throws CustomerRegistryException, CustomerDiscountIdException {
+			throws CustomerIdNotFoundException, CustomerDiscountIdNotFoundException {
 		if (customerControl) {
 			for (DiscountDTO matchingDiscount : discountRegister)
 				if ((matchingDiscount.getCategory() == Category.CUSTOMER)
@@ -72,8 +72,8 @@ public class DiscountRegister {
 					return matchingDiscount;
 				}
 		}
-			throw new CustomerDiscountIdException("Catched in ExternalInventory class, "
-					+ "quantityCheck metod, discount id: " + discountId);
+			throw new CustomerDiscountIdNotFoundException("Throws from ExternalInventory class, "
+					+ "searchCustomerDiscount metod, discount id: " + discountId);
 	}
 
 	/**

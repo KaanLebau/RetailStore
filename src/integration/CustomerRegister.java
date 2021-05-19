@@ -5,7 +5,7 @@ import java.util.List;
 
 import integration.Server.Connection;
 import integration.Server.ServerTyp;
-import util.exceptions.CustomerRegistryException;
+import util.exceptions.CustomerIdNotFoundException;
 import util.exceptions.ServerOfflineException;
 
 public class CustomerRegister {
@@ -67,15 +67,15 @@ public class CustomerRegister {
 	 * 
 	 * @param customerId used for identification
 	 * @return true / false
-	 * @throws CustomerRegistryException when customer id is not found 
+	 * @throws CustomerIdNotFoundException when customer id is not found 
 	 */
 	public boolean searchCustomerDTO(String customerId) 
-			throws CustomerRegistryException {
+			throws CustomerIdNotFoundException {
 		for(CustomerDTO search: customerRegister)
 			if(search.getId().equalsIgnoreCase(customerId)) {				
 				return true;
 			}
-		throw new CustomerRegistryException("Catched in CustomerRegister class, "
+		throw new CustomerIdNotFoundException("throw from CustomerRegister class, "
 				+ "searchCustomerDTO metod customer id : " + customerId);
 	}
 

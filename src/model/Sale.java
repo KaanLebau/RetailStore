@@ -6,6 +6,7 @@ import java.util.List;
 
 import integration.DiscountDTO;
 import util.enums.Category;
+import util.enums.Method;
 
 public class Sale {
 	private Date saleStartTime = new Date();
@@ -13,6 +14,7 @@ public class Sale {
 	private List<DiscountDTO> registeredDiscount = new ArrayList<>();
 	private double endSaleTotal = 0;
 	private int saleId;
+	private Method method;
 
 	/**
 	 * Sale constructor
@@ -186,5 +188,11 @@ public class Sale {
 	public double getEndSaleTotal() {
 		endSaleTotal = priceWithCustomerDiscount();
 		return endSaleTotal;
+	}
+	/**
+	 * close activ sale
+	 */
+	public void endSale(Method method) {
+		
 	}
 }

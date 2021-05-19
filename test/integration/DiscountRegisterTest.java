@@ -18,8 +18,8 @@ import org.junit.jupiter.api.Test;
 
 import integration.Server.Connection;
 import util.enums.Category;
-import util.exceptions.CustomerDiscountIdException;
-import util.exceptions.CustomerRegistryException;
+import util.exceptions.CustomerDiscountIdNotFoundException;
+import util.exceptions.CustomerIdNotFoundException;
 import util.exceptions.ServerOfflineException;
 
 class DiscountRegisterTest {
@@ -71,20 +71,20 @@ class DiscountRegisterTest {
 	}
 	
 	@Test
-	void testSearchCustomerDiscount() throws CustomerRegistryException, CustomerDiscountIdException {
+	void testSearchCustomerDiscount() throws CustomerIdNotFoundException, CustomerDiscountIdNotFoundException {
 		DiscountDTO expResult =customerDiscount;
 		DiscountDTO resultat = dummy.searchCustomerDiscount("111", customer); 
 		assertEquals(expResult,resultat,"Search customer discount fails");
 		
 	}
 	@Test
-	void testSearchCustomerDiscountNoCustom() throws CustomerRegistryException, CustomerDiscountIdException {
+	void testSearchCustomerDiscountNoCustom() throws CustomerIdNotFoundException, CustomerDiscountIdNotFoundException {
 		
 		try {
 			customer = false;
 			dummy.searchCustomerDiscount("123", customer);
 			fail("thowing discount registery exception faild");
-		}catch(CustomerDiscountIdException e){
+		}catch(CustomerDiscountIdNotFoundException e){
 			String expResult = "quantityCheck";
 			assertTrue(e.getMessage().contains(expResult),"exception throws wrong message");
 		}
@@ -92,12 +92,12 @@ class DiscountRegisterTest {
 	}
 	
 	@Test
-	void testSearchCustomerDiscountNotExist() throws CustomerRegistryException, CustomerDiscountIdException {
+	void testSearchCustomerDiscountNotExist() throws CustomerIdNotFoundException, CustomerDiscountIdNotFoundException {
 		
 		try {
 			dummy.searchCustomerDiscount("487", customer);
 			fail("thowing customer discount id exception faild");
-		}catch(CustomerDiscountIdException e){
+		}catch(CustomerDiscountIdNotFoundException e){
 			String expResult = "quantityCheck";
 			assertTrue(e.getMessage().contains(expResult),"exception throws wrong message");
 			

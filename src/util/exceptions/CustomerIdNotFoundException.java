@@ -1,13 +1,13 @@
 package util.exceptions;
 
-public class CustomerRegistryException extends RuntimeException {
+public class CustomerIdNotFoundException extends Exception {
 	
 	/**
 	 * throws when customer id is not in the register. 
 	 * 
 	 * @param failureMessage failure reason
 	 */
-	public CustomerRegistryException(String failureMessage) {
+	public CustomerIdNotFoundException(String failureMessage) {
 		super(failureMessage);
 	}
 

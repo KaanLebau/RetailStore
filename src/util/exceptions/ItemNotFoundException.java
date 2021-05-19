@@ -11,19 +11,7 @@ public class ItemNotFoundException extends Exception{
 		super(failureMessage);
 	}
 
-	@Override
-	public String getMessage() {
-		System.out.println("Wrong item id. tyr again.");
-		return super.getMessage();
-	}
-
-//	@Override
-//	public void printStackTrace() {
-//		// TODO Auto-generated method stub
-//		super.printStackTrace();
-//		System.out.println("halla");
-//	}
-//	
+	
 	
 	
 }

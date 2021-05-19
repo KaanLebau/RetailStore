@@ -15,16 +15,15 @@ import integration.Server.Connection;
 import util.exceptions.ServerOfflineException;
 
 class ExternalAccountingTest {
-	ExternalAccounting dummy;
+	ExternalAccounting dummy = new ExternalAccounting();
 	double accountBalance = 1000000; 
 	private ByteArrayOutputStream printoutBuffer;
 	private PrintStream originalSysOut;
 
 	@BeforeEach
 	void setUp() throws Exception {
-		dummy = new ExternalAccounting();
+		dummy.getConnectionStatus();
 		dummy.setAccount(accountBalance);
-		
 		printoutBuffer = new ByteArrayOutputStream();
 		PrintStream inMemSysOut = new PrintStream(printoutBuffer);
 		originalSysOut = System.out;

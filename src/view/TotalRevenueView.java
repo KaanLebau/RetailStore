@@ -1,28 +1,22 @@
 package view;
 
-import model.SaleInfoDTO;
 import model.SaleObserver;
-import util.log.Logger;
+import util.log.LogFactory;
 
-public class TotalRevenueView implements SaleObserver, Logger {
-	private double totalSum = 0;
-	private SaleInfoDTO saleInfoDTO;
+public class TotalRevenueView implements SaleObserver {
+	private double balaceSinceTheProgramStarted = 0;
+
+	public TotalRevenueView() {
 	
-	@Override
-	public void newSale(SaleInfoDTO saleInfoDTO) {
-		this.saleInfoDTO = saleInfoDTO;
 	}
-	
-	public String toDisplay() {
-		String info = "To";
-		return info;
-	}
-	
 
 	@Override
-	public void newLog(String message) {
-		System.out.println(message);
-		
+	public void newSale(double income, int customers) {
+		updateBalance(income);
+		LogFactory.getLogFactory().getTotalRevenueViewLog().presentIncome(this.balaceSinceTheProgramStarted, customers);
 	}
+	private void updateBalance(double totalToPay) {
+		this.balaceSinceTheProgramStarted += totalToPay;
 
+	}
 }

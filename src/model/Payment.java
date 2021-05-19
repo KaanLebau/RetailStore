@@ -4,40 +4,50 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import integration.CashMachine;
 import integration.DiscountDTO;
+import integration.Money;
+import integration.Transaction;
+import integration.TransactionObserver;
 import util.enums.Method;
-
+/**
+ * it is a class that handles payment options and creates receipts
+ */
 public class Payment {
 	private Method method;
 	private CashRegister cashRegister;
-	private double amount;
-	private SaleInfoDTO sale;
+	private double amount = 0;
+	private SaleInfoDTO saleInfoDTO;
 	private double amountChange = 0;
 	private boolean paymentDone = false;
 	private Receipt receipt;
-	private List<SaleObserver> saleObservers = new ArrayList<>();
+	private List<SaleObserver> saleObserverList = new ArrayList<>();
+	private List<TransactionObserver> transactionObserverList = new ArrayList<>();
+	private Transaction transaction;
+	private List<Money> exchange;
 
 	public Payment() {
-		this.amount = 0;
-		
+
 	}
+
 	/**
-	 * Payment constructor for cash payment
-	 * wait is used to simulate card terminal confirmation
+	 * Payment constructor for cash payment wait is used to simulate card terminal
+	 * confirmation
 	 * 
 	 * @param method       is CASH
 	 * @param amount       amount paid
 	 * @param sale         active sale
 	 * @param cashRegister this cash register
 	 */
-	public Payment(Method method, double amount, SaleInfoDTO sale, CashRegister cashRegister) {
+	public Payment(Method method, double amount, SaleInfoDTO saleInfoDTO, CashRegister cashRegister) {
 		this.method = method;
 		this.amount = amount;
-		this.sale = sale;
+		this.saleInfoDTO = saleInfoDTO;
 		this.cashRegister = cashRegister;
+		transaction = new CashMachine();
 		wait(1000);
 		paymentDone = true;
-		notifyObservers();
+
 	}
 
 	/**
@@ -46,43 +56,50 @@ public class Payment {
 	 * @param method       is CARDTERMINAL
 	 * @param sale         active sale
 	 * @param cashRegister this cash register
-	 *  
+	 * 
 	 */
-	public Payment(Method method, SaleInfoDTO sale, CashRegister cashRegister)
-	
+	public Payment(Method method, SaleInfoDTO saleInfoDTO, CashRegister cashRegister)
+
 	{
 		this.method = method;
-		this.sale = sale;
+		this.saleInfoDTO = saleInfoDTO;
 		this.amount = getTotalCost();
 		this.cashRegister = cashRegister;
+		wait(1000);
 		paymentDone = true;
-		notifyObservers();
+
+	}
+
+	private void notifySaleObservers() {
+		for (SaleObserver saleObserver : saleObserverList)
+			saleObserver.newSale(this.saleInfoDTO.getRuningTotal(), this.saleInfoDTO.getSaleId());
+
+	}
+
+	private void notifyTransactionObserver() {
+		for (TransactionObserver tranactionObserver : transactionObserverList)
+			 tranactionObserver.changeToDisplay(this.exchange);
 	}
 	
-	private void notifyObservers() {
-		for(SaleObserver saleObserver : saleObservers)
-			saleObserver.newSale(sale);
+	private void notifyAllObservers() {
+		notifySaleObservers();
+		notifyTransactionObserver();
 	}
-	
+
 	/**
-	 * adds sale observer to the
-	 * saleObservers list
+	 * adds list of sale observer to the saleobservers list
 	 * 
-	 * @param saleObs sale observer
+	 * @param saleObserver observer list
 	 */
-    public void addSaleObserver(SaleObserver saleObs) {
-        saleObservers.add(saleObs);
-    }
-    
-    /**
-     * adds list of sale observer to the 
-     * saleobservers list
-     * 
-     * @param saleObserver observer list
-     */
-    public void addSaleObserverList(List<SaleObserver> saleObserver) {
-    	saleObservers.addAll(saleObserver);
-    }
+	public void addSaleObserverList(List<SaleObserver> saleObservers) {
+
+		saleObserverList.addAll(saleObservers);
+	}
+
+	public void addObserversList(List<TransactionObserver> observers) {
+
+		transactionObserverList.addAll(observers);
+	}
 
 	/**
 	 * gets payment method
@@ -92,9 +109,10 @@ public class Payment {
 	public Method getMethod() {
 		return this.method;
 	}
+
 	/**
-	 * by card payment it confirms the money transaction  
-	 * used in controller before update external System
+	 * by card payment it confirms the money transaction used in controller before
+	 * update external System
 	 * 
 	 * @return boolean
 	 */
@@ -117,7 +135,7 @@ public class Payment {
 	 * @return List<Product>
 	 */
 	public List<Product> getPurchasedProductList() {
-		return sale.getProductsInSale();
+		return saleInfoDTO.getProductsInSale();
 	}
 
 	/**
@@ -126,7 +144,7 @@ public class Payment {
 	 * @return List<Discount>
 	 */
 	public List<DiscountDTO> getDiscountList() {
-		return sale.getDiscountsInSale();
+		return saleInfoDTO.getDiscountsInSale();
 	}
 
 	/**
@@ -135,7 +153,7 @@ public class Payment {
 	 * @return double
 	 */
 	public double getTotalCost() {
-		return sale.getRuningTotal();
+		return saleInfoDTO.getRuningTotal();
 	}
 
 	/**
@@ -153,7 +171,7 @@ public class Payment {
 	 * @return date
 	 */
 	public Date getDate() {
-		return sale.getDate();
+		return saleInfoDTO.getDate();
 	}
 
 	/**
@@ -162,31 +180,44 @@ public class Payment {
 	 * @return double
 	 */
 	public double getAmountChange() {
-		return this.amountChange = amount - getTotalCost();
+		return this.amountChange;
 	}
+	
+	private void updateAmountChange() {
+		this.amountChange = amount - getTotalCost();
+	}
+
 	/**
-	 * create an receipt 
+	 * create an receipt
+	 * 
 	 * @param payment
 	 */
 	public void createReceipt(Payment payment) {
+		updateAmountChange();
+		if(payment.getMethod() == Method.CASH) {			
+			exchange = transaction.moneyFlow(amount, amountChange);
+			cashRegister.getCashMachine().getRunninLow();
+		}
+		notifyAllObservers();
+		this.cashRegister.updateCashRegister();
 		this.receipt = new Receipt(payment);
 	}
+
 	/**
-	 * sends receipt 
-	 * @return receipt 
+	 * sends receipt
+	 * 
+	 * @return receipt
 	 */
 	public Receipt getReceipt() {
 		return this.receipt;
 	}
 
 	private void wait(int ms) {
-		try
-	    {
-	        Thread.sleep(ms);
-	    }
-	    catch(InterruptedException ex)
-	    {
-	        Thread.currentThread().interrupt();
-	    }
+		try {
+			Thread.sleep(ms);
+		} catch (InterruptedException e) {
+			System.out.println("class Payment metod wait faild");
+			Thread.currentThread().interrupt();
+		}
 	}
 }
