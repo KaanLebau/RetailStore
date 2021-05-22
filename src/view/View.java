@@ -23,15 +23,14 @@ public class View {
 		controller.addSaleObserver(new TotalRevenueFileOutput());
 		controller.addTransactionObservers(new ChangeAmount());
 		controller.addMoneyObservers(new MoneyRunningLow());
-		
+
 	}
 
-	public void threeSale() throws ServerOfflineException, ItemNotFoundException, CustomerDiscountIdNotFoundException,
-			CustomerIdNotFoundException, Exception {
+	public void totalRevenuePrint() throws ServerOfflineException, ItemNotFoundException,
+			CustomerDiscountIdNotFoundException, CustomerIdNotFoundException, Exception {
 		try {
 			controller.cerateNewSale();
 			controller.addProduct("101");
-			
 			updateView();
 			controller.addPayment(Method.CASH, 100);
 			controller.cerateNewSale();
@@ -56,9 +55,8 @@ public class View {
 		}
 	}
 
-	// wrong discount id
-	public void scenario1a() throws ServerOfflineException, ItemNotFoundException, CustomerDiscountIdNotFoundException,
-			CustomerIdNotFoundException, Exception {
+	public void receiptCashTest() throws ServerOfflineException, ItemNotFoundException,
+			CustomerDiscountIdNotFoundException, CustomerIdNotFoundException, Exception {
 		try {
 			controller.cerateNewSale();
 			controller.addProduct("101");
@@ -79,9 +77,52 @@ public class View {
 		}
 	}
 
+	public void receiptCARDTERMINALTest() throws ServerOfflineException, ItemNotFoundException,
+			CustomerDiscountIdNotFoundException, CustomerIdNotFoundException, Exception {
+		try {
+			controller.cerateNewSale();
+			controller.addProduct("101");
+			updateView();
+			controller.discountRequest("111", "9999");
+			controller.addPayment(Method.CARDTERMINAL);
+		} catch (ItemNotFoundException e) {
+			System.out.println("Wrong item id. tyr again.");
+			return;
+		} catch (ServerOfflineException e) {
+			System.out.println("Register could not establice connection \nto the servers");
+		} catch (CustomerDiscountIdNotFoundException e) {
+			System.out.println("Wrong discount id. Try again.");
+		} catch (CustomerIdNotFoundException e) {
+			System.out.println("Customer is not registred.");
+		} catch (Exception e) {
+			System.out.println("Register stop working");
+		}
+	}
+
 	// wrong customer id customerRegister
-	public void scenario1b() throws ServerOfflineException, ItemNotFoundException, CustomerDiscountIdNotFoundException,
-			CustomerIdNotFoundException, Exception {
+	public void wrongCustomerId() throws ServerOfflineException, ItemNotFoundException,
+			CustomerDiscountIdNotFoundException, CustomerIdNotFoundException, Exception {
+		try {
+			controller.addProduct("101");
+			updateView();
+			controller.discountRequest("111", "999");
+			controller.addPayment(Method.CASH, 100);
+		} catch (ItemNotFoundException e) {
+			System.out.println("Wrong item id. tyr again.");
+			return;
+		} catch (ServerOfflineException e) {
+			System.out.println("Register could not establice connection \nto the servers");
+		} catch (CustomerDiscountIdNotFoundException e) {
+			System.out.println("Wrong discount id. Try again.");
+		} catch (CustomerIdNotFoundException e) {
+			System.out.println("Customer is not registred.");
+		} catch (Exception e) {
+			System.out.println("Register stop working");
+		}
+	}
+
+	// wrong customer id customerRegister
+	public void wrongDiscountId() {
 		try {
 			controller.addProduct("101");
 			updateView();
@@ -122,7 +163,27 @@ public class View {
 		}
 	}
 
-	
+	public void wrongItemId() throws ServerOfflineException, ItemNotFoundException, CustomerDiscountIdNotFoundException,
+			CustomerIdNotFoundException, Exception {
+		try {
+			controller.cerateNewSale();
+			controller.addProduct("101");
+			updateView();
+			controller.discountRequest("111", "9999");
+			controller.addPayment(Method.CASH, 100);
+		} catch (ItemNotFoundException e) {
+			System.out.println("Wrong item id. tyr again.");
+			return;
+		} catch (ServerOfflineException e) {
+			System.out.println("Register could not establice connection \nto the servers");
+		} catch (CustomerDiscountIdNotFoundException e) {
+			System.out.println("Wrong discount id. Try again.");
+		} catch (CustomerIdNotFoundException e) {
+			System.out.println("Customer is not registred.");
+		} catch (Exception e) {
+			System.out.println("Register stop working");
+		}
+	}
 
 	/**
 	 * updates view with purchased product prints product quantity, name, gross

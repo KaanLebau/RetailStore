@@ -21,9 +21,15 @@ public class TotalRevenueFileOutput implements SaleObserver{
 	}
 	
 	@Override
-	public void newSale(double income, int customers) {
-		updateBalance(income);
-		LogFactory.getLogFactory().getTotalRevenueFileOutput().presentIncome(this.balaceSinceTheProgramStarted, customers);
+	public void newSale(double income, int customers) throws IOException {
+		
+		try {
+			updateBalance(income);
+			LogFactory.getLogFactory().getTotalRevenueFileOutput().presentIncome(this.balaceSinceTheProgramStarted, customers);
+		} catch (IOException e) {
+			System.out.println("in util.log klas TotalRevenueFileOutput method newSale faild");
+			throw e;
+		}
 	}
 
 	private void updateBalance(double income) {

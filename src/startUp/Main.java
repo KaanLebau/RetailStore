@@ -41,13 +41,13 @@ public class Main {
 		//discountRegister.setConnectionStatus(Connection.OFFLINE);
 		//customerRegister.setConnectionStatus(Connection.OFFLINE);
 		//externalInventory.setConnectionStatus(Connection.OFFLINE);
-		//ExternalAccounting.getInstanceOfExternalAccounting().setConnectionStatus(Connection.OFFLINE);
+		//externalAccounting.setConnectionStatus(Connection.OFFLINE);
 		
 		
 		
 		//controller.addProduct("10");
 		
-		view.scenario1a();
+		view.totalRevenuePrint();
 		
 		//view.threeSale();
 		

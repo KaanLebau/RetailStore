@@ -31,8 +31,8 @@ public class ExceptionFileLog {
 			fileWriter = new FileWriter("logFiles\\Exceptionlog.txt",true);
 			exceptionLogStream = new PrintWriter(fileWriter);
 		} catch (IOException e) {
-			//System.out.println("FileWriter in ExceptionLog constructor faild");
-			e.printStackTrace();
+			System.out.println("FileWriter in ExceptionLog constructor faild");
+			throw e;
 		}
 	}
 	
