@@ -1,5 +1,6 @@
 package model;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -70,7 +71,7 @@ public class Payment {
 
 	}
 
-	private void notifySaleObservers() {
+	private void notifySaleObservers() throws IOException {
 		for (SaleObserver saleObserver : saleObserverList)
 			saleObserver.newSale(this.saleInfoDTO.getRuningTotal(), this.saleInfoDTO.getSaleId());
 
@@ -81,7 +82,7 @@ public class Payment {
 			 tranactionObserver.changeToDisplay(this.exchange);
 	}
 	
-	private void notifyAllObservers() {
+	private void notifyAllObservers() throws IOException {
 		notifySaleObservers();
 		notifyTransactionObserver();
 	}
@@ -191,8 +192,9 @@ public class Payment {
 	 * create an receipt
 	 * 
 	 * @param payment
+	 * @throws IOException 
 	 */
-	public void createReceipt(Payment payment) {
+	public void createReceipt(Payment payment) throws IOException {
 		updateAmountChange();
 		if(payment.getMethod() == Method.CASH) {			
 			exchange = transaction.moneyFlow(amount, amountChange);

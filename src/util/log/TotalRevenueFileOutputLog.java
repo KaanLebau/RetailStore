@@ -17,7 +17,7 @@ public class TotalRevenueFileOutputLog {
 	/**
 	 * create a new .txt file every time called prints
 	 */
-	public TotalRevenueFileOutputLog() {
+	public TotalRevenueFileOutputLog() throws IOException{
 
 		try {
 
@@ -25,6 +25,7 @@ public class TotalRevenueFileOutputLog {
 					(new FileWriter("logFiles\\TotalRevenueFile.txt"), true);
 		} catch (IOException e) {
 			System.out.println("FileWriter in TotalRevenueFileOutputLog constructor faild");
+			throw e;
 		}
 	}
 

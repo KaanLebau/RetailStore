@@ -27,7 +27,7 @@ import util.exceptions.ServerOfflineException;
 class ControllerTest {
 	Printer printer;
 	DiscountRegister discountRegister;
-	ExternalAccounting externalAccounting = new ExternalAccounting();
+	ExternalAccounting externalAccounting;
 	ExternalInventory externalInventory;
 	CustomerRegister customerRegister;
 	Controller dummy;
@@ -40,7 +40,7 @@ class ControllerTest {
 		discountRegister = new DiscountRegister();
 		balance = externalAccounting.getBalance();
 		externalInventory = new ExternalInventory();
-		//externalAccounting = new ExternalAccounting();
+		externalAccounting = new ExternalAccounting();
 		customerRegister = new CustomerRegister();
 		dummy = new Controller(printer, discountRegister, externalInventory, 
 				externalAccounting, customerRegister);

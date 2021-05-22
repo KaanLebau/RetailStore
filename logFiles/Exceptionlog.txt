@@ -1,248 +1,88 @@
-Exception date: 2021-05-18 Exception time: 13:53:51
+Exception date: 2021-05-19 Exception time: 21:48:34
 ServerOfflineException: Exception priority: HIGH
  Exception Origin: Connection with ACCOUNTING server faild
 
-Exception date: 2021-05-18 Exception time: 13:53:51
-ServerOfflineException: Exception priority: HIGH
+Exception date: 2021-05-19 Exception time: 21:48:34
+from Controller method addProduct: Exception priority: HIGH
  Exception Origin: Connection with ACCOUNTING server faild
 
-Exception date: 2021-05-18 Exception time: 13:54:02
-ServerOfflineException: Exception priority: HIGH
- Exception Origin: Connection with ACCOUNTING server faild
+Exception date: 2021-05-19 Exception time: 21:50:02
+ItemNotFoundException: Exception priority: HIGH
+ Exception Origin: Throws from ExternalInventory class, searchItem metod item id 11
 
-Exception date: 2021-05-18 Exception time: 13:54:02
-ServerOfflineException: Exception priority: HIGH
- Exception Origin: Connection with ACCOUNTING server faild
-
-Exception date: 2021-05-18 Exception time: 13:54:06
-ServerOfflineException: Exception priority: HIGH
- Exception Origin: Connection with ACCOUNTING server faild
-
-Exception date: 2021-05-18 Exception time: 13:54:06
-ServerOfflineException: Exception priority: HIGH
- Exception Origin: Connection with ACCOUNTING server faild
-
-Exception date: 2021-05-18 Exception time: 15:39:45
-ServerOfflineException: Exception priority: HIGH
- Exception Origin: Connection with CUSTOMER server faild
-
-Exception date: 2021-05-18 Exception time: 15:39:45
-ServerOfflineException: Exception priority: HIGH
- Exception Origin: Connection with CUSTOMER server faild
-
-Exception date: 2021-05-18 Exception time: 15:40:53
-ServerOfflineException: Exception priority: HIGH
- Exception Origin: Connection with CUSTOMER server faild
-
-Exception date: 2021-05-18 Exception time: 15:40:53
-ServerOfflineException: Exception priority: HIGH
- Exception Origin: Connection with CUSTOMER server faild
-
-Exception date: 2021-05-19 Exception time: 12:48:26
-from Controller method addProduct: Exception priority: HIGH
- Exception Origin: Cannot invoke "model.Sale.addProductToSale(model.Product)" because "this.sale" is null
-
-Exception date: 2021-05-19 Exception time: 12:48:26
-from Controller method addProduct: Exception priority: HIGH
- Exception Origin: Cannot invoke "model.Sale.addProductToSale(model.Product)" because "this.sale" is null
-
-Exception date: 2021-05-19 Exception time: 12:48:26
-from Controller method addProduct: Exception priority: HIGH
- Exception Origin: Cannot invoke "model.Sale.addProductToSale(model.Product)" because "this.sale" is null
-
-Exception date: 2021-05-19 Exception time: 12:48:26
-from Controller method addProduct: Exception priority: HIGH
- Exception Origin: Cannot invoke "model.Sale.addProductToSale(model.Product)" because "this.sale" is null
-
-Exception date: 2021-05-19 Exception time: 12:48:26
-from Controller method addProduct: Exception priority: HIGH
- Exception Origin: Cannot invoke "model.Sale.addProductToSale(model.Product)" because "this.sale" is null
-
-Exception date: 2021-05-19 Exception time: 12:48:26
-from Controller method addProduct manually: Exception priority: HIGH
- Exception Origin: Cannot invoke "model.Sale.addProductToSale(model.Product)" because "this.sale" is null
-
-Exception date: 2021-05-19 Exception time: 12:48:26
-from Controller method addProduct: Exception priority: HIGH
- Exception Origin: Cannot invoke "model.Sale.addProductToSale(model.Product)" because "this.sale" is null
-
-Exception date: 2021-05-19 Exception time: 12:48:26
-from Controller method addProduct: Exception priority: HIGH
- Exception Origin: Cannot invoke "model.Sale.addProductToSale(model.Product)" because "this.sale" is null
-
-Exception date: 2021-05-19 Exception time: 12:48:26
-from Controller method addProduct: Exception priority: HIGH
- Exception Origin: Cannot invoke "model.Sale.addProductToSale(model.Product)" because "this.sale" is null
-
-Exception date: 2021-05-19 Exception time: 12:48:26
-from Controller method addProduct: Exception priority: HIGH
- Exception Origin: Cannot invoke "model.Sale.addProductToSale(model.Product)" because "this.sale" is null
-
-Exception date: 2021-05-19 Exception time: 12:48:26
-from Controller method addProduct: Exception priority: HIGH
- Exception Origin: Cannot invoke "model.Sale.addProductToSale(model.Product)" because "this.sale" is null
-
-Exception date: 2021-05-19 Exception time: 12:48:26
-from Controller method addProduct: Exception priority: HIGH
- Exception Origin: Cannot invoke "model.Sale.addProductToSale(model.Product)" because "this.sale" is null
-
-Exception date: 2021-05-19 Exception time: 12:49:56
+Exception date: 2021-05-19 Exception time: 21:50:48
 CustomerDiscountIdException: Exception priority: LOW
- Exception Origin: Catched in ExternalInventory class, quantityCheck metod, discount id: 222
+ Exception Origin: Throws from ExternalInventory class, searchCustomerDiscount metod, discount id: 11
 
-Exception date: 2021-05-19 Exception time: 12:49:58
-unknown from controller method addpayment with card terminal: Exception priority: HIGH
- Exception Origin: Cannot invoke "integration.Transaction.moneyFlow(double, double)" because "this.transaction" is null
-
-Exception date: 2021-05-19 Exception time: 12:49:58
-CustomerRegistryException: Exception priority: LOW
- Exception Origin: Catched in CustomerRegister class, searchCustomerDTO metod customer id : 99
-
-Exception date: 2021-05-19 Exception time: 12:49:58
-CustomerRegistryException: Exception priority: LOW
- Exception Origin: Catched in CustomerRegister class, searchCustomerDTO metod customer id : 999
-
-Exception date: 2021-05-19 Exception time: 12:53:10
-CustomerDiscountIdException: Exception priority: LOW
- Exception Origin: Catched in ExternalInventory class, quantityCheck metod, discount id: 222
-
-Exception date: 2021-05-19 Exception time: 12:53:12
-unknown from controller method addpayment with card terminal: Exception priority: HIGH
- Exception Origin: Cannot invoke "integration.Transaction.moneyFlow(double, double)" because "this.transaction" is null
-
-Exception date: 2021-05-19 Exception time: 12:53:12
-CustomerRegistryException: Exception priority: LOW
- Exception Origin: Catched in CustomerRegister class, searchCustomerDTO metod customer id : 99
-
-Exception date: 2021-05-19 Exception time: 12:53:12
-CustomerRegistryException: Exception priority: LOW
- Exception Origin: Catched in CustomerRegister class, searchCustomerDTO metod customer id : 999
-
-Exception date: 2021-05-19 Exception time: 12:56:47
-CustomerDiscountIdException: Exception priority: LOW
- Exception Origin: Catched in ExternalInventory class, quantityCheck metod, discount id: 222
-
-Exception date: 2021-05-19 Exception time: 12:56:49
-unknown from controller method addpayment with card terminal: Exception priority: HIGH
- Exception Origin: Cannot invoke "integration.Transaction.moneyFlow(double, double)" because "this.transaction" is null
-
-Exception date: 2021-05-19 Exception time: 12:56:49
-CustomerRegistryException: Exception priority: LOW
- Exception Origin: Catched in CustomerRegister class, searchCustomerDTO metod customer id : 99
-
-Exception date: 2021-05-19 Exception time: 12:56:49
-CustomerRegistryException: Exception priority: LOW
- Exception Origin: Catched in CustomerRegister class, searchCustomerDTO metod customer id : 999
-
-Exception date: 2021-05-19 Exception time: 12:57:45
-CustomerDiscountIdException: Exception priority: LOW
- Exception Origin: Catched in ExternalInventory class, quantityCheck metod, discount id: 222
-
-Exception date: 2021-05-19 Exception time: 12:57:47
-unknown from controller method addpayment with card terminal: Exception priority: HIGH
- Exception Origin: Cannot invoke "integration.Transaction.moneyFlow(double, double)" because "this.transaction" is null
-
-Exception date: 2021-05-19 Exception time: 12:57:47
-CustomerRegistryException: Exception priority: LOW
- Exception Origin: Catched in CustomerRegister class, searchCustomerDTO metod customer id : 99
-
-Exception date: 2021-05-19 Exception time: 12:57:48
-CustomerRegistryException: Exception priority: LOW
- Exception Origin: Catched in CustomerRegister class, searchCustomerDTO metod customer id : 999
-
-Exception date: 2021-05-19 Exception time: 12:59:26
-CustomerDiscountIdException: Exception priority: LOW
- Exception Origin: Catched in ExternalInventory class, quantityCheck metod, discount id: 222
-
-Exception date: 2021-05-19 Exception time: 12:59:28
-unknown from controller method addpayment with card terminal: Exception priority: HIGH
- Exception Origin: Cannot invoke "integration.Transaction.moneyFlow(double, double)" because "this.transaction" is null
-
-Exception date: 2021-05-19 Exception time: 12:59:28
-CustomerRegistryException: Exception priority: LOW
- Exception Origin: Catched in CustomerRegister class, searchCustomerDTO metod customer id : 99
-
-Exception date: 2021-05-19 Exception time: 12:59:28
-CustomerRegistryException: Exception priority: LOW
- Exception Origin: Catched in CustomerRegister class, searchCustomerDTO metod customer id : 999
-
-Exception date: 2021-05-19 Exception time: 13:00:39
-CustomerDiscountIdException: Exception priority: LOW
- Exception Origin: Catched in ExternalInventory class, quantityCheck metod, discount id: 222
-
-Exception date: 2021-05-19 Exception time: 13:00:41
-unknown from controller method addpayment with card terminal: Exception priority: HIGH
- Exception Origin: Cannot invoke "integration.Transaction.moneyFlow(double, double)" because "this.transaction" is null
-
-Exception date: 2021-05-19 Exception time: 13:00:41
-CustomerRegistryException: Exception priority: LOW
- Exception Origin: Catched in CustomerRegister class, searchCustomerDTO metod customer id : 99
-
-Exception date: 2021-05-19 Exception time: 13:00:41
-CustomerRegistryException: Exception priority: LOW
- Exception Origin: Catched in CustomerRegister class, searchCustomerDTO metod customer id : 999
-
-Exception date: 2021-05-19 Exception time: 13:02:13
-CustomerDiscountIdException: Exception priority: LOW
- Exception Origin: Catched in ExternalInventory class, quantityCheck metod, discount id: 222
-
-Exception date: 2021-05-19 Exception time: 13:02:15
-unknown from controller method addpayment with card terminal: Exception priority: HIGH
- Exception Origin: Cannot invoke "integration.Transaction.moneyFlow(double, double)" because "this.transaction" is null
-
-Exception date: 2021-05-19 Exception time: 13:02:15
-CustomerRegistryException: Exception priority: LOW
- Exception Origin: Catched in CustomerRegister class, searchCustomerDTO metod customer id : 99
-
-Exception date: 2021-05-19 Exception time: 13:02:15
-CustomerRegistryException: Exception priority: LOW
- Exception Origin: Catched in CustomerRegister class, searchCustomerDTO metod customer id : 999
-
-Exception date: 2021-05-19 Exception time: 13:02:22
-CustomerDiscountIdException: Exception priority: LOW
- Exception Origin: Catched in ExternalInventory class, quantityCheck metod, discount id: 222
-
-Exception date: 2021-05-19 Exception time: 13:02:24
-unknown from controller method addpayment with card terminal: Exception priority: HIGH
- Exception Origin: Cannot invoke "integration.Transaction.moneyFlow(double, double)" because "this.transaction" is null
-
-Exception date: 2021-05-19 Exception time: 13:02:24
-CustomerRegistryException: Exception priority: LOW
- Exception Origin: Catched in CustomerRegister class, searchCustomerDTO metod customer id : 99
-
-Exception date: 2021-05-19 Exception time: 13:02:24
-CustomerRegistryException: Exception priority: LOW
- Exception Origin: Catched in CustomerRegister class, searchCustomerDTO metod customer id : 999
-
-Exception date: 2021-05-19 Exception time: 13:02:45
-unknown from controller method addpayment with card terminal: Exception priority: HIGH
- Exception Origin: Cannot invoke "integration.Transaction.moneyFlow(double, double)" because "this.transaction" is null
-
-Exception date: 2021-05-19 Exception time: 16:59:30
-CustomerDiscountIdException: Exception priority: LOW
- Exception Origin: Throws from ExternalInventory class, searchCustomerDiscount metod, discount id: 222
-
-Exception date: 2021-05-19 Exception time: 16:59:32
-unknown from controller method addpayment with card terminal: Exception priority: HIGH
- Exception Origin: Cannot invoke "integration.Transaction.moneyFlow(double, double)" because "this.transaction" is null
-
-Exception date: 2021-05-19 Exception time: 16:59:32
-CustomerRegistryException: Exception priority: LOW
- Exception Origin: throw from CustomerRegister class, searchCustomerDTO metod customer id : 99
-
-Exception date: 2021-05-19 Exception time: 16:59:32
+Exception date: 2021-05-19 Exception time: 21:51:35
 CustomerRegistryException: Exception priority: LOW
  Exception Origin: throw from CustomerRegister class, searchCustomerDTO metod customer id : 999
 
-Exception date: 2021-05-19 Exception time: 17:41:48
-CustomerDiscountIdException: Exception priority: LOW
- Exception Origin: Throws from ExternalInventory class, searchCustomerDiscount metod, discount id: 222
+Exception date: 2021-05-19 Exception time: 21:54:31
+ItemQuantityInInventoryIsIncorrect: Exception priority: MEDIUM
+ Exception Origin: Throws from ExternalInventory class, quantityCheck metod item id:101 quantity: 1
 
-Exception date: 2021-05-19 Exception time: 17:41:50
-CustomerRegistryException: Exception priority: LOW
- Exception Origin: throw from CustomerRegister class, searchCustomerDTO metod customer id : 99
+Exception date: 2021-05-19 Exception time: 21:59:24
+ItemQuantityInInventoryIsIncorrect: Exception priority: MEDIUM
+ Exception Origin: Throws from ExternalInventory class, quantityCheck metod item id:101 quantity: 1
 
-Exception date: 2021-05-19 Exception time: 17:41:50
-CustomerRegistryException: Exception priority: LOW
- Exception Origin: throw from CustomerRegister class, searchCustomerDTO metod customer id : 999
+Exception date: 2021-05-19 Exception time: 21:59:25
+ItemQuantityInInventoryIsIncorrect: Exception priority: MEDIUM
+ Exception Origin: Throws from ExternalInventory class, quantityCheck metod item id:101 quantity: 1
+
+Exception date: 2021-05-19 Exception time: 21:59:26
+ItemQuantityInInventoryIsIncorrect: Exception priority: MEDIUM
+ Exception Origin: Throws from ExternalInventory class, quantityCheck metod item id:101 quantity: 1
+
+Exception date: 2021-05-21 Exception time: 13:05:41
+ItemQuantityInInventoryIsIncorrect: Exception priority: MEDIUM
+ Exception Origin: Throws from ExternalInventory class, quantityCheck metod item id:101 quantity: 1
+
+Exception date: 2021-05-21 Exception time: 13:05:31
+ItemQuantityInInventoryIsIncorrect: Exception priority: MEDIUM
+ Exception Origin: Throws from ExternalInventory class, quantityCheck metod item id:101 quantity: 1
+
+Exception date: 2021-05-21 Exception time: 13:11:04
+ItemQuantityInInventoryIsIncorrect: Exception priority: MEDIUM
+ Exception Origin: Throws from ExternalInventory class, quantityCheck metod item id:101 quantity: 1
+
+Exception date: 2021-05-21 Exception time: 13:14:08
+ItemQuantityInInventoryIsIncorrect: Exception priority: MEDIUM
+ Exception Origin: Throws from ExternalInventory class, quantityCheck metod item id:101 quantity: 1
+
+Exception date: 2021-05-21 Exception time: 14:12:14
+ServerOfflineException: Exception priority: HIGH
+ Exception Origin: Connection with DISCOUNT server faild
+
+Exception date: 2021-05-21 Exception time: 14:12:14
+from Controller method addProduct: Exception priority: HIGH
+ Exception Origin: Connection with DISCOUNT server faild
+
+Exception date: 2021-05-21 Exception time: 14:16:43
+from Controller method addProduct: Exception priority: HIGH
+ Exception Origin: Cannot invoke "model.Sale.addProductToSale(model.Product)" because "this.sale" is null
+
+Exception date: 2021-05-21 Exception time: 14:16:43
+from Controller method addProduct: Exception priority: HIGH
+ Exception Origin: Cannot invoke "model.Sale.addProductToSale(model.Product)" because "this.sale" is null
+
+Exception date: 2021-05-21 Exception time: 14:16:46
+ServerOfflineException: Exception priority: HIGH
+ Exception Origin: Connection with DISCOUNT server faild
+
+Exception date: 2021-05-21 Exception time: 14:16:46
+from Controller method addProduct: Exception priority: HIGH
+ Exception Origin: Connection with DISCOUNT server faild
+
+Exception date: 2021-05-21 Exception time: 14:16:46
+from Controller method addProduct: Exception priority: HIGH
+ Exception Origin: Cannot invoke "model.Sale.addProductToSale(model.Product)" because "this.sale" is null
+
+Exception date: 2021-05-21 Exception time: 20:24:18
+ServerOfflineException: Exception priority: HIGH
+ Exception Origin: Connection with DISCOUNT server faild
+
+Exception date: 2021-05-21 Exception time: 20:24:18
+from Controller method addProduct: Exception priority: HIGH
+ Exception Origin: Connection with DISCOUNT server faild
 

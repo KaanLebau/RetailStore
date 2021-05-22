@@ -13,7 +13,7 @@ public class ChangeAmountLog {
 	public void changeAmountToDisplay(List<Money> changeList) {		
 		StringBuilder change = new StringBuilder();
 		change.append("-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-\n");
-		
+		change.append("- Banknots to give \t\t  -\n");
 		change.append("- Banknote   currency   quantity  -\n");
 		for (Money money : changeList) {
 			change.append("-  " + money.getValue() + "\t\t");

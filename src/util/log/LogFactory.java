@@ -34,7 +34,7 @@ public class LogFactory {
 		
 	}
 	
-	public TotalRevenueFileOutputLog getTotalRevenueFileOutput() {
+	public TotalRevenueFileOutputLog getTotalRevenueFileOutput() throws IOException {
 		return new TotalRevenueFileOutputLog();
 	}
 	

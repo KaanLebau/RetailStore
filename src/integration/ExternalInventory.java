@@ -83,9 +83,10 @@ public class ExternalInventory {
 	public ItemDTO searchItem(String itemId, int quantity) 
 			throws ItemNotFoundException, ItemQuantityInInventoryIsIncorrectException {	
 		for(ItemDTO search : itemList)
-				if(search.getId().equalsIgnoreCase(itemId))
-					if(quantityCheck(itemId, quantity))
-						return search;
+				if(search.getId().equalsIgnoreCase(itemId)) {					
+					quantityCheck(itemId, quantity);
+					return search;
+				}
 				
 		throw new ItemNotFoundException("Throws from ExternalInventory class, "
 				+ "searchItem metod item id " + itemId);
