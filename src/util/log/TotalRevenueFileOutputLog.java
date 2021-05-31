@@ -6,7 +6,8 @@ import java.io.PrintWriter;
 import java.text.DecimalFormat;
 
 /**
- * 
+ * prints total income since program started 
+ * on file in POS machine
  * @author ozsan
  *
  */
