@@ -1,22 +1,30 @@
 package view;
 
-import model.SaleObserver;
+import java.io.IOException;
+
 import util.log.LogFactory;
+/**
+ * extends TotalRevenue who implements SaeObserver
+ * sends the total sale since program started to the 
+ * TotalRevenueViewLog in util.log
+ * @author ozsan
+ *
+ */
+public class TotalRevenueView extends TotalRevenue{
 
-public class TotalRevenueView implements SaleObserver {
-	private double balaceSinceTheProgramStarted = 0;
-
-	public TotalRevenueView() {
-	
+	/**
+	 * sends total income to the log 
+	 */
+	@Override
+	protected void showCurrentIncome(double balaceSinceTheProgramStarted, int customers) {
+		LogFactory.getLogFactory().getTotalRevenueViewLog().presentIncome(balaceSinceTheProgramStarted, customers);
 	}
+
 
 	@Override
-	public void newSale(double income, int customers) {
-		updateBalance(income);
-		LogFactory.getLogFactory().getTotalRevenueViewLog().presentIncome(this.balaceSinceTheProgramStarted, customers);
+	protected void exceptionHandler(Exception e) throws IOException {
+		// not in use i this class
 	}
-	private void updateBalance(double totalToPay) {
-		this.balaceSinceTheProgramStarted += totalToPay;
 
-	}
+
 }

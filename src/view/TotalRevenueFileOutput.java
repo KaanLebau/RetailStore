@@ -1,39 +1,34 @@
 package view;
 
-import java.io.FileNotFoundException;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.io.PrintWriter;
 
-import model.SaleObserver;
+import util.enums.ExcPriority;
 import util.log.LogFactory;
 
-public class TotalRevenueFileOutput implements SaleObserver{
-	double balaceSinceTheProgramStarted;
-	/**
-	 * create a new .txt file 
-	 *
-	 * §
-	 * @throws FileNotFoundException
-	 */
-	public TotalRevenueFileOutput() {
+/**
+ * extends TotalRevenue who implements SaeObserver
+ * sends the total sale since program started to the 
+ * TotalRevenueFileOutLog in util.log
+ * @author ozsan
+ *
+ */
 
+public class TotalRevenueFileOutput extends TotalRevenue{
+	/**
+	 * sends total income to the TotalRevenueFileOutLog
+	 * Through LogFactory
+	 */
+	@Override
+	protected void showCurrentIncome(double balaceSinceTheProgramStarted, int customers) throws IOException {
+		LogFactory.getLogFactory().getTotalRevenueFileOutput().presentIncome(balaceSinceTheProgramStarted, customers);
 	}
 	
+	/**
+	 * Handling the exception to log
+	 */
 	@Override
-	public void newSale(double income, int customers) throws IOException {
-		
-		try {
-			updateBalance(income);
-			LogFactory.getLogFactory().getTotalRevenueFileOutput().presentIncome(this.balaceSinceTheProgramStarted, customers);
-		} catch (IOException e) {
-			System.out.println("in util.log klas TotalRevenueFileOutput method newSale faild");
-			throw e;
-		}
+	protected void exceptionHandler(Exception e) throws IOException {
+		LogFactory.getLogFactory().getExceptionLogger().newExceptionLog(ExcPriority.HIGH, e, "exceptionHandler");
 	}
 
-	private void updateBalance(double income) {
-		balaceSinceTheProgramStarted += income;
-
-	}
 }
