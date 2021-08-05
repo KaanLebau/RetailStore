@@ -23,7 +23,7 @@ public class TotalRevenueView extends TotalRevenue{
 
 	@Override
 	protected void exceptionHandler(Exception e) throws IOException {
-		// not in use i this class
+		
 	}
 
 
